@@ -3,6 +3,7 @@ import { api } from './api/api';
 import { Task, TaskCreate } from './types/index';
 import { SimpleTaskList } from './components/SimpleTaskList';
 import { TaskForm } from './components/TaskForm';
+import { countByStatus, completionRate } from './utils/tasks';
 import './App.css';
 
 function App() {
@@ -70,11 +71,17 @@ function App() {
     );
   }
 
+  const counts = countByStatus(tasks);
+
   return (
     <div className="app">
       <header>
         <h1>TaskFlow</h1>
         <p>Gestionnaire de Tâches</p>
+        <p className="stats">
+          {counts.todo} à faire · {counts.in_progress} en cours · {counts.done} terminées
+          ({completionRate(tasks)} % terminé)
+        </p>
       </header>
 
       <main>

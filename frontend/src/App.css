@@ -38,6 +38,11 @@ header p {
   font-size: 14px;
 }
 
+header .stats {
+  margin-top: 8px;
+  color: #2563eb;
+}
+
 /* Main content */
 main {
   background-color: white;
