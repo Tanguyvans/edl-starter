@@ -4,10 +4,10 @@
 
 À la fin de cet atelier, vous aurez :
 
-1. ✅ Migré vers **PostgreSQL** avec SQLAlchemy ORM
-2. ✅ Déployé automatiquement avec **render.yaml** (Infrastructure as Code)
-3. ✅ Ajouté de **nouvelles fonctionnalités** (comptage de tâches)
-4. ✅ Vérifié le **déploiement automatique** (Continuous Deployment)
+1. ✅ Migré le backend vers **PostgreSQL** avec SQLAlchemy ORM
+2. ✅ Créé une base PostgreSQL gratuite sur **Supabase**
+3. ✅ Mis en ligne le backend et le frontend sur **Render**
+4. ✅ Mis en place le **déploiement continu** : chaque push testé par la CI est déployé automatiquement
 
 ---
 
@@ -16,7 +16,7 @@
 **Avant (Local - Stockage en mémoire) :**
 
 ```
-Frontend (localhost:5173) ← → Backend (localhost:8000)
+Frontend (localhost:3000) ← → Backend (localhost:8000)
                                   ↓
                             Liste Python (RAM)
                             ❌ Données perdues au redémarrage
@@ -25,10 +25,9 @@ Frontend (localhost:5173) ← → Backend (localhost:8000)
 **Après (Production avec PostgreSQL) :**
 
 ```
-Frontend (Render)                Backend (Render)              Database (Supabase)
-taskflow-frontend.onrender.com → taskflow-backend.onrender.com → PostgreSQL
-         HTTPS                            HTTPS + CORS                500 MB
-                                                                  ✅ Données persistantes
+Frontend (Render)                    Backend (Render)                    Database (Supabase)
+taskflow-frontend-xxxx.onrender.com → taskflow-backend-xxxx.onrender.com → PostgreSQL
+         HTTPS                                HTTPS + CORS                ✅ Données persistantes
 ```
 
 ---
@@ -291,7 +290,8 @@ Puis ajoutez ce code **juste après** `app = FastAPI(...)` :
 ```python
 # Configuration CORS pour le frontend
 cors_origins_str = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000")
-cors_origins = [origin.strip() for origin in cors_origins_str.split(",")]
+# strip() enlève les espaces, rstrip("/") enlève un éventuel "/" final
+cors_origins = [origin.strip().rstrip("/") for origin in cors_origins_str.split(",")]
 
 app.add_middleware(
     CORSMiddleware,
@@ -302,7 +302,7 @@ app.add_middleware(
 )
 ```
 
-> ⚠️ **Important** : Le middleware CORS est essentiel pour que le frontend puisse communiquer avec le backend en production. La variable `CORS_ORIGINS` sera configurée sur Render à l'exercice 7.
+> ⚠️ **Important** : Le middleware CORS est essentiel pour que le frontend puisse communiquer avec le backend en production. La variable `CORS_ORIGINS` sera configurée sur Render à l'exercice 7 (étape 3).
 
 **Étape 4 : Modifier la classe Task existante**
 
@@ -527,68 +527,74 @@ Tous les tests doivent passer (19+ tests)
 
 ---
 
-## ✍️ Exercice 6 : Configurer Supabase (Base de Données)
+## ✍️ Exercice 6 : Créer la Base de Données sur Supabase
 
 ### Objectif
 
-Créer une base de données PostgreSQL gratuite sur Supabase.
+Créer une base PostgreSQL gratuite sur Supabase, puis vérifier **en local** que votre backend arrive à s'y connecter. On ne déploie rien tant que ça ne marche pas en local.
 
-### Instructions
+### Étape 1 : Créer un compte et un projet
 
-**Étape 1 : Créer un compte Supabase**
-
-1. Allez sur <https://supabase.com>
-2. Cliquez **"Start your project"**
-3. Inscrivez-vous avec votre compte **GitHub**
-
-**Étape 2 : Créer un projet**
-
-1. Cliquez **"New project"**
-2. Configurez le projet :
+1. Allez sur <https://supabase.com> → **"Start your project"** → inscrivez-vous avec **GitHub**
+2. Cliquez **"New project"** et configurez :
    - **Name** : `taskflow`
-   - **Database Password** : Choisissez un mot de passe fort (⚠️ **notez-le !**)
-   - **Region** : `West EU (Ireland)` (le plus proche)
-3. Cliquez **"Create new project"**
-4. Attendez la création (1-2 minutes)
+   - **Database Password** : un mot de passe composé **uniquement de lettres et de chiffres** (⚠️ **notez-le !**)
+   - **Region** : `West EU (Ireland)`
+3. Cliquez **"Create new project"** et attendez 1-2 minutes
 
-Après la création, vous arriverez sur la page d'accueil du projet :
+> ⚠️ **Pourquoi seulement des lettres et des chiffres ?** Le mot de passe va être placé dans une URL. Les caractères comme `@ # / : ? %` ont un sens spécial dans une URL et cassent la connexion.
 
 ![Supabase Home](img/supabase.png)
 
-**Étape 3 : Récupérer la DATABASE_URL**
+### Étape 2 : Récupérer la DATABASE_URL
 
-1. Cliquez sur le bouton **"Connect"** en haut (visible dans le header)
+1. Cliquez sur le bouton **"Connect"** en haut de la page
 
    ![Supabase Connect](img/connect.png)
 
 2. Dans l'onglet **Connection String** :
-   - Vérifiez que **Type** = `URI`
-   - Changez **Method** : `Session pooler` (au lieu de "Direct connection")
-
-   > ⚠️ **Important** : Render utilise IPv4, mais la connexion directe Supabase nécessite IPv6.
-   > Le **Session Pooler** résout ce problème.
-
-3. Copiez l'URL affichée
-4. **Important** : Remplacez `[YOUR-PASSWORD]` par le mot de passe que vous avez choisi à l'étape 2
+   - **Type** : `URI`
+   - **Method** : `Session pooler` (⚠️ pas "Direct connection")
+3. Copiez l'URL et remplacez `[YOUR-PASSWORD]` par votre mot de passe (sans les crochets)
 
 L'URL ressemble à :
 
+```text
+postgresql://postgres.abcdefghijkl:MonMotDePasse123@aws-0-eu-west-1.pooler.supabase.com:5432/postgres
 ```
-postgresql://postgres.[PROJECT-ID]:[YOUR-PASSWORD]@aws-0-eu-west-1.pooler.supabase.com:5432/postgres
+
+> 💡 **Pourquoi "Session pooler" ?** Render ne parle qu'en IPv4, alors que la connexion directe de Supabase demande l'IPv6. Le pooler fait le pont.
+
+### Étape 3 : Tester la connexion en local
+
+Lancez votre backend en lui donnant cette URL (remplacez par la vôtre, **entre guillemets**) :
+
+*macOS / Linux :*
+
+```bash
+cd backend
+DATABASE_URL="postgresql://postgres.xxx:MotDePasse@aws-0-eu-west-1.pooler.supabase.com:5432/postgres" uv run uvicorn src.app:app --reload
 ```
 
-> 💡 Notez le host **pooler.supabase.com** (au lieu de db.xxx.supabase.co).
+*Windows (PowerShell) :*
 
-**⚠️ Gardez cette URL !** Vous en aurez besoin pour l'exercice 7.
+```powershell
+cd backend
+$env:DATABASE_URL="postgresql://postgres.xxx:MotDePasse@aws-0-eu-west-1.pooler.supabase.com:5432/postgres"
+uv run uvicorn src.app:app --reload
+```
 
-### 💡 Pourquoi Supabase ?
+Ouvrez <http://localhost:8000/health>. Vous devez voir :
 
-| Avantage | Description |
-|----------|-------------|
-| **Gratuit** | 500 MB de stockage |
-| **PostgreSQL** | Base de données professionnelle |
-| **Interface web** | Explorer les données facilement |
-| **Pas de carte bancaire** | Contrairement à d'autres services |
+```json
+{"status": "healthy", "database": "connected", "tasks_count": 0}
+```
+
+Créez une tâche via <http://localhost:8000/docs>, puis ouvrez **Table Editor** dans Supabase : la table `tasks` contient votre tâche. 🎉
+
+❌ **Ça ne marche pas ?** Voir le tableau [Problèmes fréquents](#problemes-frequents) en fin de TP. Ne passez pas à la suite avant d'avoir `"database": "connected"`.
+
+**⚠️ Gardez cette URL**, vous en aurez besoin à l'exercice 7. Ne la commitez jamais dans Git : elle contient votre mot de passe.
 
 ---
 
@@ -596,13 +602,29 @@ postgresql://postgres.[PROJECT-ID]:[YOUR-PASSWORD]@aws-0-eu-west-1.pooler.supaba
 
 ### Objectif
 
-Déployer le backend et le frontend sur Render. Deux méthodes sont proposées.
+Mettre le backend et le frontend en ligne. L'**ordre** est important, car chaque service a besoin de l'URL de l'autre :
+
+```text
+1. Backend   → on obtient l'URL du backend
+2. Frontend  → on lui donne l'URL du backend (VITE_API_URL)
+               → on obtient l'URL du frontend
+3. Backend   → on lui donne l'URL du frontend (CORS_ORIGINS)
+```
+
+Recopiez ce tableau dans un fichier texte et complétez-le au fur et à mesure :
+
+| | Valeur |
+|---|---|
+| URL Supabase (`DATABASE_URL`) | `postgresql://...` (exercice 6) |
+| URL du backend | `https://taskflow-backend-....onrender.com` |
+| URL du frontend | `https://taskflow-frontend-....onrender.com` |
+
+> 💡 Render ajoute souvent quelques caractères au nom (ex : `taskflow-backend-x7k2`) car le nom est déjà pris par quelqu'un d'autre. **Recopiez toujours l'URL exacte affichée par Render**, ne la devinez pas.
 
 ### Prérequis
 
-1. **Créer un compte Render** : <https://render.com>
-2. Inscrivez-vous avec **GitHub** et autorisez l'accès à vos repositories
-3. **Poussez vos changements sur GitHub :**
+1. Vos tests passent en local (`uv run pytest`) et votre CI du TP 2 est verte sur `main`
+2. Poussez votre travail (y compris `pyproject.toml` et `uv.lock`, modifiés par `uv add`) :
 
    ```bash
    git add .
@@ -610,17 +632,12 @@ Déployer le backend et le frontend sur Render. Deux méthodes sont proposées.
    git push origin main
    ```
 
----
+3. Créez un compte sur <https://render.com> avec **GitHub** et autorisez l'accès à votre repository
 
-### Option A : Déploiement Manuel (via Dashboard)
+### Étape 1 : Déployer le Backend
 
-Cette méthode vous permet de comprendre chaque étape du déploiement.
-
-**Étape 1 : Déployer le Backend**
-
-1. Sur Render Dashboard, cliquez **"New +"** → **"Web Service"**
-2. Connectez votre repository GitHub
-3. Configurez le service :
+1. Sur le Dashboard Render : **"New +"** → **"Web Service"** → choisissez votre repository
+2. Configurez :
 
    | Paramètre | Valeur |
    |-----------|--------|
@@ -633,23 +650,22 @@ Cette méthode vous permet de comprendre chaque étape du déploiement.
    | **Start Command** | `uv run uvicorn src.app:app --host 0.0.0.0 --port $PORT` |
    | **Instance Type** | `Free` |
 
-   > 💡 `$PORT` est défini automatiquement par Render - ne pas le remplacer !
+   > 💡 Laissez `$PORT` tel quel : Render le remplace lui-même.
 
-4. Dans la section **Environment Variables**, ajoutez :
+3. Dans **Environment Variables**, ajoutez **une seule** variable pour l'instant :
 
    | Name | Value |
    |------|-------|
-   | `DATABASE_URL` | L'URL Supabase de l'exercice 6 |
+   | `DATABASE_URL` | Votre URL Supabase (exercice 6) |
 
-   > ⚠️ `CORS_ORIGINS` sera ajouté après le déploiement du frontend (étape 3)
+4. Cliquez **"Create Web Service"** et suivez les logs. Attendez le statut **Live** (3-5 min).
+5. Copiez l'**URL du backend** affichée en haut de la page (ex : `https://taskflow-backend-x7k2.onrender.com`) dans votre tableau.
+6. Vérifiez : ouvrez `<URL du backend>/health` dans le navigateur → `"database": "connected"`.
 
-5. Cliquez **"Create Web Service"**
+### Étape 2 : Déployer le Frontend
 
-**Étape 2 : Déployer le Frontend**
-
-1. Cliquez **"New +"** → **"Static Site"**
-2. Connectez le même repository
-3. Configurez :
+1. **"New +"** → **"Static Site"** → même repository
+2. Configurez :
 
    | Paramètre | Valeur |
    |-----------|--------|
@@ -659,99 +675,33 @@ Cette méthode vous permet de comprendre chaque étape du déploiement.
    | **Build Command** | `npm ci && npm run build` |
    | **Publish Directory** | `dist` |
 
-4. Dans la section **Environment Variables**, ajoutez :
+3. Dans **Environment Variables**, ajoutez :
 
    | Name | Value |
    |------|-------|
-   | `VITE_API_URL` | `https://edl-starter.onrender.com` (URL du backend) |
+   | `VITE_API_URL` | **Votre** URL du backend (étape 1) |
 
-5. Cliquez **"Create Static Site"**
+4. Cliquez **"Create Static Site"**, attendez **Live**, puis copiez l'**URL du frontend** dans votre tableau.
 
-**Étape 3 : Configurer CORS (après déploiement)**
+> ⚠️ **`VITE_API_URL` est lue au moment du build**, puis écrite "en dur" dans les fichiers JavaScript. Si vous la modifiez après coup, il faut **reconstruire** le frontend : **Manual Deploy** → **Deploy latest commit**.
 
-Une fois les deux services déployés, retournez dans le **Backend** :
+### Étape 3 : Autoriser le Frontend (CORS)
 
-1. Dashboard → **taskflow-backend** → **Environment**
-2. Ajoutez la variable :
+Par sécurité, le navigateur refuse qu'une page d'un site (le frontend) appelle un autre site (le backend), sauf si le backend l'autorise. C'est le rôle de `CORS_ORIGINS`.
+
+1. Dashboard → **taskflow-backend** → **Environment** → ajoutez :
 
    | Name | Value |
    |------|-------|
-   | `CORS_ORIGINS` | `https://taskflow-frontend-XXXX.onrender.com` |
+   | `CORS_ORIGINS` | **Votre** URL du frontend (étape 2) |
 
-3. Cliquez **"Save Changes"** → Le backend redémarre automatiquement
+2. **"Save Changes"** → le backend redémarre automatiquement.
 
----
+### Étape 4 : Ouvrir l'Application
 
-### Option B : Déploiement avec YAML (Infrastructure as Code)
+Ouvrez votre **URL du frontend**. Vous devez voir TaskFlow, connecté à votre backend en ligne. 🎉
 
-Cette méthode automatise le déploiement via un fichier de configuration.
-
-**Étape 1 : Créer `render.yaml` à la racine du projet**
-
-```yaml
-services:
-  # Backend FastAPI
-  - type: web
-    name: taskflow-backend
-    runtime: python
-    region: frankfurt
-    plan: free
-    buildCommand: pip install uv && uv sync
-    startCommand: uv run uvicorn src.app:app --host 0.0.0.0 --port $PORT
-    rootDir: backend
-    envVars:
-      - key: DATABASE_URL
-        sync: false  # Configuré manuellement
-      - key: CORS_ORIGINS
-        sync: false
-    healthCheckPath: /health
-
-  # Frontend React
-  - type: web
-    name: taskflow-frontend
-    runtime: static
-    buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
-    rootDir: frontend
-    envVars:
-      - key: VITE_API_URL
-        sync: false
-```
-
-**Étape 2 : Déployer avec Blueprint**
-
-1. Poussez le fichier `render.yaml` sur GitHub
-2. Sur Render Dashboard : **"New +"** → **"Blueprint"**
-3. Sélectionnez votre repository
-4. Render détecte automatiquement `render.yaml`
-5. Cliquez **"Apply"**
-
-**Étape 3 : Configurer les Variables d'Environnement**
-
-Même configuration que l'Option A (voir ci-dessus).
-
----
-
-### 💡 Comparaison des deux méthodes
-
-| Aspect | Option A (Manuel) | Option B (YAML) |
-|--------|-------------------|-----------------|
-| **Apprentissage** | ✅ Meilleur pour comprendre | ⚡ Plus rapide |
-| **Reproductibilité** | ❌ Manuel à chaque fois | ✅ Versionné dans Git |
-| **Production** | ❌ Pas recommandé | ✅ Best practice |
-
-### ✅ Résultat attendu
-
-Après déploiement, notez vos URLs :
-
-```
-Backend:  https://edl-starter.onrender.com
-Frontend: https://taskflow-frontend-YYYY.onrender.com
-```
-
-### ⏳ Pendant l'attente (3-5 minutes)
-
-Observez les logs de build en temps réel pour chaque service.
+> ⏳ **Le premier chargement peut prendre ~1 minute.** Sur l'offre gratuite, Render met le backend en veille après 15 minutes sans visite. S'il affiche "Erreur de Connexion", attendez un peu et rechargez la page.
 
 ---
 
@@ -759,55 +709,124 @@ Observez les logs de build en temps réel pour chaque service.
 
 ### Objectif
 
-Tester que tout fonctionne en production.
+Vérifier que tout fonctionne en production et que les données sont bien persistantes.
 
 ### Instructions
 
-1. **Testez l'API Backend :**
+1. **Testez l'API** (remplacez `<URL_BACKEND>` par votre URL du backend) :
 
    ```bash
-   # Health check
-   curl https://edl-starter.onrender.com/health
+   curl <URL_BACKEND>/health
    ```
 
-   Vous devriez voir :
+   Résultat attendu :
 
    ```json
-   {
-     "status": "healthy",
-     "database": "connected",
-     "tasks_count": 0,
-     "environment": "production"
-   }
+   {"status": "healthy", "database": "connected", "tasks_count": 0}
    ```
 
-2. **Créez une tâche :**
+2. **Testez le frontend** : créez, modifiez et supprimez quelques tâches.
+3. **Vérifiez la persistance** :
+   - Dans Supabase → **Table Editor** → `tasks` : vos tâches sont là
+   - Sur Render → **taskflow-backend** → **Manual Deploy** → **Restart service**
+   - Rechargez le frontend : vos tâches sont **toujours là** (contrairement au TP 1-2 où elles disparaissaient au redémarrage)
+
+---
+
+## ✍️ Exercice 9 : Déploiement Continu (CD)
+
+### Objectif
+
+Faire en sorte que chaque push sur `main` soit **testé par GitHub Actions (TP 2), puis déployé par Render** — mais seulement si les tests passent.
+
+### Instructions
+
+1. Sur Render → **taskflow-backend** → **Settings** → **Auto-Deploy** : choisissez **"After CI Checks Pass"**. Faites de même pour **taskflow-frontend**.
+2. Modifiez le message de bienvenue dans `backend/src/app.py` :
+
+   ```python
+   "message": "Welcome to TaskFlow API - déployé automatiquement !",
+   ```
+
+3. Adaptez le test `test_root_endpoint` si nécessaire, vérifiez en local (`uv run pytest`), puis poussez :
 
    ```bash
-   curl -X POST https://edl-starter.onrender.com/tasks \
-     -H "Content-Type: application/json" \
-     -d '{
-       "title": "Test production",
-       "status": "todo",
-       "priority": "high"
-     }'
+   git add .
+   git commit -m "feat: update welcome message"
+   git push origin main
    ```
 
-3. **Listez les tâches :**
+4. Observez :
+   - GitHub → **Actions** : vos workflows tournent
+   - Render → **Events** : le déploiement démarre **après** que les checks soient verts
+5. Vérifiez avec `curl <URL_BACKEND>/` : le nouveau message apparaît.
 
-   ```bash
-   curl https://edl-starter.onrender.com/tasks
-   ```
+> 💡 **Testez le cas contraire :** poussez un test qui échoue. La CI devient rouge et Render **ne déploie pas**. La production reste protégée.
 
-4. **Testez le Frontend :**
-   - Ouvrez `https://taskflow-frontend-YYYY.onrender.com`
-   - Créez plusieurs tâches
-   - Modifiez une tâche
-   - Supprimez une tâche
+---
 
-### ✅ Résultat attendu
+## 🎁 Pour Aller Plus Loin : Infrastructure as Code avec `render.yaml`
 
-Tout fonctionne parfaitement! 🎉
+Au lieu de cliquer dans le Dashboard, on peut décrire les services dans un fichier versionné dans Git. Voici l'équivalent de l'exercice 7 :
+
+```yaml
+services:
+  - type: web
+    name: taskflow-backend
+    runtime: python
+    region: frankfurt
+    plan: free
+    rootDir: backend
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run uvicorn src.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false  # Render vous demandera la valeur
+      - key: CORS_ORIGINS
+        sync: false
+
+  - type: web
+    name: taskflow-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+```
+
+Pour l'utiliser : placez-le à la racine du repository sous le nom `render.yaml`, poussez-le, puis **"New +"** → **"Blueprint"** sur Render.
+
+> ⚠️ Un Blueprint crée de **nouveaux** services. Si vous avez déjà fait l'exercice 7, supprimez d'abord les anciens services (ou changez les `name`), sinon vous aurez des doublons.
+
+| Aspect | Dashboard (exercice 7) | `render.yaml` |
+|--------|------------------------|---------------|
+| **Comprendre les étapes** | ✅ Chaque paramètre est visible | ⚠️ Tout est caché dans le fichier |
+| **Reproductible** | ❌ À refaire à la main | ✅ Versionné dans Git |
+| **En entreprise** | Pour tester | ✅ Bonne pratique |
+
+---
+
+<a id="problemes-frequents"></a>
+
+## 🐛 Problèmes Fréquents
+
+**Où chercher les erreurs ?** Backend : Render → **taskflow-backend** → **Logs**. Frontend : ouvrez la console du navigateur (**F12** → onglet **Console**).
+
+| Symptôme | Cause probable | Solution |
+|----------|----------------|----------|
+| `password authentication failed` (logs backend ou en local) | Mauvais mot de passe dans `DATABASE_URL`, ou crochets `[ ]` laissés autour | Recopiez l'URL depuis Supabase et remplacez `[YOUR-PASSWORD]` par le mot de passe seul |
+| `Network is unreachable` ou timeout vers `db.xxx.supabase.co` | URL "Direct connection" (IPv6) | Reprenez l'URL en mode **Session pooler** (host `pooler.supabase.com`) |
+| Le mot de passe contient `@`, `#`, `/`… | Caractères spéciaux dans l'URL | Supabase → **Project Settings** → **Database** → **Reset database password** avec lettres et chiffres uniquement |
+| `ModuleNotFoundError: No module named 'sqlalchemy'` sur Render | `pyproject.toml` / `uv.lock` pas poussés après `uv add` | `git add backend/pyproject.toml backend/uv.lock`, commit, push |
+| Build backend : fichier introuvable / `src.app` introuvable | **Root Directory** vide | Settings → Root Directory = `backend` |
+| Frontend : "Erreur de Connexion" au premier chargement | Backend en veille (offre gratuite) | Attendez ~1 minute et rechargez |
+| Console : requêtes vers `/api/tasks` en **404** | `VITE_API_URL` absente au moment du build | Ajoutez-la, puis **Manual Deploy** → **Deploy latest commit** du frontend |
+| Console : `blocked by CORS policy` | `CORS_ORIGINS` absente ou différente de l'URL du frontend (faute de frappe, `http` au lieu de `https`) | Copiez l'URL exacte du frontend dans `CORS_ORIGINS` |
+| Le frontend appelle le backend de quelqu'un d'autre | URL d'un exemple ou d'un camarade copiée dans `VITE_API_URL` | Mettez **votre** URL du backend et reconstruisez le frontend |
+| Exercice 9 : Render ne déploie jamais | Un workflow GitHub Actions est rouge | Corrigez les tests : Render attend que **tous** les checks soient verts |
 
 ---
 
@@ -820,11 +839,12 @@ Félicitations ! Vous avez maintenant :
 ✅ **Exercice 3** : Créé le modèle ORM TaskModel
 ✅ **Exercice 4** : Migré app.py vers PostgreSQL
 ✅ **Exercice 5** : Adapté les tests avec une DB temporaire
-✅ **Exercice 6** : Configuré Supabase (base de données PostgreSQL)
-✅ **Exercice 7** : Déployé sur Render
-✅ **Exercice 8** : Vérifié le déploiement en production
+✅ **Exercice 6** : Créé la base Supabase et testé la connexion en local
+✅ **Exercice 7** : Déployé backend et frontend sur Render
+✅ **Exercice 8** : Vérifié le déploiement et la persistance des données
+✅ **Exercice 9** : Mis en place le déploiement continu (CI verte → déploiement)
 
-**Temps total estimé :** 2h30
+**Temps total estimé :** 3h
 
 ---
 
@@ -836,3 +856,4 @@ Félicitations ! Vous avez maintenant :
 ✅ **Base de données managée** - Supabase pour PostgreSQL
 ✅ **Variables d'environnement** - Configuration production vs développement
 ✅ **CORS** - Communication cross-origin frontend/backend
+✅ **Déploiement continu** - La CI protège la production

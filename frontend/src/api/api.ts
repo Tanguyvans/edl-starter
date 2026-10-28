@@ -1,7 +1,8 @@
 import { Task, TaskCreate, TaskUpdate, TaskStatus, TaskPriority } from '../types/index';
 
 // API Base URL - use environment variable in production or proxy in development
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+// (a trailing "/" is removed so that "https://x.onrender.com/" also works)
+const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
 
 // Helper function for API calls
 async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
