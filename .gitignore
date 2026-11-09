@@ -56,3 +56,6 @@ logs/
 
 # Java (fichiers compilés)
 *.class
+
+# Réglages locaux de Claude Code
+.claude/
