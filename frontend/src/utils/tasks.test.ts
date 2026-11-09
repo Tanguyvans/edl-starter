@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { countByStatus, completionRate } from './tasks';
+import { countByStatus, completionRate, HasStatus } from './tasks';
 
 /**
  * Tests des fonctions utilitaires (tasks.ts)
@@ -8,6 +8,7 @@ import { countByStatus, completionRate } from './tasks';
  *
  *   Python (pytest)                       TypeScript (Vitest)
  *   def test_xxx():                       it('xxx', () => { ... });
+ *   tasks: list[HasStatus] = [...]        const tasks: HasStatus[] = [...];
  *   assert resultat == 3                  expect(resultat).toBe(3);
  *   assert resultat == {"a": 1}           expect(resultat).toEqual({ a: 1 });
  *
@@ -22,10 +23,10 @@ import { countByStatus, completionRate } from './tasks';
 describe('countByStatus', () => {
   it('compte les tâches de chaque statut', () => {
     // ARRANGE : préparer une liste de tâches
-    const tasks = [
-      { status: 'todo' as const },
-      { status: 'todo' as const },
-      { status: 'done' as const },
+    const tasks: HasStatus[] = [
+      { status: 'todo' },
+      { status: 'todo' },
+      { status: 'done' },
     ];
 
     // ACT : appeler la fonction à tester
@@ -43,7 +44,7 @@ describe('countByStatus', () => {
 });
 
 // =============================================================================
-// PARTIE 2 : À VOUS ! (TP 1 - Exercice 6)
+// PARTIE 2 : À VOUS ! (TP 1 - Exercice 4)
 // =============================================================================
 //
 // Écrivez les 3 tests de completionRate().
@@ -57,20 +58,20 @@ describe('completionRate', () => {
     // ARRANGE : 4 tâches, dont 2 avec le statut 'done'
     // ACT     : appeler completionRate(tasks)
     // ASSERT  : le résultat doit valoir 50
-    throw new Error('Test à écrire (TP 1 - Exercice 6)');
+    throw new Error('Test à écrire (TP 1 - Exercice 4)');
   });
 
   it('renvoie 100 quand toutes les tâches sont terminées', () => {
     // ARRANGE : 2 tâches, toutes les deux 'done'
     // ACT     : appeler completionRate(tasks)
     // ASSERT  : le résultat doit valoir 100
-    throw new Error('Test à écrire (TP 1 - Exercice 6)');
+    throw new Error('Test à écrire (TP 1 - Exercice 4)');
   });
 
   it('renvoie 0 pour une liste vide', () => {
     // ARRANGE : une liste vide []
     // ACT     : appeler completionRate([])
     // ASSERT  : le résultat doit valoir 0
-    throw new Error('Test à écrire (TP 1 - Exercice 6)');
+    throw new Error('Test à écrire (TP 1 - Exercice 4)');
   });
 });

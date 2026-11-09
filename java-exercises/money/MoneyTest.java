@@ -6,53 +6,39 @@ import static org.junit.Assert.*;
  */
 public class MoneyTest {
 
+    // ===== EXEMPLE =====
+
     @Test
     public void testAmount() {
         Money instance = new Money(12, "EUR");
         assertEquals(12, instance.amount());
     }
 
-    /**
-     * TODO: EXERCICE 2 - Écrire le test testCurrency()
-     *
-     * S'inspirer de testAmount() ci-dessus
-     * Utiliser assertEquals() au lieu de assertNotEquals()
-     */
+    // ===== TEST FOURNI : il échoue tant que Money.add() n'est pas écrite =====
+
+    @Test
+    public void testAddSameCurrency() throws Exception {
+        Money result = new Money(12, "EUR").add(new Money(14, "EUR"));
+
+        assertEquals(26, result.amount());
+        assertEquals("EUR", result.currency());
+    }
+
+    // ===== À VOUS : supprimez fail(...) et écrivez le test =====
+
+    /** currency() renvoie la devise donnée au constructeur. */
     @Test
     public void testCurrency() {
-        // TODO: Créer une Money avec currency "EUR"
-        // TODO: Vérifier que currency() retourne "EUR"
-        Money instance = new Money(12, "EUR");
-        String expected = "EUR";
-        String result = instance.currency();
-        assertEquals(expected, result);
-    }
-
-    @Test
-    public void testAdd_Money() throws Exception {
-        Money instance = new Money(12, "EUR");
-        Money expected = new Money(24, "EUR");
-        Money result = instance.add(new Money(12, "EUR"));
-
-        assertEquals(expected.amount(), result.amount());
-        assertEquals(expected.currency(), result.currency());
+        fail("Test à écrire");
     }
 
     /**
-     * TODO: EXERCICE 3 - Écrire le test testAdd()
-     *
-     * S'inspirer de testAdd_Money() ci-dessus
+     * Additionner 12 EUR et 5 USD doit lever une Exception.
+     * Indice : @Test(expected = Exception.class) fait passer le test
+     * seulement si l'exception est levée.
      */
     @Test
-    public void testAdd() throws Exception {
-        // TODO: Créer une Money de 10 EUR
-        // TODO: Ajouter 5 EUR
-        // TODO: Vérifier que le résultat est 15 EUR
-        Money instance = new Money(10, "EUR");
-        Money toAdd = new Money(5, "EUR");
-        Money result = instance.add(toAdd);
-
-        assertEquals(15, result.amount());
-        assertEquals("EUR", result.currency());
+    public void testAddDifferentCurrency() throws Exception {
+        fail("Test à écrire");
     }
 }

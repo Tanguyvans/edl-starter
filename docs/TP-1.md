@@ -108,11 +108,11 @@ Visitez :
 
 Ouvrez `backend/src/app.py` dans votre éditeur :
 
-- **Lignes 27-36 :** Énumérations (TaskStatus, TaskPriority)
-- **Lignes 39-68 :** Modèles Pydantic
-- **Lignes 76-77 :** Stockage en mémoire (dictionnaire simple)
-- **Lignes 180-205 :** Endpoint pour créer une tâche
-- **Lignes 144-160 :** Endpoint pour lister les tâches
+- **`TaskStatus`, `TaskPriority` :** les valeurs possibles du statut et de la priorité
+- **`TaskCreate`, `TaskUpdate`, `Task` :** les modèles Pydantic (forme des données reçues et renvoyées)
+- **`tasks_db` :** le stockage en mémoire (un simple dictionnaire `{id: tâche}`)
+- **`get_tasks()`, `get_task()`, `create_task()` :** les endpoints déjà écrits
+- **`update_task()`, `delete_task()` :** les deux endpoints que vous allez écrire
 
 **Important :** Ce backend utilise un **stockage en mémoire** (un simple dictionnaire Python) pour les TP 1 & 2. Vous utiliserez PostgreSQL dans le TP 3.
 
@@ -152,24 +152,25 @@ def client():
 - `client` : Vous n'avez pas à créer un client dans chaque test
 - pytest les injecte automatiquement quand vous écrivez `def test_xxx(client):`
 
-### Étape 3.3 : Lancer les Tests Existants
+### Étape 3.3 : Lancer les Tests
 
 ```bash
 uv run pytest -v
 ```
 
-Vous devriez voir :
+Au départ, beaucoup de tests sont rouges, **c'est normal** :
 
 ```text
 tests/test_api.py::test_root_endpoint PASSED
-tests/test_api.py::test_health_check PASSED
-tests/test_api.py::test_create_task PASSED
-tests/test_api.py::test_list_tasks PASSED
-tests/test_api.py::test_get_task_by_id PASSED
-... (19 tests au total)
-
-========== 19 passed in 0.45s ==========
+...
+tests/test_api.py::test_delete_task FAILED
+...
+tests/test_api.py::test_filter_by_status_and_priority SKIPPED
+...
+========== 9 failed, 5 passed, 2 skipped ==========
 ```
+
+Les 5 tests verts sont les exemples. Les rouges sont votre travail de la phase 4.
 
 ### Étape 3.4 : Comprendre un Test
 
@@ -199,209 +200,127 @@ def test_create_task(client):
 
 ---
 
-## Phase 4 : Implémenter les Fonctions Backend
+## Phase 4 : Faire Passer les Tests, puis en Écrire
 
-### ✍️ Exercice 1 : Implémenter `delete_task()`
+Le fichier `backend/tests/test_api.py` contient trois groupes de tests :
 
-**🎯 Objectif :** Compléter la fonction `delete_task()` dans `backend/src/app.py`
+| Partie | Contenu | Votre travail |
+|--------|---------|---------------|
+| **Partie 1** | 5 tests exemples | Les lire |
+| **Partie 2** | 5 tests déjà écrits pour `delete_task()` et `update_task()` | Écrire le code de `app.py` qui les fait passer (exercices 1 et 2) |
+| **Partie 3** | 4 tests vides | Les écrire (exercice 3) |
 
-Ouvrez `backend/src/app.py` et trouvez la fonction `delete_task()` (ligne ~240).
+C'est la logique du **TDD** (*Test-Driven Development*) : les tests décrivent le comportement attendu, on écrit ensuite le code jusqu'à ce qu'ils passent au vert.
 
-**Les tests existent déjà !** Regardez dans `test_api.py` :
+### ✍️ Exercice 1 : Écrire `delete_task()` (15 min)
 
-- `test_delete_task` : Supprime une tâche et vérifie qu'elle a disparu
-- `test_delete_nonexistent_task` : Vérifie le 404
+**🎯 Objectif :** faire passer `test_delete_task` et `test_delete_nonexistent_task`.
 
-**Votre mission :**
+Lisez d'abord ces deux tests : ils disent exactement ce que la fonction doit faire. Puis complétez `delete_task()` dans `backend/src/app.py` :
 
-Implémentez les 3 étapes décrites dans le TODO :
+| Situation | Réponse attendue |
+|-----------|------------------|
+| La tâche existe | Elle est retirée de `tasks_db`, code **204** (réponse vide) |
+| La tâche n'existe pas | Code **404** |
 
-```python
-@app.delete("/tasks/{task_id}", status_code=204)
-async def delete_task(task_id: int):
-    # TODO: Votre code ici
-    # 1. Vérifier que la tâche existe
-    # 2. La supprimer de tasks_db
-    # 3. Retourner None
-```
+**Indice :** `get_task()`, juste au-dessus, vérifie déjà si une tâche existe.
 
-**Vérifier votre code :**
+**Vérifier :**
 
 ```bash
-cd backend
-uv run pytest tests/test_api.py::test_delete_task -v
+uv run pytest -k delete -v
 ```
-
-✅ Si le test passe → **Bravo !**
-
-❌ Si le test échoue → Lisez l'erreur et corrigez
 
 ---
 
-### ✍️ Exercice 2 : Implémenter `update_task()`
+### ✍️ Exercice 2 : Écrire `update_task()` (30 min)
 
-**🎯 Objectif :** Compléter la fonction `update_task()` dans `backend/src/app.py`
+**🎯 Objectif :** faire passer `test_update_task_title`, `test_update_only_changes_sent_fields` et `test_update_nonexistent_task`.
 
-Trouvez la fonction `update_task()` (ligne ~207).
-
-**Les tests existent déjà !** Regardez :
-
-- `test_update_task` : Change le titre d'une tâche
-- `test_update_task_status` : Change le statut
-- `test_update_nonexistent_task` : Vérifie le 404
-
-**Votre mission :**
-
-Implémentez les 7 étapes décrites dans le TODO.
+| Situation | Réponse attendue |
+|-----------|------------------|
+| La tâche n'existe pas | Code **404** |
+| La tâche existe | Seuls les champs **envoyés** changent, les autres gardent leur valeur. `created_at` ne change pas, `updated_at` prend la date actuelle. Code **200** et la tâche mise à jour |
 
 **Indices :**
 
-1. C'est similaire à `create_task` mais avec une tâche existante
-2. Utilisez `updates.model_dump(exclude_unset=True)` pour obtenir les champs fournis
-3. Utilisez `update_data.get("field", existing_task.field)` pour garder les anciennes valeurs si non mises à jour
-
-**Vérifier votre code :**
-
-```bash
-uv run pytest tests/test_api.py::test_update_task -v
-```
-
----
-
-### ✍️ Exercice 3 : Écrire un Test de Suppression Inexistante
-
-**🎯 Objectif :** Tester qu'on ne peut pas supprimer une tâche qui n'existe pas
-
-Ouvrez `backend/tests/test_api.py` et trouvez la section DELETE TASK TESTS.
-
-Ajoutez ce test après `test_delete_task` :
-
-```python
-def test_delete_nonexistent_task_returns_404(client):
-    """Deleting a task that doesn't exist should return 404."""
-    # TODO: Votre code ici
-    # 1. Essayer de supprimer une tâche avec un ID qui n'existe pas (ex: 9999)
-    # 2. Vérifier que ça retourne 404
-    # 3. Vérifier le message d'erreur contient "not found"
-```
+- `create_task()` montre comment construire une `Task`.
+- `updates.model_dump(exclude_unset=True)` renvoie un dictionnaire avec **uniquement** les champs envoyés par le client. Par exemple, si le client envoie `{"status": "done"}`, vous obtenez `{"status": "done"}` et pas les autres champs.
+- Rappel Python : `d.get("title", valeur)` renvoie `d["title"]` s'il existe, sinon `valeur`.
 
 **Vérifier :**
 
 ```bash
-uv run pytest tests/test_api.py::test_delete_nonexistent_task_returns_404 -v
+uv run pytest -k update -v
 ```
+
+Les trois tests ci-dessus doivent passer. `test_update_task_with_invalid_priority` reste rouge : il fait partie de l'exercice 3.
 
 ---
 
-### ✍️ Exercice 4 : Écrire un Test de Validation
+### ✍️ Exercice 3 : Écrire vos Propres Tests (30 min)
 
-**🎯 Objectif :** Tester qu'on ne peut pas mettre à jour une tâche avec une priorité invalide
+**🎯 Objectif :** écrire les 4 tests de la partie 3. Chaque test contient une ligne `pytest.fail(...)` qui le fait échouer : supprimez-la, puis écrivez ARRANGE / ACT / ASSERT en vous inspirant des exemples.
 
-Ouvrez `backend/tests/test_api.py` et trouvez la fonction `test_update_task_with_invalid_priority`.
+| Test | Ce qu'il doit vérifier |
+|------|------------------------|
+| `test_create_task_with_empty_title` | Créer une tâche avec le titre `""` est refusé (**422**) |
+| `test_get_nonexistent_task` | Demander une tâche qui n'existe pas renvoie **404** |
+| `test_update_task_with_invalid_priority` | Modifier une tâche avec `priority="urgent"` est refusé (**422**) |
+| `test_filter_tasks_by_status` | `GET /tasks?status=done` ne renvoie **que** les tâches terminées |
 
-```python
-def test_update_task_with_invalid_priority(client):
-    """Updating a task with an invalid priority should fail."""
-    # TODO: Votre code ici
-    # 1. Créer une tâche valide
-    # 2. Essayer de la mettre à jour avec priority="urgent" (invalide)
-    # 3. Vérifier que ça retourne 422 (Erreur de Validation)
-```
+Les rappels de syntaxe (requêtes, codes HTTP) sont en bas de `test_api.py`.
 
-**Rappel :** Les priorités valides sont `"low"`, `"medium"`, `"high"` (voir `TaskPriority` dans `app.py`)
+💡 **Un test qui passe du premier coup est-il un bon test ?** Pour le savoir, cassez-le exprès : remplacez par exemple `422` par `200` dans votre assertion. Le test doit devenir rouge. S'il reste vert, il ne vérifie rien ! Remettez ensuite la bonne valeur.
 
-**Vérifier :**
-
-```bash
-uv run pytest tests/test_api.py::test_update_task_with_invalid_priority -v
-```
+**🎁 Bonus :** deux tests supplémentaires sont désactivés en bas du fichier (filtre combiné, titre de 200 / 201 caractères). Supprimez la ligne `@pytest.mark.skip(...)` pour les écrire.
 
 ---
 
-### ✍️ Exercice 5 : Écrire un Test de Filtrage
-
-**🎯 Objectif :** Tester le filtrage avec plusieurs critères
-
-Ajoutez ce test dans la section FILTER TASKS TESTS :
-
-```python
-def test_filter_by_multiple_criteria(client):
-    """Filtering by status AND priority should work."""
-    # TODO: Votre code ici
-    # 1. Créer 3 tâches avec différents status et priority
-    # 2. Filtrer avec GET /tasks?status=todo&priority=high
-    # 3. Vérifier qu'on reçoit seulement les bonnes tâches
-```
-
-**Vérifier :**
-
-```bash
-uv run pytest tests/test_api.py::test_filter_by_multiple_criteria -v
-```
-
----
-
-### Étape 4.6 : Lancer TOUS les Tests
-
-Une fois que vous avez terminé les 5 exercices, lancez tous les tests :
+### Étape 4.4 : Lancer Tous les Tests
 
 ```bash
 uv run pytest -v
 ```
 
-**Résultat attendu :**
+**Résultat attendu** une fois les exercices 1 à 3 terminés :
 
 ```text
-tests/test_api.py::test_root_endpoint PASSED
-tests/test_api.py::test_health_check PASSED
-tests/test_api.py::test_create_simple_task PASSED
-...
-tests/test_api.py::test_delete_task PASSED
-tests/test_api.py::test_update_task PASSED
-tests/test_api.py::test_delete_nonexistent_task_returns_404 PASSED
-tests/test_api.py::test_update_task_with_empty_title PASSED
-tests/test_api.py::test_filter_by_multiple_criteria PASSED
-...
-========== 22+ passed in 0.5s ==========
+========== 14 passed, 2 skipped ==========
 ```
 
-🎉 **Tous les tests passent ?** Vous avez réussi !
+(`16 passed` si vous avez fait les bonus.) 🎉
 
 ---
 
 ## Phase 5 : Couverture de Code
 
-### Étape 5.1 : Lancer les Tests avec Couverture
+### Étape 5.1 : Lire la Couverture
 
-```bash
-uv run pytest --cov
-```
-
-Résultat :
+La couverture s'affiche déjà à la fin de chaque `uv run pytest` (c'est configuré dans `pyproject.toml`) :
 
 ```text
----------- coverage: platform darwin, python 3.12.7 -----------
-Name                Stmts   Miss  Cover
----------------------------------------
-src/app.py            156      6    96%
----------------------------------------
-TOTAL                 156      6    96%
+Name              Stmts   Miss  Cover   Missing
+-----------------------------------------------
+src/app.py           ...     ...   ..%   162, 175, ...
 ```
+
+La colonne **Missing** liste les lignes de `app.py` qu'**aucun** test n'a exécutées.
 
 ![Backend Coverage Report](img/backend-coverage.png)
 
-### Étape 5.2 : Générer un Rapport HTML
+### Étape 5.2 : Explorer le Rapport HTML
+
+Le rapport HTML est aussi généré à chaque lancement, dans `htmlcov/` :
 
 ```bash
-uv run pytest --cov --cov-report=html
-```
-
-Ouvrir le rapport :
-
-```bash
-open htmlcov/index.html  # macOS
+open htmlcov/index.html   # macOS
 start htmlcov/index.html  # Windows
 ```
+
+Cliquez sur `src/app.py` : les lignes en rouge n'ont jamais été exécutées. Choisissez-en une et écrivez un test qui la couvre.
+
+> 💡 100 % de couverture ne veut pas dire 0 bug : ça veut dire que chaque ligne a été **exécutée**, pas qu'elle a été **vérifiée**. C'est pour ça qu'on teste aussi les cas d'erreur (404, 422).
 
 ---
 
@@ -429,9 +348,11 @@ Ouvrez `frontend/src/utils/tasks.ts`. Il contient deux fonctions :
 | `countByStatus(tasks)` | Compte les tâches de chaque statut | 2 `todo` + 1 `done` → `{ todo: 2, in_progress: 0, done: 1 }` |
 | `completionRate(tasks)` | Pourcentage de tâches terminées | 1 `done` sur 4 → `25` |
 
-Ce sont des fonctions **pures** : elles reçoivent une liste et renvoient un résultat, sans appeler le backend. Elles servent à afficher le compteur en haut de l'application (« 2 à faire · 0 en cours · 1 terminées »).
+Ce sont des fonctions **pures** : elles reçoivent une liste et renvoient un résultat, sans appeler le backend. Elles servent à afficher le compteur en haut de l'application (« À faire : 2 · En cours : 0 · Terminées : 1 (33 %) »).
 
 ### Étape 6.2 : Installer et lancer les tests
+
+Il faut **Node.js 22.12 ou plus récent** (vérifiez avec `node -v`). Sinon, installez la version LTS depuis <https://nodejs.org>.
 
 ```bash
 cd frontend
@@ -442,16 +363,14 @@ npm test
 `npm test` reste ouvert et relance les tests à chaque sauvegarde (quittez avec `q`). Au départ, vous devez voir :
 
 ```text
- ✓ src/api/api.test.ts (5)
- ❯ src/utils/tasks.test.ts (5)
-   ✓ countByStatus (2)
+ ❯ src/utils/tasks.test.ts (5 tests | 3 failed)
    ❯ completionRate (3)
      × calcule le pourcentage de tâches terminées
      × renvoie 100 quand toutes les tâches sont terminées
      × renvoie 0 pour une liste vide
 ...
  FAIL  src/utils/tasks.test.ts > completionRate > calcule le pourcentage de tâches terminées
-Error: Test à écrire (TP 1 - Exercice 6)
+Error: Test à écrire (TP 1 - Exercice 4)
 ...
       Tests  3 failed | 7 passed (10)
 ```
@@ -465,10 +384,10 @@ Ouvrez `frontend/src/utils/tasks.test.ts` :
 ```typescript
 it('compte les tâches de chaque statut', () => {
   // ARRANGE : préparer une liste de tâches
-  const tasks = [
-    { status: 'todo' as const },
-    { status: 'todo' as const },
-    { status: 'done' as const },
+  const tasks: HasStatus[] = [
+    { status: 'todo' },
+    { status: 'todo' },
+    { status: 'done' },
   ];
 
   // ACT : appeler la fonction à tester
@@ -485,16 +404,17 @@ C'est le même pattern **Arrange-Act-Assert** qu'en Python. Seule la syntaxe cha
 |-----------------|---------------------|
 | `def test_xxx(client):` | `it('xxx', () => { ... });` |
 | `x = 3` | `const x = 3;` |
+| `tasks: list[HasStatus] = [...]` | `const tasks: HasStatus[] = [...];` |
 | `assert resultat == 50` | `expect(resultat).toBe(50);` |
 | `assert resultat == {"todo": 2}` | `expect(resultat).toEqual({ todo: 2 });` |
 
 - `toBe` compare une valeur simple (nombre, texte, booléen).
 - `toEqual` compare le contenu d'un objet ou d'un tableau.
-- `'todo' as const` indique à TypeScript que c'est exactement le statut `'todo'` (et pas n'importe quel texte). Recopiez-le tel quel.
+- `HasStatus[]` est le **type** de la variable : une liste d'objets qui ont un `status`. C'est comme une annotation de type en Python : elle permet à l'éditeur de signaler une faute de frappe, par exemple `'fini'` au lieu de `'done'`.
 
 ---
 
-### ✍️ Exercice 6 : Tester `completionRate()` (15 min)
+### ✍️ Exercice 4 : Tester `completionRate()` (15 min)
 
 **🎯 Objectif :** Écrire les 3 tests de `completionRate()` dans `frontend/src/utils/tasks.test.ts`.
 
@@ -514,9 +434,6 @@ Chaque test contient déjà ses étapes en commentaire et une ligne `throw new E
 **Vérifier :** dans le terminal où tourne `npm test`, les 3 tests doivent passer au vert :
 
 ```text
- ✓ src/api/api.test.ts (5)
- ✓ src/utils/tasks.test.ts (5)
-
  Test Files  2 passed (2)
       Tests  10 passed (10)
 ```
@@ -602,258 +519,69 @@ java -version    # Devrait afficher Java 17+
 Chaque exercice utilise un Makefile pour simplifier la compilation et l'exécution :
 
 ```bash
-make test     # Compiler + Exécuter les tests + Nettoyer
-make compile  # Compiler uniquement
+make test     # Compiler + exécuter les tests + nettoyer
 make clean    # Supprimer les fichiers .class
 ```
 
 ---
 
-### ✍️ Exercice 1 : Calculs Géométriques (Composition de Fonctions)
+### ✍️ Bonus Java 1 : Calculs Géométriques (Composition de Fonctions)
 
-**🎯 Objectif :** Implémenter des opérations mathématiques en composant des fonctions simples
+**🎯 Objectif :** écrire trois petites méthodes en **réutilisant** celles déjà écrites.
 
-Ouvrez le dossier `edl-starter/java-exercises/calculs-geo/`
+Dossier : `java-exercises/calculs-geo/`. `Addition.add()` est déjà écrite (exemple). Les tests sont fournis.
 
-**Fichiers du projet :**
-
-- `Addition.java` : Classe d'exemple déjà implémentée
-- `Produit.java` : À compléter (multiplication)
-- `Surface.java` : À compléter (surface rectangle)
-- `Perimetre.java` : À compléter (périmètre)
-- Tests : `AdditionTest.java`, `ProduitTest.java`, `SurfaceTest.java`, `PerimetreTest.java`
-
-**Votre mission - Partie 1 : Implémenter `Produit.mult()`**
-
-Ouvrez `Produit.java` et complétez la méthode :
-
-```java
-public class Produit {
-    public static int mult(int a, int b) {
-        // TODO: Retourner le produit de a et b
-        return 0;
-    }
-}
-```
-
-**Test correspondant** (`ProduitTest.java`) :
-
-```java
-@Test
-public void testMult() {
-    assertEquals(6, Produit.mult(2, 3));
-    assertEquals(0, Produit.mult(0, 5));
-    assertEquals(-6, Produit.mult(-2, 3));
-}
-```
-
-**Indice :** Utilisez l'opérateur `*` pour multiplier deux nombres.
-
-**Vérifier votre code :**
-
-```bash
-cd edl-starter/java-exercises/calculs-geo
-make test
-```
-
-**Résultat attendu après implémentation :**
-
-```
-JUnit version 4.13.2
-..E.E
-Time: 0.006
-There were 2 failures:
-...
-Tests run: 4,  Failures: 2
-```
-
-Le test `ProduitTest` devrait maintenant passer !
-
----
-
-**Votre mission - Partie 2 : Implémenter `Surface.surf()`**
-
-Ouvrez `Surface.java` et complétez la méthode :
-
-```java
-public class Surface {
-    public static int surf(int a, int b) {
-        // TODO: Utiliser Produit.mult() pour calculer la surface d'un rectangle
-        return 0;
-    }
-}
-```
-
-**Test correspondant** (`SurfaceTest.java`) :
-
-```java
-@Test
-public void testSurf() {
-    assertEquals(6, Surface.surf(2, 3));
-    assertEquals(0, Surface.surf(0, 5));
-    assertEquals(12, Surface.surf(3, 4));
-}
-```
-
-**Indice :** La surface d'un rectangle = longueur × largeur. Réutilisez la fonction `Produit.mult()` que vous venez d'écrire.
-
-**Exemple de solution :**
-
-```java
-return Produit.mult(a, b);
-```
+| Fichier | Méthode | Ce qu'elle calcule | Contrainte |
+|---------|---------|--------------------|------------|
+| `Produit.java` | `mult(a, b)` | `a × b` | — |
+| `Surface.java` | `surf(a, b)` | Surface d'un rectangle | Utiliser `Produit.mult()` |
+| `Perimetre.java` | `perim(a, b, c)` | `(a + b) × c` | Utiliser `Addition.add()` et `Produit.mult()` |
 
 **Vérifier :**
 
 ```bash
+cd java-exercises/calculs-geo
 make test
 ```
 
-Maintenant 2 tests sur 4 devraient passer.
+Au départ, 3 tests sur 4 échouent. Implémentez les méthodes dans l'ordre du tableau : à chaque fois, un test de plus doit passer. À la fin :
+
+```text
+OK (4 tests)
+```
 
 ---
 
-**Votre mission - Partie 3 : Implémenter `Perimetre.perim()`**
+### ✍️ Bonus Java 2 : Money
 
-Ouvrez `Perimetre.java` et complétez la méthode :
+**🎯 Objectif :** écrire une méthode et deux tests.
 
-```java
-public class Perimetre {
-    public static int perim(int a, int b, int c) {
-        // TODO: Calculer (a+b)*c en utilisant Addition.add() et Produit.mult()
-        return 0;
-    }
-}
-```
+Dossier : `java-exercises/money/`.
 
-**Test correspondant** (`PerimetreTest.java`) :
+**Partie 1 — Écrire `Money.add()`.** Règles :
 
-```java
-@Test
-public void testPerim() {
-    assertEquals(10, Perimetre.perim(2, 3, 2));  // (2+3)*2 = 10
-    assertEquals(0, Perimetre.perim(0, 0, 5));
-    assertEquals(14, Perimetre.perim(3, 4, 2));  // (3+4)*2 = 14
-}
-```
+- `12 EUR + 14 EUR = 26 EUR` (nouvelle `Money`, même devise)
+- `12 EUR + 5 USD` → lève une `Exception`
 
-**Indice :**
+Le test `testAddSameCurrency` est fourni : il doit passer.
 
-1. Commencez par additionner `a` et `b` avec `Addition.add(a, b)`
-2. Multipliez le résultat par `c` avec `Produit.mult()`
+**Indice :** pour comparer deux `String` en Java, utilisez `.equals()` et pas `==`.
 
-**Exemple de solution :**
+**Partie 2 — Écrire deux tests** dans `MoneyTest.java` (supprimez `fail(...)`). La syntaxe JUnit est rappelée dans la section suivante.
 
-```java
-int somme = Addition.add(a, b);
-return Produit.mult(somme, c);
-```
+| Test | Ce qu'il doit vérifier |
+|------|------------------------|
+| `testCurrency` | `currency()` renvoie la devise donnée au constructeur |
+| `testAddDifferentCurrency` | Additionner 12 EUR et 5 USD lève une `Exception` |
 
 **Vérifier :**
 
 ```bash
+cd java-exercises/money
 make test
 ```
 
-**Résultat final attendu :**
-
-```
-JUnit version 4.13.2
-....
-Time: 0.006
-
-OK (4 tests)
-```
-
-Tous les tests passent ? Bravo ! Passez à l'exercice suivant.
-
----
-
-### ✍️ Exercice 2 : Money - Addition avec Validation de Devises
-
-**🎯 Objectif :** Implémenter une méthode d'addition qui valide que deux montants ont la même devise
-
-Ouvrez le dossier `edl-starter/java-exercises/money/`
-
-**Fichiers du projet :**
-
-- `Money.java` : Classe avec méthode `add()` à implémenter
-- `MoneyTest.java` : Tests JUnit (certains avec TODOs à compléter)
-
-**Votre mission :**
-
-Ouvrez `Money.java` et implémentez la méthode `add()` :
-
-```java
-public Money add(Money m) throws Exception {
-    // TODO: Vérifier si this.currency().equals(m.currency())
-    // TODO: Si oui, retourner new Money(this.amount() + m.amount(), this.currency())
-    // TODO: Si non, throw new Exception("Not Same currency")
-    return null;
-}
-```
-
-**Règles métier :**
-
-- On peut additionner deux montants de même devise : `12 EUR + 5 EUR = 17 EUR`
-- On ne peut PAS additionner deux montants de devises différentes : `12 EUR + 5 USD` → Exception
-
-**Tests correspondants** (`MoneyTest.java`) :
-
-```java
-@Test
-public void testSimpleAdd() throws Exception {
-    Money m12EUR = new Money(12, "EUR");
-    Money m14EUR = new Money(14, "EUR");
-    Money expected = new Money(26, "EUR");
-    assertEquals(expected, m12EUR.add(m14EUR));
-}
-
-@Test(expected = Exception.class)
-public void testAddDifferentCurrency() throws Exception {
-    Money m12EUR = new Money(12, "EUR");
-    Money m5USD = new Money(5, "USD");
-    m12EUR.add(m5USD);  // Doit lever une exception
-}
-```
-
-**Indices :**
-
-1. Utilisez `this.currency()` pour obtenir la devise de l'objet courant
-2. Utilisez `m.currency()` pour obtenir la devise du paramètre
-3. Comparez avec `.equals()` (pas `==`)
-4. Si les devises sont identiques, créez un nouveau `Money` avec la somme des montants
-5. Si les devises sont différentes, lancez une exception avec `throw new Exception("Not Same currency")`
-
-**Exemple de solution :**
-
-```java
-public Money add(Money m) throws Exception {
-    if (this.currency().equals(m.currency())) {
-        return new Money(this.amount() + m.amount(), this.currency());
-    }
-    throw new Exception("Not Same currency");
-}
-```
-
-**Vérifier votre code :**
-
-```bash
-cd edl-starter/java-exercises/money
-make test
-```
-
-**Résultat attendu :**
-
-```
-JUnit version 4.13.2
-....
-Time: 0.007
-
-OK (4 tests)
-```
-
-Tous les tests passent ? Félicitations !
+Résultat attendu : `OK (4 tests)`.
 
 ---
 
@@ -900,10 +628,8 @@ assertNotNull(object);              // Vérifie qu'un objet n'est pas null
 **Exemple de test d'exception :**
 
 ```java
-@Test(expected = Exception.class)
-public void testInvalidOperation() throws Exception {
-    Money m1 = new Money(12, "EUR");
-    Money m2 = new Money(5, "USD");
-    m1.add(m2);  // Cette ligne doit lever une Exception
+@Test(expected = NumberFormatException.class)
+public void testParseInvalidNumber() {
+    Integer.parseInt("abc");  // Cette ligne doit lever une NumberFormatException
 }
 ```

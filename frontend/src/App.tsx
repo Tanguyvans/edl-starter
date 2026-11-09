@@ -70,8 +70,8 @@ function App() {
         <h1>TaskFlow</h1>
         <p>Gestionnaire de Tâches</p>
         <p className="stats">
-          {counts.todo} à faire · {counts.in_progress} en cours · {counts.done} terminées
-          ({completionRate(tasks)} % terminé)
+          À faire : {counts.todo} · En cours : {counts.in_progress} · Terminées : {counts.done}
+          {' '}({completionRate(tasks)} %)
         </p>
       </header>
 

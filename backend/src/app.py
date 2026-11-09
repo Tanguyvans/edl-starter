@@ -207,29 +207,18 @@ async def update_task(task_id: int, updates: TaskUpdate) -> Task:
     """
     Update an existing task (partial update supported).
 
-    TODO (Atelier 1 - Exercice 2): Implémenter cette fonction
+    TODO (TP 1 - Exercice 2) : écrire cette fonction.
 
-    Étapes à suivre:
-    1. Vérifier que la tâche existe dans tasks_db
-       - Si elle n'existe pas, lever HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    Comportement attendu (voir les tests test_update_* dans tests/test_api.py) :
+    - 404 si la tâche n'existe pas (même message que get_task) ;
+    - seuls les champs envoyés par le client sont modifiés, les autres restent identiques ;
+    - created_at ne change pas, updated_at prend la date actuelle ;
+    - renvoie la tâche mise à jour.
 
-    2. Récupérer la tâche existante
-
-    3. Extraire les champs à mettre à jour avec updates.model_dump(exclude_unset=True)
-
-    4. Valider le titre s'il est fourni (ne doit pas être vide)
-       - Si vide, lever HTTPException(status_code=422, detail="Title cannot be empty")
-
-    5. Créer une nouvelle Task avec:
-       - Les champs mis à jour (utiliser update_data.get("field", existing_task.field))
-       - created_at = existing_task.created_at (ne change pas)
-       - updated_at = datetime.utcnow() (nouvelle date)
-
-    6. Mettre à jour tasks_db[task_id]
-
-    7. Retourner la tâche mise à jour
-
-    Indice: Regardez comment create_task fonctionne pour vous inspirer
+    Indices :
+    - create_task() montre comment construire une Task ;
+    - updates.model_dump(exclude_unset=True) renvoie un dictionnaire contenant
+      uniquement les champs envoyés, par exemple {"status": "done"}.
     """
     # TODO: Votre code ici
     raise HTTPException(status_code=501, detail="Update not implemented yet - complete this function!")
@@ -240,18 +229,13 @@ async def delete_task(task_id: int):
     """
     Delete a task by ID.
 
-    TODO (Atelier 1 - Exercice 1): Implémenter cette fonction
+    TODO (TP 1 - Exercice 1) : écrire cette fonction.
 
-    Étapes à suivre:
-    1. Vérifier que la tâche existe dans tasks_db
-       - Si elle n'existe pas, lever HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    Comportement attendu (voir test_delete_task et test_delete_nonexistent_task) :
+    - 404 si la tâche n'existe pas (même message que get_task) ;
+    - sinon, la tâche est retirée de tasks_db et la réponse est vide (204).
 
-    2. Supprimer la tâche du dictionnaire tasks_db
-       - Utiliser: del tasks_db[task_id]
-
-    3. Retourner None (car status_code=204 n'a pas de body)
-
-    Indice: C'est très simple, seulement 3 lignes de code !
+    Indice : get_task() vérifie déjà si une tâche existe.
     """
     # TODO: Votre code ici
     raise HTTPException(status_code=501, detail="Delete not implemented yet - complete this function!")

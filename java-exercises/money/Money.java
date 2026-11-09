@@ -24,19 +24,16 @@ public class Money {
     }
 
     /**
-     * TODO: EXERCICE 1 - Implémenter l'addition de deux monnaies
+     * TODO : écrire cette méthode.
      *
-     * L'addition se fait seulement si les devises sont identiques.
-     * Si les devises sont différentes, lever une Exception.
+     * Additionne deux montants de même devise : 12 EUR + 14 EUR = 26 EUR.
+     * Si les devises sont différentes, lève une Exception.
      *
      * @param m La monnaie à ajouter
      * @return Une nouvelle Money avec la somme
      * @throws Exception si les devises sont différentes
      */
     public Money add(Money m) throws Exception {
-        // TODO: Vérifier si this.currency().equals(m.currency())
-        // TODO: Si oui, retourner new Money(this.amount() + m.amount(), this.currency())
-        // TODO: Si non, throw new Exception("Not Same currency")
         return null;
     }
 }

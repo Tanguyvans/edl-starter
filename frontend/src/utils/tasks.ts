@@ -8,9 +8,10 @@ import { TaskStatus } from '../types/index';
  * simples à tester (voir tasks.test.ts).
  *
  * Elles n'ont besoin que du statut de chaque tâche : on peut donc leur passer
- * de vraies tâches (Task) ou, dans les tests, de simples objets { status: 'todo' }.
+ * de vraies tâches (Task) ou, dans les tests, de simples objets { status: 'todo' }
+ * (type HasStatus).
  */
-type HasStatus = { status: TaskStatus };
+export type HasStatus = { status: TaskStatus };
 
 // Compte les tâches de chaque statut.
 // Exemple : countByStatus([{ status: 'todo' }, { status: 'done' }])

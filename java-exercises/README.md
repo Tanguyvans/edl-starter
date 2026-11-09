@@ -22,8 +22,8 @@ make test
 **Dossier :** `money/`
 
 **À faire :**
-1. Implémenter `Money.add(Money m)` dans `Money.java`
-2. Les tests `testCurrency()` et `testAdd()` sont déjà écrits
+1. Implémenter `Money.add(Money m)` dans `Money.java` (le test `testAddSameCurrency()` est fourni)
+2. Écrire les tests `testCurrency()` et `testAddDifferentCurrency()` dans `MoneyTest.java`
 
 **Lancer les tests :**
 ```bash
