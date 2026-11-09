@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "composite": true,
+    // Les fichiers générés vont dans node_modules/.tmp (pas de vite.config.js à côté du .ts)
+    "emitDeclarationOnly": true,
+    "outDir": "./node_modules/.tmp/tsconfig-node",
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",

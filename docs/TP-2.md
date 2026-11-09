@@ -101,7 +101,7 @@ jobs:                       # 3️⃣ Les tâches à faire
   test:
     runs-on: ubuntu-latest  # 4️⃣ Machine virtuelle
     steps:                  # 5️⃣ Les étapes
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: pytest
 ```
 
@@ -145,7 +145,7 @@ Créer un workflow qui teste automatiquement le backend à chaque push.
 
        steps:
          - name: Checkout code
-           uses: actions/checkout@v4
+           uses: actions/checkout@v7
 
          # TODO : Setup Python 3.11 avec cache pip
 
@@ -162,7 +162,7 @@ Créer un workflow qui teste automatiquement le backend à chaque push.
    - [actions/setup-python](https://github.com/actions/setup-python#caching-packages-dependencies) : Pour Setup Python avec cache
 
    **💡 Indices :**
-   - **Setup Python** : Utilisez `actions/setup-python@v5` avec les paramètres :
+   - **Setup Python** : Utilisez `actions/setup-python@v7` avec les paramètres :
      - `python-version: '3.11'`
      - `cache: 'pip'` (pour activer le cache automatique)
    - **Commandes shell** : Utilisez `run:` suivi de la commande
@@ -231,9 +231,9 @@ Créer un workflow qui teste et build le frontend automatiquement.
 
        steps:
          - name: Checkout code
-           uses: actions/checkout@v4
+           uses: actions/checkout@v7
 
-         # TODO : Setup Node.js 18 avec cache npm
+         # TODO : Setup Node.js 24 avec cache npm
          # Indice : cache-dependency-path: frontend/package-lock.json
 
          # TODO : Installez les dépendances (cd frontend && npm ci)
@@ -249,8 +249,8 @@ Créer un workflow qui teste et build le frontend automatiquement.
    - [actions/setup-node](https://github.com/actions/setup-node#caching-global-packages-data) : Pour Setup Node.js avec cache
 
    **💡 Indices :**
-   - **Setup Node** : Utilisez `actions/setup-node@v4` avec les paramètres :
-     - `node-version: '18'`
+   - **Setup Node** : Utilisez `actions/setup-node@v7` avec les paramètres :
+     - `node-version: '24'`
      - `cache: 'npm'`
      - `cache-dependency-path: frontend/package-lock.json`
    - **npm ci** : Installe exactement les versions de `package-lock.json`
@@ -697,10 +697,10 @@ Les tests **E2E (end-to-end)** vérifient le fonctionnement complet de l’appli
 
        steps:
          - name: 📥 Checkout code
-           uses: actions/checkout@v4
+           uses: actions/checkout@v7
 
          - name: 🐍 Setup Python 3.11
-           uses: actions/setup-python@v5
+           uses: actions/setup-python@v7
            with:
              python-version: '3.11'
              cache: 'pip'
@@ -726,10 +726,10 @@ Les tests **E2E (end-to-end)** vérifient le fonctionnement complet de l’appli
 
        steps:
          - name: 📥 Checkout code
-           uses: actions/checkout@v4
+           uses: actions/checkout@v7
 
          - name: 🐍 Setup Python 3.11
-           uses: actions/setup-python@v5
+           uses: actions/setup-python@v7
            with:
              python-version: '3.11'
              cache: 'pip'
@@ -927,10 +927,10 @@ jobs:
 
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: ☕ Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: '17'

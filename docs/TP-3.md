@@ -191,9 +191,9 @@ Actuellement, `app.py` stocke les tâches dans un dictionnaire Python (`tasks_db
 Ouvrez `backend/src/app.py` et **ajoutez** les imports nécessaires (gardez les imports existants !) :
 
 ```python
-from contextlib import asynccontextmanager
 import uuid
 from fastapi import Depends
+from pydantic import ConfigDict
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 
@@ -207,13 +207,14 @@ from .models import TaskModel, TaskStatus, TaskPriority
 - `Session` : Type de la session SQLAlchemy
 - `text` : Pour exécuter du SQL brut (health check)
 - `uuid` : Pour générer des identifiants uniques
+- `ConfigDict` : Pour configurer le modèle Pydantic `Task` (étape 4)
 
 **Étape 2 : Nettoyer le code obsolète**
 
 Cherchez et supprimez ces éléments dans `app.py` :
 
 ```python
-# ❌ SUPPRIMER : Ces classes (lignes ~31-42)
+# ❌ SUPPRIMER : Ces classes
 class TaskStatus(str, Enum):
     TODO = "todo"
     ...
@@ -222,11 +223,11 @@ class TaskPriority(str, Enum):
     LOW = "low"
     ...
 
-# ❌ SUPPRIMER : Le stockage en mémoire (lignes ~78-79)
+# ❌ SUPPRIMER : Le stockage en mémoire
 tasks_db: Dict[int, Task] = {}
 next_id = 1
 
-# ❌ SUPPRIMER : Ces fonctions (lignes ~82-94)
+# ❌ SUPPRIMER : Ces fonctions
 def get_next_id() -> int:
     ...
 
@@ -241,39 +242,19 @@ async def health_check():
 
 > 💡 Ces éléments sont maintenant dans `models.py` ou remplacés par SQLAlchemy.
 
-**Étape 3 : Remplacer le système de démarrage**
+**Étape 3 : Créer les tables au démarrage**
 
-Cherchez et supprimez les anciens handlers :
-
-```python
-# ❌ SUPPRIMER ces deux fonctions (lignes ~129-139)
-@app.on_event("startup")
-def startup():
-    ...
-
-@app.on_event("shutdown")
-def shutdown():
-    ...
-```
-
-Remplacez-les par le nouveau système `lifespan` (à placer AVANT la création de `app`) :
+La fonction `lifespan` (juste avant `app = FastAPI(...)`) s'exécute une fois au démarrage du serveur (avant `yield`) et une fois à l'arrêt (après `yield`). Modifiez-la pour créer les tables au démarrage :
 
 ```python
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Lifecycle manager - initialise la DB au démarrage."""
+    """Runs once at startup (before yield) and once at shutdown (after yield)."""
     logger.info("🚀 TaskFlow backend starting up...")
-    init_db()  # Crée les tables
-    logger.info("✅ Database initialized")
+    init_db()  # ← Nouveau : crée les tables si elles n'existent pas
+    logger.info("✅ Database initialized")  # ← remplace "Using in-memory storage"
     yield
     logger.info("🛑 TaskFlow backend shutting down...")
-
-
-app = FastAPI(
-    title="TaskFlow API",
-    ...
-    lifespan=lifespan,  # ← Ajouter cette ligne
-)
 ```
 
 **Étape 3b : Ajouter le middleware CORS**
@@ -328,14 +309,13 @@ class Task(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True  # Permet la conversion depuis SQLAlchemy
+    model_config = ConfigDict(from_attributes=True)  # Permet la conversion depuis SQLAlchemy
 ```
 
 > 💡 **Pourquoi ces changements ?**
 >
 > - `id: str` au lieu de `int` → les UUID sont des strings
-> - `from_attributes = True` → permet à Pydantic de lire les objets SQLAlchemy
+> - `ConfigDict(from_attributes=True)` → permet à Pydantic de lire les objets SQLAlchemy
 
 **Étape 5 : Modifier les endpoints**
 
@@ -424,7 +404,7 @@ Adaptez chaque endpoint selon ce tableau :
 | `Depends(get_db)` | FastAPI injecte automatiquement une session DB |
 | `db.commit()` | Obligatoire pour sauvegarder les changements |
 | `db.refresh()` | Recharge l'objet avec les valeurs de la DB (timestamps) |
-| `from_attributes = True` | Permet à Pydantic de lire les attributs SQLAlchemy |
+| `ConfigDict(from_attributes=True)` | Permet à Pydantic de lire les attributs SQLAlchemy |
 
 ### ✅ Checkpoint
 
@@ -523,7 +503,7 @@ cd backend
 uv run pytest -v
 ```
 
-Tous les tests doivent passer (19+ tests)
+Tous les tests qui passaient avec le stockage en mémoire doivent toujours passer : la base de données a changé, pas le comportement de l'API.
 
 ---
 

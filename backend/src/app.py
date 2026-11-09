@@ -8,7 +8,8 @@ TP 3: Will introduce PostgreSQL database (see migration guide)
 """
 
 from typing import List, Optional, Dict
-from datetime import datetime
+from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from enum import Enum
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
@@ -96,26 +97,23 @@ def clear_tasks():
 # FASTAPI APP
 # =============================================================================
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Runs once at startup (before yield) and once at shutdown (after yield)."""
+    logger.info("🚀 TaskFlow backend starting up...")
+    logger.info("Using in-memory storage (no database)")
+    yield
+    logger.info("🛑 TaskFlow backend shutting down...")
+
+
 app = FastAPI(
     title="TaskFlow API",
     description="Simple task management API for learning unit testing and CI/CD",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
-
-
-@app.on_event("startup")
-def startup():
-    """Simple startup - just log a message."""
-    logger.info("🚀 TaskFlow backend starting up...")
-    logger.info("Using in-memory storage (no database)")
-
-
-@app.on_event("shutdown")
-def shutdown():
-    """Simple shutdown - just log a message."""
-    logger.info("🛑 TaskFlow backend shutting down...")
 
 
 # =============================================================================
@@ -185,7 +183,7 @@ async def create_task(task_data: TaskCreate) -> Task:
 
     # Create new task with auto-generated ID
     task_id = get_next_id()
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
 
     task = Task(
         id=task_id,

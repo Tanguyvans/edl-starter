@@ -15,7 +15,7 @@ Ce starter contient une application **TaskFlow** complète avec :
 ### Prérequis
 
 - **Python 3.11+** (pour le backend)
-- **Node.js 18+** (pour le frontend)
+- **Node.js 22.12+ (24 LTS recommandé)** (pour le frontend)
 - **Git**
 
 ### Installation

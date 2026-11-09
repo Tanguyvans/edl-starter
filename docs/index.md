@@ -72,7 +72,7 @@ Ces travaux pratiques vous apprendront les **pratiques** du développement logic
 
 - ✅ Git installé
 - ✅ Python 3.11+ ou UV
-- ✅ Node.js 18+
+- ✅ Node.js 22.12+ (24 LTS recommandé)
 - ✅ Compte GitHub
 - ✅ Java 17+ pour les exercices bonus
 

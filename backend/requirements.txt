@@ -1,7 +1,14 @@
-fastapi==0.120.4
-uvicorn==0.38.0
-pydantic==2.12.3
-httpx==0.28.1
-sqlalchemy==2.0.44
-psycopg2-binary==2.9.11
-python-dotenv==1.2.1
+# Dépendances pour l'installation avec pip (option B du TP 1).
+# Avec uv, elles sont lues dans pyproject.toml : ce fichier ne sert pas.
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.1
+httpx2==2.16.0
+
+# Base de données (TP 3)
+sqlalchemy==2.1.6
+psycopg2-binary==2.9.13
+
+# Tests
+pytest==9.2.0
+pytest-cov==7.1.0

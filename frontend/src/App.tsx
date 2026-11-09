@@ -12,22 +12,13 @@ function App() {
   const [error, setError] = useState<Error | null>(null);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
+  // Charge les tâches une seule fois, au premier affichage
   useEffect(() => {
-    fetchTasks();
+    api.getTasks()
+      .then((data) => setTasks(data))
+      .catch((err) => setError(err as Error))
+      .finally(() => setIsLoading(false));
   }, []);
-
-  const fetchTasks = async () => {
-    try {
-      setIsLoading(true);
-      const data = await api.getTasks();
-      setTasks(data);
-      setError(null);
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleCreateTask = async (taskData: TaskCreate) => {
     try {

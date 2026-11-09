@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Task, TaskCreate, TaskUpdate } from '../types/index';
+import { Task, TaskCreate, TaskUpdate, TaskStatus, TaskPriority } from '../types/index';
 
 interface TaskFormProps {
   task?: Task | null;
@@ -45,13 +45,13 @@ export function TaskForm({ task, onSubmit, onCancel, isLoading = false }: TaskFo
       />
 
       <div className="form-row">
-        <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}>
+        <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value as TaskStatus })}>
           <option value="todo">À Faire</option>
           <option value="in_progress">En Cours</option>
           <option value="done">Terminé</option>
         </select>
 
-        <select value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value as any })}>
+        <select value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value as TaskPriority })}>
           <option value="low">Basse</option>
           <option value="medium">Moyenne</option>
           <option value="high">Haute</option>
