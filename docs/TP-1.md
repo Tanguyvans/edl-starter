@@ -200,47 +200,59 @@ def test_create_task(client):
 
 ---
 
-## Phase 4 : Faire Passer les Tests, puis en Écrire
+## Phase 4 : Écrire les Tests, puis le Code
 
 Le fichier `backend/tests/test_api.py` contient trois groupes de tests :
 
 | Partie | Contenu | Votre travail |
 |--------|---------|---------------|
 | **Partie 1** | 5 tests exemples | Les lire |
-| **Partie 2** | 5 tests déjà écrits pour `delete_task()` et `update_task()` | Écrire le code de `app.py` qui les fait passer (exercices 1 et 2) |
+| **Partie 2** | 5 tests vides pour `delete_task()` et `update_task()` | Les écrire, puis écrire les fonctions dans `app.py` (exercices 1 et 2) |
 | **Partie 3** | 4 tests vides | Les écrire (exercice 3) |
 
-C'est la logique du **TDD** (*Test-Driven Development*) : les tests décrivent le comportement attendu, on écrit ensuite le code jusqu'à ce qu'ils passent au vert.
+Chaque test vide contient une ligne `pytest.fail(...)` qui le fait échouer : supprimez-la, puis écrivez ARRANGE / ACT / ASSERT en vous inspirant des exemples. La docstring de chaque test dit ce qu'il doit vérifier.
 
-### ✍️ Exercice 1 : Écrire `delete_task()` (15 min)
+Pour les exercices 1 et 2, on suit la logique du **TDD** (*Test-Driven Development*) :
 
-**🎯 Objectif :** faire passer `test_delete_task` et `test_delete_nonexistent_task`.
+1. 🔴 **Écrire le test** : il échoue, car la fonction n'est pas encore écrite.
+2. 🟢 **Écrire le code** de la fonction, jusqu'à ce que le test passe.
 
-Lisez d'abord ces deux tests : ils disent exactement ce que la fonction doit faire. Puis complétez `delete_task()` dans `backend/src/app.py` :
+### ✍️ Exercice 1 : Supprimer une Tâche (20 min)
+
+**Étape 1 : écrire les tests.** Dans la partie 2 de `test_api.py`, écrivez `test_delete_task` et `test_delete_nonexistent_task`. Ils doivent vérifier :
 
 | Situation | Réponse attendue |
 |-----------|------------------|
-| La tâche existe | Elle est retirée de `tasks_db`, code **204** (réponse vide) |
+| La tâche existe | Code **204**, puis un `GET` de cette tâche renvoie **404** |
 | La tâche n'existe pas | Code **404** |
-
-**Indice :** `get_task()`, juste au-dessus, vérifie déjà si une tâche existe.
-
-**Vérifier :**
 
 ```bash
 uv run pytest -k delete -v
 ```
 
+Les deux tests doivent être **rouges** : `delete_task()` renvoie encore une erreur 501.
+
+**Étape 2 : écrire `delete_task()`** dans `backend/src/app.py`, jusqu'à ce que les deux tests passent au vert.
+
+**Indice :** `get_task()`, plus haut dans `app.py`, vérifie déjà si une tâche existe.
+
 ---
 
-### ✍️ Exercice 2 : Écrire `update_task()` (30 min)
+### ✍️ Exercice 2 : Modifier une Tâche (35 min)
 
-**🎯 Objectif :** faire passer `test_update_task_title`, `test_update_only_changes_sent_fields` et `test_update_nonexistent_task`.
+**Étape 1 : écrire les tests.** Dans la partie 2, écrivez `test_update_task_title`, `test_update_only_changes_sent_fields` et `test_update_nonexistent_task` :
 
 | Situation | Réponse attendue |
 |-----------|------------------|
 | La tâche n'existe pas | Code **404** |
-| La tâche existe | Seuls les champs **envoyés** changent, les autres gardent leur valeur. `created_at` ne change pas, `updated_at` prend la date actuelle. Code **200** et la tâche mise à jour |
+| On envoie un nouveau titre | Code **200** et la tâche avec le nouveau titre |
+| On envoie seulement `{"status": "done"}` | Le statut change, les autres champs (titre, description, priorité) restent identiques |
+
+```bash
+uv run pytest -k update -v
+```
+
+**Étape 2 : écrire `update_task()`** dans `backend/src/app.py`. En plus de ce que vérifient vos tests, `created_at` ne doit pas changer et `updated_at` doit prendre la date actuelle.
 
 **Indices :**
 
@@ -248,19 +260,13 @@ uv run pytest -k delete -v
 - `updates.model_dump(exclude_unset=True)` renvoie un dictionnaire avec **uniquement** les champs envoyés par le client. Par exemple, si le client envoie `{"status": "done"}`, vous obtenez `{"status": "done"}` et pas les autres champs.
 - Rappel Python : `d.get("title", valeur)` renvoie `d["title"]` s'il existe, sinon `valeur`.
 
-**Vérifier :**
-
-```bash
-uv run pytest -k update -v
-```
-
-Les trois tests ci-dessus doivent passer. `test_update_task_with_invalid_priority` reste rouge : il fait partie de l'exercice 3.
+Vos trois tests doivent passer. `test_update_task_with_invalid_priority` reste rouge : il fait partie de l'exercice 3.
 
 ---
 
-### ✍️ Exercice 3 : Écrire vos Propres Tests (30 min)
+### ✍️ Exercice 3 : Tester le Code Existant (30 min)
 
-**🎯 Objectif :** écrire les 4 tests de la partie 3. Chaque test contient une ligne `pytest.fail(...)` qui le fait échouer : supprimez-la, puis écrivez ARRANGE / ACT / ASSERT en vous inspirant des exemples.
+**🎯 Objectif :** écrire les 4 tests de la partie 3. Ici, le code existe déjà : vos tests vérifient qu'il se comporte correctement, notamment dans les cas d'erreur.
 
 | Test | Ce qu'il doit vérifier |
 |------|------------------------|

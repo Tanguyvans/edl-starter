@@ -111,62 +111,44 @@ def test_get_task_by_id(client):
 
 
 # =============================================================================
-# PARTIE 2 : TESTS FOURNIS (Exercices 1 et 2)
+# PARTIE 2 : À VOUS ! (Exercices 1 et 2)
 # =============================================================================
 #
-# Ces tests décrivent ce que delete_task() et update_task() doivent faire.
-# Ils échouent tant que ces fonctions ne sont pas écrites dans src/app.py.
-# Ne les modifiez pas : écrivez le code qui les fait passer.
+# Écrivez d'abord ces tests : ils échouent, car delete_task() et update_task()
+# ne sont pas encore écrites dans src/app.py. Puis écrivez ces fonctions
+# jusqu'à ce que les tests passent.
+#
+# Pour chaque test : supprimez la ligne pytest.fail(...), puis écrivez
+# ARRANGE / ACT / ASSERT. La docstring dit ce qu'il faut vérifier.
+
+# --- Exercice 1 : supprimer une tâche ---
 
 def test_delete_task(client):
-    """Supprimer une tâche renvoie 204, puis la tâche n'existe plus."""
-    task_id = client.post("/tasks", json={"title": "À supprimer"}).json()["id"]
-
-    response = client.delete(f"/tasks/{task_id}")
-
-    assert response.status_code == 204
-    assert client.get(f"/tasks/{task_id}").status_code == 404
+    """Supprimer une tâche existante renvoie 204, puis la tâche n'existe plus (GET → 404)."""
+    pytest.fail("Test à écrire (Exercice 1)")
 
 
 def test_delete_nonexistent_task(client):
     """Supprimer une tâche qui n'existe pas renvoie 404."""
-    response = client.delete("/tasks/999")
+    pytest.fail("Test à écrire (Exercice 1)")
 
-    assert response.status_code == 404
 
+# --- Exercice 2 : modifier une tâche ---
 
 def test_update_task_title(client):
-    """Modifier le titre renvoie 200 et la tâche avec le nouveau titre."""
-    task_id = client.post("/tasks", json={"title": "Titre original"}).json()["id"]
-
-    response = client.put(f"/tasks/{task_id}", json={"title": "Nouveau titre"})
-
-    assert response.status_code == 200
-    assert response.json()["title"] == "Nouveau titre"
+    """Modifier le titre d'une tâche renvoie 200 et la tâche avec le nouveau titre."""
+    pytest.fail("Test à écrire (Exercice 2)")
 
 
 def test_update_only_changes_sent_fields(client):
-    """Une mise à jour partielle ne touche pas aux champs non envoyés."""
-    task_id = client.post("/tasks", json={
-        "title": "Rapport",
-        "description": "Rapport de TP",
-        "priority": "high",
-    }).json()["id"]
-
-    response = client.put(f"/tasks/{task_id}", json={"status": "done"})
-
-    task = response.json()
-    assert task["status"] == "done"
-    assert task["title"] == "Rapport"
-    assert task["description"] == "Rapport de TP"
-    assert task["priority"] == "high"
+    """Si on envoie seulement {"status": "done"}, le statut change
+    mais les autres champs (titre, description, priorité) restent identiques."""
+    pytest.fail("Test à écrire (Exercice 2)")
 
 
 def test_update_nonexistent_task(client):
     """Modifier une tâche qui n'existe pas renvoie 404."""
-    response = client.put("/tasks/999", json={"title": "Fantôme"})
-
-    assert response.status_code == 404
+    pytest.fail("Test à écrire (Exercice 2)")
 
 
 # =============================================================================

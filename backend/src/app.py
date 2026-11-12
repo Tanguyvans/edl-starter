@@ -209,7 +209,7 @@ async def update_task(task_id: int, updates: TaskUpdate) -> Task:
 
     TODO (TP 1 - Exercice 2) : écrire cette fonction.
 
-    Comportement attendu (voir les tests test_update_* dans tests/test_api.py) :
+    Comportement attendu (c'est ce que vos tests test_update_* doivent vérifier) :
     - 404 si la tâche n'existe pas (même message que get_task) ;
     - seuls les champs envoyés par le client sont modifiés, les autres restent identiques ;
     - created_at ne change pas, updated_at prend la date actuelle ;
@@ -231,11 +231,11 @@ async def delete_task(task_id: int):
 
     TODO (TP 1 - Exercice 1) : écrire cette fonction.
 
-    Comportement attendu (voir test_delete_task et test_delete_nonexistent_task) :
+    Comportement attendu (c'est ce que vos tests test_delete_* doivent vérifier) :
     - 404 si la tâche n'existe pas (même message que get_task) ;
     - sinon, la tâche est retirée de tasks_db et la réponse est vide (204).
 
-    Indice : get_task() vérifie déjà si une tâche existe.
+    Indice : get_task(), plus haut dans ce fichier, vérifie déjà si une tâche existe.
     """
     # TODO: Votre code ici
     raise HTTPException(status_code=501, detail="Delete not implemented yet - complete this function!")
