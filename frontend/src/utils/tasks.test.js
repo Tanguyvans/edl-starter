@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { countByStatus, completionRate, HasStatus } from './tasks';
+import { countByStatus, completionRate } from './tasks';
 
 /**
  * Tests des fonctions utilitaires (tasks.ts)
  *
- * Même structure qu'en Python avec pytest :
+ * Ces tests sont écrits en JavaScript : même structure qu'en Python avec pytest :
  *
- *   Python (pytest)                       TypeScript (Vitest)
+ *   Python (pytest)                       JavaScript (Vitest)
  *   def test_xxx():                       it('xxx', () => { ... });
- *   tasks: list[HasStatus] = [...]        const tasks: HasStatus[] = [...];
+ *   tasks = [...]                         const tasks = [...];
  *   assert resultat == 3                  expect(resultat).toBe(3);
  *   assert resultat == {"a": 1}           expect(resultat).toEqual({ a: 1 });
  *
@@ -23,7 +23,7 @@ import { countByStatus, completionRate, HasStatus } from './tasks';
 describe('countByStatus', () => {
   it('compte les tâches de chaque statut', () => {
     // ARRANGE : préparer une liste de tâches
-    const tasks: HasStatus[] = [
+    const tasks = [
       { status: 'todo' },
       { status: 'todo' },
       { status: 'done' },

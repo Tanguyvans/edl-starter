@@ -1,6 +1,6 @@
 # 🎓 TP 1 : Tests Unitaires Backend & Frontend
 
-**Objectif :** Apprendre les tests unitaires avec Python (pytest), puis voir que les mêmes principes s'appliquent en TypeScript (Vitest)
+**Objectif :** Apprendre les tests unitaires avec Python (pytest), puis voir que les mêmes principes s'appliquent en JavaScript (Vitest)
 
 ---
 
@@ -332,7 +332,7 @@ Cliquez sur `src/app.py` : les lignes en rouge n'ont jamais été exécutées. C
 
 ## Phase 6 : Tests Frontend
 
-Le frontend est écrit en **TypeScript**, mais vous n'avez pas besoin de connaître ce langage : les tests ressemblent beaucoup à ceux que vous venez d'écrire en Python.
+Le frontend est écrit en **TypeScript** (du JavaScript avec des types). Vos tests, eux, sont en **JavaScript** simple, sans aucun type : ils ressemblent beaucoup à ceux que vous venez d'écrire en Python.
 
 ### Étape 6.1 : Ce qu'on va tester
 
@@ -340,10 +340,10 @@ Le frontend est écrit en **TypeScript**, mais vous n'avez pas besoin de connaî
 frontend/src/
 ├── utils/
 │   ├── tasks.ts          # Petites fonctions de calcul ← ON TESTE ÇA
-│   └── tasks.test.ts     # Leurs tests (exemples + exercice)
+│   └── tasks.test.js     # Leurs tests (exemples + exercice)
 ├── api/
 │   ├── api.ts            # Appels au backend
-│   └── api.test.ts       # Tests déjà écrits (pour aller plus loin)
+│   └── api.test.js       # Tests déjà écrits (pour aller plus loin)
 └── App.tsx               # Page principale
 ```
 
@@ -369,13 +369,13 @@ npm test
 `npm test` reste ouvert et relance les tests à chaque sauvegarde (quittez avec `q`). Au départ, vous devez voir :
 
 ```text
- ❯ src/utils/tasks.test.ts (5 tests | 3 failed)
+ ❯ src/utils/tasks.test.js (5 tests | 3 failed)
    ❯ completionRate (3)
      × calcule le pourcentage de tâches terminées
      × renvoie 100 quand toutes les tâches sont terminées
      × renvoie 0 pour une liste vide
 ...
- FAIL  src/utils/tasks.test.ts > completionRate > calcule le pourcentage de tâches terminées
+ FAIL  src/utils/tasks.test.js > completionRate > calcule le pourcentage de tâches terminées
 Error: Test à écrire (TP 1 - Exercice 4)
 ...
       Tests  3 failed | 7 passed (10)
@@ -385,12 +385,12 @@ Les 3 tests rouges sont ceux que vous allez écrire.
 
 ### Étape 6.3 : Lire un test exemple
 
-Ouvrez `frontend/src/utils/tasks.test.ts` :
+Ouvrez `frontend/src/utils/tasks.test.js` :
 
-```typescript
+```javascript
 it('compte les tâches de chaque statut', () => {
   // ARRANGE : préparer une liste de tâches
-  const tasks: HasStatus[] = [
+  const tasks = [
     { status: 'todo' },
     { status: 'todo' },
     { status: 'done' },
@@ -406,23 +406,21 @@ it('compte les tâches de chaque statut', () => {
 
 C'est le même pattern **Arrange-Act-Assert** qu'en Python. Seule la syntaxe change :
 
-| Python (pytest) | TypeScript (Vitest) |
+| Python (pytest) | JavaScript (Vitest) |
 |-----------------|---------------------|
 | `def test_xxx(client):` | `it('xxx', () => { ... });` |
 | `x = 3` | `const x = 3;` |
-| `tasks: list[HasStatus] = [...]` | `const tasks: HasStatus[] = [...];` |
 | `assert resultat == 50` | `expect(resultat).toBe(50);` |
 | `assert resultat == {"todo": 2}` | `expect(resultat).toEqual({ todo: 2 });` |
 
 - `toBe` compare une valeur simple (nombre, texte, booléen).
 - `toEqual` compare le contenu d'un objet ou d'un tableau.
-- `HasStatus[]` est le **type** de la variable : une liste d'objets qui ont un `status`. C'est comme une annotation de type en Python : elle permet à l'éditeur de signaler une faute de frappe, par exemple `'fini'` au lieu de `'done'`.
 
 ---
 
 ### ✍️ Exercice 4 : Tester `completionRate()` (15 min)
 
-**🎯 Objectif :** Écrire les 3 tests de `completionRate()` dans `frontend/src/utils/tasks.test.ts`.
+**🎯 Objectif :** Écrire les 3 tests de `completionRate()` dans `frontend/src/utils/tasks.test.js`.
 
 Chaque test contient déjà ses étapes en commentaire et une ligne `throw new Error(...)` qui le fait échouer. Pour chaque test :
 
@@ -458,9 +456,9 @@ npm run test:coverage
 
 ### Étape 6.5 : Pour aller plus loin — tester les appels au backend (lecture)
 
-`api.ts` appelle le backend avec `fetch()`. Pour le tester sans lancer de serveur, `api.test.ts` remplace `fetch()` par une **fausse fonction** (un *mock*) qui renvoie une réponse choisie à l'avance :
+`api.ts` appelle le backend avec `fetch()`. Pour le tester sans lancer de serveur, `api.test.js` remplace `fetch()` par une **fausse fonction** (un *mock*) qui renvoie une réponse choisie à l'avance :
 
-```typescript
+```javascript
 const mockFetch = vi.fn().mockResolvedValue({
   ok: true,
   json: () => Promise.resolve([{ id: 1, title: 'Test Task', status: 'todo' }]),

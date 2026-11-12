@@ -111,10 +111,10 @@ edl-starter/
 │   │   ├── App.tsx          # Composant principal
 │   │   ├── api/
 │   │   │   ├── api.ts       # Client API
-│   │   │   └── api.test.ts  # Tests API (exemples avec mocks)
+│   │   │   └── api.test.js  # Tests API (exemples avec mocks)
 │   │   ├── utils/
 │   │   │   ├── tasks.ts     # Fonctions de calcul (compteurs)
-│   │   │   └── tasks.test.ts # Tests à écrire (TP 1)
+│   │   │   └── tasks.test.js # Tests à écrire (TP 1)
 │   │   └── components/
 │   │       ├── SimpleTaskList.tsx
 │   │       └── TaskForm.tsx

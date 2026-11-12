@@ -5,11 +5,10 @@ import { TaskStatus } from '../types/index';
  *
  * Ce sont des fonctions "pures" : elles reçoivent des données et renvoient
  * un résultat, sans appel réseau ni effet de bord. Elles sont donc très
- * simples à tester (voir tasks.test.ts).
+ * simples à tester (voir tasks.test.js).
  *
  * Elles n'ont besoin que du statut de chaque tâche : on peut donc leur passer
- * de vraies tâches (Task) ou, dans les tests, de simples objets { status: 'todo' }
- * (type HasStatus).
+ * de vraies tâches (Task) ou, dans les tests, de simples objets { status: 'todo' }.
  */
 export type HasStatus = { status: TaskStatus };
 
