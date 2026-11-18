@@ -1,0 +1,35 @@
+name: Java Tests (Optional)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'java-exercises/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'java-exercises/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test Java Exercises
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v7
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: 📐 Test Calculs Géométriques
+        working-directory: java-exercises/calculs-geo
+        run: make test
+
+      - name: 💰 Test Money
+        working-directory: java-exercises/money
+        run: make test
