@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { countByStatus, completionRate } from './tasks';
+import { countByStatus, completionRate, filterByStatus } from './tasks';
 
 /**
  * Tests des fonctions utilitaires (tasks.ts)
@@ -62,20 +62,29 @@ describe('completionRate', () => {
     // ARRANGE : 4 tâches, dont 2 avec le statut 'done'
     // ACT     : appeler completionRate(tasks)
     // ASSERT  : le résultat doit valoir 50
-    throw new Error('Test à écrire (TP 1 - Exercice 4)');
+    const tasks = [{ status: 'done' }, { status: 'done' }, { status: 'todo' }, { status: 'todo' }];
+    expect(completionRate(tasks)).toBe(50);
   });
 
   it('renvoie 100 quand toutes les tâches sont terminées', () => {
     // ARRANGE : 2 tâches, toutes les deux 'done'
     // ACT     : appeler completionRate(tasks)
     // ASSERT  : le résultat doit valoir 100
-    throw new Error('Test à écrire (TP 1 - Exercice 4)');
+    const tasks = [{ status: 'done' }, { status: 'done' }];
+    expect(completionRate(tasks)).toBe(100);
   });
 
   it('renvoie 0 pour une liste vide', () => {
     // ARRANGE : une liste vide []
     // ACT     : appeler completionRate([])
     // ASSERT  : le résultat doit valoir 0
-    throw new Error('Test à écrire (TP 1 - Exercice 4)');
+    expect(completionRate([])).toBe(0);
+  });
+});
+
+describe('filterByStatus', () => {
+  it('garde seulement les tâches terminées', () => {
+    const tasks = [{ status: 'done' }, { status: 'todo' }];
+    expect(filterByStatus(tasks, 'done')).toEqual([{ status: 'done' }]);
   });
 });

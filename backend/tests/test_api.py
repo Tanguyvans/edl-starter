@@ -125,31 +125,47 @@ def test_get_task_by_id(client):
 
 def test_delete_task(client):
     """Supprimer une tâche existante renvoie 204, puis la tâche n'existe plus (GET → 404)."""
-    pytest.fail("Test à écrire (Exercice 1)")
+    # ARRANGE
+    task_id = client.post("/tasks", json={"title": "À supprimer"}).json()["id"]
+    # ACT
+    response = client.delete(f"/tasks/{task_id}")
+    # ASSERT
+    assert response.status_code == 204
+    assert client.get(f"/tasks/{task_id}").status_code == 404
 
 
 def test_delete_nonexistent_task(client):
     """Supprimer une tâche qui n'existe pas renvoie 404."""
-    pytest.fail("Test à écrire (Exercice 1)")
+    response = client.delete("/tasks/999")
+    assert response.status_code == 404
 
 
 # --- Exercice 2 : modifier une tâche ---
 
 def test_update_task_title(client):
     """Modifier le titre d'une tâche renvoie 200 et la tâche avec le nouveau titre."""
-    pytest.fail("Test à écrire (Exercice 2)")
+    task_id = client.post("/tasks", json={"title": "Ancien"}).json()["id"]
+    response = client.put(f"/tasks/{task_id}", json={"title": "Nouveau"})
+    assert response.status_code == 200
+    assert response.json()["title"] == "Nouveau"
 
 
 def test_update_only_changes_sent_fields(client):
     """Créez une tâche avec un titre, une description et une priorité,
     puis envoyez seulement {"status": "done"} : le statut change,
     mais le titre, la description et la priorité restent identiques."""
-    pytest.fail("Test à écrire (Exercice 2)")
+    task_id = client.post("/tasks", json={"title": "Rapport", "description": "TP", "priority": "high"}).json()["id"]
+    task = client.put(f"/tasks/{task_id}", json={"status": "done"}).json()
+    assert task["status"] == "done"
+    assert task["title"] == "Rapport"
+    assert task["description"] == "TP"
+    assert task["priority"] == "high"
 
 
 def test_update_nonexistent_task(client):
     """Modifier une tâche qui n'existe pas renvoie 404."""
-    pytest.fail("Test à écrire (Exercice 2)")
+    response = client.put("/tasks/999", json={"title": "X"})
+    assert response.status_code == 404
 
 
 # =============================================================================
@@ -161,24 +177,29 @@ def test_update_nonexistent_task(client):
 
 def test_create_task_with_empty_title(client):
     """Créer une tâche avec un titre vide ("") est refusé : 422."""
-    pytest.fail("Test à écrire (Exercice 3)")
+    assert client.post("/tasks", json={"title": ""}).status_code == 422
 
 
 def test_get_nonexistent_task(client):
     """Demander une tâche qui n'existe pas renvoie 404."""
-    pytest.fail("Test à écrire (Exercice 3)")
+    assert client.get("/tasks/42").status_code == 404
 
 
 def test_update_task_with_invalid_priority(client):
     """Mettre à jour une tâche avec priority="urgent" est refusé : 422.
     (Les priorités valides sont "low", "medium" et "high".)"""
-    pytest.fail("Test à écrire (Exercice 3)")
+    task_id = client.post("/tasks", json={"title": "T"}).json()["id"]
+    assert client.put(f"/tasks/{task_id}", json={"priority": "urgent"}).status_code == 422
 
 
 def test_filter_tasks_by_status(client):
     """Créez une tâche "todo" et une tâche "done" : GET /tasks?status=done
     ne renvoie qu'une seule tâche, celle qui est terminée."""
-    pytest.fail("Test à écrire (Exercice 3)")
+    client.post("/tasks", json={"title": "A", "status": "todo"})
+    client.post("/tasks", json={"title": "B", "status": "done"})
+    tasks = client.get("/tasks?status=done").json()
+    assert len(tasks) == 1
+    assert tasks[0]["title"] == "B"
 
 
 # =============================================================================
@@ -187,17 +208,19 @@ def test_filter_tasks_by_status(client):
 #
 # Supprimez la ligne @pytest.mark.skip(...) pour activer un test.
 
-@pytest.mark.skip(reason="Bonus : supprimez cette ligne pour écrire le test")
 def test_filter_by_status_and_priority(client):
     """GET /tasks?status=todo&priority=high combine les deux filtres."""
-    pytest.fail("Test à écrire (Bonus)")
+    client.post("/tasks", json={"title": "Oui", "status": "todo", "priority": "high"})
+    client.post("/tasks", json={"title": "Non", "status": "todo", "priority": "low"})
+    tasks = client.get("/tasks?status=todo&priority=high").json()
+    assert [t["title"] for t in tasks] == ["Oui"]
 
 
-@pytest.mark.skip(reason="Bonus : supprimez cette ligne pour écrire le test")
 def test_create_task_with_title_too_long(client):
     """Le titre est limité à 200 caractères : 200 est accepté (201), 201 est refusé (422).
     Astuce : "a" * 200 crée un texte de 200 caractères."""
-    pytest.fail("Test à écrire (Bonus)")
+    assert client.post("/tasks", json={"title": "a" * 200}).status_code == 201
+    assert client.post("/tasks", json={"title": "a" * 201}).status_code == 422
 
 
 # =============================================================================
@@ -242,3 +265,27 @@ RAPPELEZ-VOUS :
 - Les tâches sont automatiquement effacées avant/après chaque test (fixture clean_tasks)
 - Les tests doivent être indépendants (ne pas dépendre d'autres tests)
 """
+
+
+def test_search_tasks_by_title(client):
+    client.post("/tasks", json={"title": "Rapport de TP"})
+    client.post("/tasks", json={"title": "Courses"})
+    tasks = client.get("/tasks?search=rapport").json()
+    assert [t["title"] for t in tasks] == ["Rapport de TP"]
+
+
+@pytest.mark.parametrize("priority", ["urgent", "", "HIGH"])
+def test_create_task_with_invalid_priority(client, priority):
+    assert client.post("/tasks", json={"title": "T", "priority": priority}).status_code == 422
+
+
+def test_filter_by_assignee(client):
+    client.post("/tasks", json={"title": "A", "assignee": "alice"})
+    client.post("/tasks", json={"title": "B", "assignee": "bob"})
+    assert [t["title"] for t in client.get("/tasks?assignee=alice").json()] == ["A"]
+
+
+def test_blank_title_refused(client):
+    assert client.post("/tasks", json={"title": "   "}).status_code == 422
+    task_id = client.post("/tasks", json={"title": "T"}).json()["id"]
+    assert client.put(f"/tasks/{task_id}", json={"title": "   "}).status_code == 422

@@ -143,7 +143,8 @@ async def health_check():
 async def get_tasks(
     status: Optional[TaskStatus] = None,
     priority: Optional[TaskPriority] = None,
-    assignee: Optional[str] = None
+    assignee: Optional[str] = None,
+    search: Optional[str] = None
 ) -> List[Task]:
     """
     Get all tasks with optional filtering.
@@ -162,6 +163,8 @@ async def get_tasks(
         tasks = [t for t in tasks if t.priority == priority]
     if assignee:
         tasks = [t for t in tasks if t.assignee == assignee]
+    if search:
+        tasks = [t for t in tasks if search.lower() in t.title.lower()]
 
     return tasks
 
@@ -220,8 +223,25 @@ async def update_task(task_id: int, updates: TaskUpdate) -> Task:
     - updates.model_dump(exclude_unset=True) renvoie un dictionnaire contenant
       uniquement les champs envoyés, par exemple {"status": "done"}.
     """
-    # TODO: Votre code ici
-    raise HTTPException(status_code=501, detail="Update not implemented yet - complete this function!")
+    if task_id not in tasks_db:
+        raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    existing = tasks_db[task_id]
+    update_data = updates.model_dump(exclude_unset=True)
+    if "title" in update_data and not update_data["title"].strip():
+        raise HTTPException(status_code=422, detail="Title cannot be empty")
+    task = Task(
+        id=task_id,
+        title=update_data.get("title", existing.title),
+        description=update_data.get("description", existing.description),
+        status=update_data.get("status", existing.status),
+        priority=update_data.get("priority", existing.priority),
+        assignee=update_data.get("assignee", existing.assignee),
+        due_date=update_data.get("due_date", existing.due_date),
+        created_at=existing.created_at,
+        updated_at=datetime.now(timezone.utc),
+    )
+    tasks_db[task_id] = task
+    return task
 
 
 @app.delete("/tasks/{task_id}", status_code=204)
@@ -237,8 +257,9 @@ async def delete_task(task_id: int):
 
     Indice : get_task(), plus haut dans ce fichier, vérifie déjà si une tâche existe.
     """
-    # TODO: Votre code ici
-    raise HTTPException(status_code=501, detail="Delete not implemented yet - complete this function!")
+    if task_id not in tasks_db:
+        raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    del tasks_db[task_id]
 
 
 if __name__ == "__main__":  # pragma: no cover (lancement manuel, pas testé)
