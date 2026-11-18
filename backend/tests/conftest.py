@@ -31,3 +31,11 @@ def client():
     """
     with TestClient(app) as test_client:
         yield test_client
+
+
+def pytest_configure(config):
+    """Enregistre les markers personnalisés"""
+    config.addinivalue_line(
+        "markers",
+        "e2e: mark test as end-to-end test (slow)"
+    )
