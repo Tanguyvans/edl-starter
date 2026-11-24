@@ -1,10 +1,7 @@
 name: Backend Tests
 
 on:
-  push:
-    branches: [main]
-  pull_request:            # aussi sur les pull requests (indispensable à l'exercice 4)
-    branches: [main]
+  workflow_call:
 
 jobs:
   backend:
