@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { countByStatus, completionRate } from './tasks';
+import { countByStatus, completionRate, filterByStatus } from './tasks';
 
 /**
  * Tests des fonctions utilitaires (tasks.ts)
@@ -48,34 +48,55 @@ describe('countByStatus', () => {
 });
 
 // =============================================================================
-// PARTIE 2 : À VOUS ! (TP 1 - Exercice 4)
+// PARTIE 2 : SOLUTION (TP 1 - Exercice 4)
 // =============================================================================
-//
-// Écrivez les 3 tests de completionRate().
-// Pour chaque test : supprimez la ligne `throw new Error(...)`,
-// puis écrivez ARRANGE / ACT / ASSERT comme dans les exemples ci-dessus.
-//
-// Lancer les tests : npm test
 
 describe('completionRate', () => {
   it('calcule le pourcentage de tâches terminées', () => {
-    // ARRANGE : 4 tâches, dont 2 avec le statut 'done'
-    // ACT     : appeler completionRate(tasks)
-    // ASSERT  : le résultat doit valoir 50
-    throw new Error('Test à écrire (TP 1 - Exercice 4)');
+    const tasks = [
+      { status: 'done' },
+      { status: 'done' },
+      { status: 'todo' },
+      { status: 'in_progress' },
+    ];
+
+    const rate = completionRate(tasks);
+
+    expect(rate).toBe(50);
   });
 
   it('renvoie 100 quand toutes les tâches sont terminées', () => {
-    // ARRANGE : 2 tâches, toutes les deux 'done'
-    // ACT     : appeler completionRate(tasks)
-    // ASSERT  : le résultat doit valoir 100
-    throw new Error('Test à écrire (TP 1 - Exercice 4)');
+    const tasks = [{ status: 'done' }, { status: 'done' }];
+
+    expect(completionRate(tasks)).toBe(100);
   });
 
   it('renvoie 0 pour une liste vide', () => {
-    // ARRANGE : une liste vide []
-    // ACT     : appeler completionRate([])
-    // ASSERT  : le résultat doit valoir 0
-    throw new Error('Test à écrire (TP 1 - Exercice 4)');
+    expect(completionRate([])).toBe(0);
+  });
+});
+
+// =============================================================================
+// BONUS : filterByStatus, écrit en TDD
+// =============================================================================
+
+describe('filterByStatus', () => {
+  it('garde seulement les tâches du statut demandé', () => {
+    const tasks = [
+      { title: 'A', status: 'done' },
+      { title: 'B', status: 'todo' },
+      { title: 'C', status: 'done' },
+    ];
+
+    const done = filterByStatus(tasks, 'done');
+
+    expect(done).toEqual([
+      { title: 'A', status: 'done' },
+      { title: 'C', status: 'done' },
+    ]);
+  });
+
+  it('renvoie une liste vide si aucune tâche ne correspond', () => {
+    expect(filterByStatus([{ status: 'todo' }], 'done')).toEqual([]);
   });
 });

@@ -33,3 +33,8 @@ export function completionRate(tasks: HasStatus[]): number {
   const done = countByStatus(tasks).done;
   return Math.round((done / tasks.length) * 100);
 }
+
+// Bonus (TDD) : garde seulement les tâches d'un statut donné.
+export function filterByStatus<T extends HasStatus>(tasks: T[], status: TaskStatus): T[] {
+  return tasks.filter((task) => task.status === status);
+}
