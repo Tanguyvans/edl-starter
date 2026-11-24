@@ -254,3 +254,30 @@ RAPPELEZ-VOUS :
 - Les tâches sont automatiquement effacées avant/après chaque test (fixture clean_tasks)
 - Les tests doivent être indépendants (ne pas dépendre d'autres tests)
 """
+
+
+@pytest.mark.e2e
+def test_complete_task_lifecycle(client):
+    """Test E2E : Créer plusieurs tâches et les lister."""
+    response = client.post("/tasks", json={
+        "title": "Tâche E2E 1",
+        "description": "Première tâche"
+    })
+    assert response.status_code == 201
+    task1_id = response.json()["id"]
+
+    response = client.post("/tasks", json={
+        "title": "Tâche E2E 2",
+        "description": "Deuxième tâche"
+    })
+    assert response.status_code == 201
+    task2_id = response.json()["id"]
+
+    response = client.get("/tasks")
+    assert response.status_code == 200
+    tasks = response.json()
+    assert len(tasks) >= 2
+
+    task_ids = [task["id"] for task in tasks]
+    assert task1_id in task_ids
+    assert task2_id in task_ids
