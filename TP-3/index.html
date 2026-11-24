@@ -1,0 +1,2125 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Travaux pratiques sur les tests unitaires, CI/CD et déploiement">
+      
+      
+        <meta name="author" content="UMONS - Faculté des Sciences">
+      
+      
+      
+        <link rel="prev" href="../TP-2/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>TP 3 - EDL - Expertises digitale et logicielle</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tp-3-base-de-donnees-et-deploiement-en-production" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href=".." title="EDL - Expertises digitale et logicielle" class="md-header__button md-logo" aria-label="EDL - Expertises digitale et logicielle" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EDL - Expertises digitale et logicielle
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              TP 3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Passer en mode sombre"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Passer en mode sombre" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Passer en mode clair"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Passer en mode clair" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/umons-ig/edl-starter" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    umons-ig/edl-starter
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../installation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Installation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TP-1/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  TP 1
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TP-2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  TP 2
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  TP 3
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="EDL - Expertises digitale et logicielle" class="md-nav__button md-logo" aria-label="EDL - Expertises digitale et logicielle" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EDL - Expertises digitale et logicielle
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/umons-ig/edl-starter" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    umons-ig/edl-starter
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TP-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TP 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TP-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TP 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TP 3
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TP 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-de-latelier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Objectifs de l'Atelier
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-cible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Architecture Cible
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-1-installer-les-dependances-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 1 : Installer les Dépendances PostgreSQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 1 : Installer les Dépendances PostgreSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-font-ces-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Ce que font ces packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-2-configurer-la-base-de-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 2 : Configurer la Base de Données
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 2 : Configurer la Base de Données">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#points-importants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Points importants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-3-creer-le-modele-de-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 3 : Créer le Modèle de Données
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 3 : Créer le Modèle de Données">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avantages-de-lorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Avantages de l'ORM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-4-migrer-lapplication-vers-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 4 : Migrer l'Application vers PostgreSQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 4 : Migrer l&#39;Application vers PostgreSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contexte
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Points clés à retenir
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Checkpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-5-adapter-les-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 5 : Adapter les Tests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 5 : Adapter les Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contexte_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contexte
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Checkpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-6-creer-la-base-de-donnees-sur-supabase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 6 : Créer la Base de Données sur Supabase
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 6 : Créer la Base de Données sur Supabase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-creer-un-compte-et-un-projet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 : Créer un compte et un projet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-recuperer-la-database_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 : Récupérer la DATABASE_URL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-tester-la-connexion-en-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 : Tester la connexion en local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-7-deployer-sur-render" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 7 : Déployer sur Render
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 7 : Déployer sur Render">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prérequis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-deployer-le-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 : Déployer le Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-deployer-le-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 : Déployer le Frontend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-autoriser-le-frontend-cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 : Autoriser le Frontend (CORS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-ouvrir-lapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 4 : Ouvrir l'Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-8-verifier-le-deploiement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 8 : Vérifier le Déploiement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 8 : Vérifier le Déploiement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-9-deploiement-continu-cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 9 : Déploiement Continu (CD)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✍️ Exercice 9 : Déploiement Continu (CD)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin-infrastructure-as-code-avec-renderyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎁 Pour Aller Plus Loin : Infrastructure as Code avec render.yaml
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#problemes-frequents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐛 Problèmes Fréquents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Récapitulatif
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ce-que-vous-avez-appris" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Ce que Vous Avez Appris
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="tp-3-base-de-donnees-et-deploiement-en-production">🚀 TP 3 : Base de Données et Déploiement en Production<a class="headerlink" href="#tp-3-base-de-donnees-et-deploiement-en-production" title="Permanent link">&para;</a></h1>
+<h2 id="objectifs-de-latelier">🎯 Objectifs de l'Atelier<a class="headerlink" href="#objectifs-de-latelier" title="Permanent link">&para;</a></h2>
+<p>À la fin de cet atelier, vous aurez :</p>
+<ol>
+<li>✅ Migré le backend vers <strong>PostgreSQL</strong> avec SQLAlchemy ORM</li>
+<li>✅ Créé une base PostgreSQL gratuite sur <strong>Supabase</strong></li>
+<li>✅ Mis en ligne le backend et le frontend sur <strong>Render</strong></li>
+<li>✅ Mis en place le <strong>déploiement continu</strong> : chaque push testé par la CI est déployé automatiquement</li>
+</ol>
+<hr />
+<h2 id="architecture-cible">📦 Architecture Cible<a class="headerlink" href="#architecture-cible" title="Permanent link">&para;</a></h2>
+<p><strong>Avant (Local - Stockage en mémoire) :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Frontend (localhost:3000) ← → Backend (localhost:8000)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                                  ↓
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                            Liste Python (RAM)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                            ❌ Données perdues au redémarrage
+</code></pre></div>
+<p><strong>Après (Production avec PostgreSQL) :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Frontend (Render)                    Backend (Render)                    Database (Supabase)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>taskflow-frontend-xxxx.onrender.com → taskflow-backend-xxxx.onrender.com → PostgreSQL
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>         HTTPS                                HTTPS + CORS                ✅ Données persistantes
+</code></pre></div>
+<hr />
+<h2 id="exercice-1-installer-les-dependances-postgresql">✍️ Exercice 1 : Installer les Dépendances PostgreSQL<a class="headerlink" href="#exercice-1-installer-les-dependances-postgresql" title="Permanent link">&para;</a></h2>
+<h3 id="objectif">Objectif<a class="headerlink" href="#objectif" title="Permanent link">&para;</a></h3>
+<p>Ajouter SQLAlchemy et le driver PostgreSQL au backend.</p>
+<h3 id="instructions">Instructions<a class="headerlink" href="#instructions" title="Permanent link">&para;</a></h3>
+<p><strong>Ajoutez les packages nécessaires :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>backend
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>uv<span class="w"> </span>add<span class="w"> </span>sqlalchemy<span class="w"> </span>psycopg2-binary
+</code></pre></div>
+<h3 id="ce-que-font-ces-packages">💡 Ce que font ces packages<a class="headerlink" href="#ce-que-font-ces-packages" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>sqlalchemy</code></strong> : ORM (Object-Relational Mapping) pour Python - permet de manipuler la base de données avec des objets Python</li>
+<li><strong><code>psycopg2-binary</code></strong> : Driver PostgreSQL - permet à Python de se connecter à PostgreSQL</li>
+</ul>
+<hr />
+<h2 id="exercice-2-configurer-la-base-de-donnees">✍️ Exercice 2 : Configurer la Base de Données<a class="headerlink" href="#exercice-2-configurer-la-base-de-donnees" title="Permanent link">&para;</a></h2>
+<h3 id="objectif_1">Objectif<a class="headerlink" href="#objectif_1" title="Permanent link">&para;</a></h3>
+<p>Créer le fichier de configuration pour la connexion à la base de données.</p>
+<h3 id="instructions_1">Instructions<a class="headerlink" href="#instructions_1" title="Permanent link">&para;</a></h3>
+<p><strong>Créez le fichier <code>backend/src/database.py</code> :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">sessionmaker</span><span class="p">,</span> <span class="n">declarative_base</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Lire l'URL de la base de données depuis les variables d'environnement</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"DATABASE_URL"</span><span class="p">,</span> <span class="s2">"sqlite:///./taskflow.db"</span><span class="p">)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># Configuration du moteur SQLAlchemy</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="k">if</span> <span class="n">DATABASE_URL</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"sqlite"</span><span class="p">):</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="c1"># SQLite (développement local)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>        <span class="n">DATABASE_URL</span><span class="p">,</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="n">connect_args</span><span class="o">=</span><span class="p">{</span><span class="s2">"check_same_thread"</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="p">)</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    <span class="c1"># PostgreSQL (production)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>        <span class="n">DATABASE_URL</span><span class="p">,</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>        <span class="n">pool_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>        <span class="n">max_overflow</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>        <span class="n">pool_pre_ping</span><span class="o">=</span><span class="kc">True</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>    <span class="p">)</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="c1"># Factory de sessions</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="n">SessionLocal</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">autoflush</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="c1"># Base pour les modèles ORM</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_db</span><span class="p">():</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">    </span><span class="sd">"""Générateur qui fournit une session de base de données."""</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>    <span class="n">db</span> <span class="o">=</span> <span class="n">SessionLocal</span><span class="p">()</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>        <span class="k">yield</span> <span class="n">db</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>    <span class="k">finally</span><span class="p">:</span>
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>        <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="k">def</span><span class="w"> </span><span class="nf">init_db</span><span class="p">():</span>
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">    </span><span class="sd">"""Initialise la base de données en créant toutes les tables."""</span>
+<a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>  <span class="c1"># Import des modèles pour créer les tables</span>
+<a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>    <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="points-importants">💡 Points importants<a class="headerlink" href="#points-importants" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>DATABASE_URL</code></strong> : URL de connexion (SQLite en local, PostgreSQL en production)</li>
+<li><strong>Pool de connexions</strong> : Réutilise les connexions pour améliorer les performances</li>
+<li><strong><code>pool_pre_ping</code></strong> : Vérifie que la connexion est vivante avant de l'utiliser</li>
+</ul>
+<hr />
+<h2 id="exercice-3-creer-le-modele-de-donnees">✍️ Exercice 3 : Créer le Modèle de Données<a class="headerlink" href="#exercice-3-creer-le-modele-de-donnees" title="Permanent link">&para;</a></h2>
+<h3 id="objectif_2">Objectif<a class="headerlink" href="#objectif_2" title="Permanent link">&para;</a></h3>
+<p>Définir le schéma de la table <code>tasks</code> avec SQLAlchemy ORM.</p>
+<h3 id="instructions_2">Instructions<a class="headerlink" href="#instructions_2" title="Permanent link">&para;</a></h3>
+<p><strong>Créez le fichier <code>backend/src/models.py</code> :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">Enum</span> <span class="k">as</span> <span class="n">SQLEnum</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">func</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Base</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">TaskStatus</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="sd">"""Statuts possibles d'une tâche."""</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">TODO</span> <span class="o">=</span> <span class="s2">"todo"</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="n">IN_PROGRESS</span> <span class="o">=</span> <span class="s2">"in_progress"</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="n">DONE</span> <span class="o">=</span> <span class="s2">"done"</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">TaskPriority</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="sd">"""Priorités possibles d'une tâche."""</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="n">LOW</span> <span class="o">=</span> <span class="s2">"low"</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="n">MEDIUM</span> <span class="o">=</span> <span class="s2">"medium"</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="n">HIGH</span> <span class="o">=</span> <span class="s2">"high"</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="k">class</span><span class="w"> </span><span class="nc">TaskModel</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="sd">"""Modèle SQLAlchemy pour la table tasks."""</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">"tasks"</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>    <span class="n">title</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>    <span class="n">description</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>    <span class="n">status</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">SQLEnum</span><span class="p">(</span><span class="n">TaskStatus</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">TaskStatus</span><span class="o">.</span><span class="n">TODO</span><span class="p">)</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    <span class="n">priority</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">SQLEnum</span><span class="p">(</span><span class="n">TaskPriority</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">TaskPriority</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">)</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="n">assignee</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>    <span class="n">due_date</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>    <span class="n">created_at</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>    <span class="n">updated_at</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">onupdate</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="avantages-de-lorm">💡 Avantages de l'ORM<a class="headerlink" href="#avantages-de-lorm" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Pas besoin d'écrire du SQL directement</li>
+<li>Type-safety avec Python</li>
+<li>Migrations de schéma facilitées</li>
+<li>Timestamps automatiques (<code>created_at</code>, <code>updated_at</code>)</li>
+</ul>
+<hr />
+<h2 id="exercice-4-migrer-lapplication-vers-postgresql">✍️ Exercice 4 : Migrer l'Application vers PostgreSQL<a class="headerlink" href="#exercice-4-migrer-lapplication-vers-postgresql" title="Permanent link">&para;</a></h2>
+<h3 id="objectif_3">Objectif<a class="headerlink" href="#objectif_3" title="Permanent link">&para;</a></h3>
+<p>Adapter <code>app.py</code> pour utiliser SQLAlchemy au lieu du stockage en mémoire.</p>
+<h3 id="contexte">Contexte<a class="headerlink" href="#contexte" title="Permanent link">&para;</a></h3>
+<p>Actuellement, <code>app.py</code> stocke les tâches dans un dictionnaire Python (<code>tasks_db</code>). Au redémarrage du serveur, toutes les données sont perdues. Nous allons migrer vers SQLAlchemy pour persister les données dans PostgreSQL.</p>
+<h3 id="instructions_3">Instructions<a class="headerlink" href="#instructions_3" title="Permanent link">&para;</a></h3>
+<p><strong>Étape 1 : Mettre à jour les imports</strong></p>
+<p>Ouvrez <code>backend/src/app.py</code> et <strong>ajoutez</strong> les imports nécessaires (gardez les imports existants !) :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigDict</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">text</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_db</span><span class="p">,</span> <span class="n">init_db</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskModel</span><span class="p">,</span> <span class="n">TaskStatus</span><span class="p">,</span> <span class="n">TaskPriority</span>
+</code></pre></div>
+<p>💡 <strong>Pourquoi ces imports ?</strong></p>
+<ul>
+<li><code>Depends</code> : Injection de dépendances FastAPI pour la session DB</li>
+<li><code>Session</code> : Type de la session SQLAlchemy</li>
+<li><code>text</code> : Pour exécuter du SQL brut (health check)</li>
+<li><code>uuid</code> : Pour générer des identifiants uniques</li>
+<li><code>ConfigDict</code> : Pour configurer le modèle Pydantic <code>Task</code> (étape 4)</li>
+</ul>
+<p><strong>Étape 2 : Nettoyer le code obsolète</strong></p>
+<p>Cherchez et supprimez ces éléments dans <code>app.py</code> :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># ❌ SUPPRIMER : Ces classes</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">TaskStatus</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">TODO</span> <span class="o">=</span> <span class="s2">"todo"</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="o">...</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">TaskPriority</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">LOW</span> <span class="o">=</span> <span class="s2">"low"</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="o">...</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># ❌ SUPPRIMER : Le stockage en mémoire</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="n">tasks_db</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Task</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">next_id</span> <span class="o">=</span> <span class="mi">1</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1"># ❌ SUPPRIMER : Ces fonctions</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_next_id</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="o">...</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="k">def</span><span class="w"> </span><span class="nf">clear_tasks</span><span class="p">():</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>    <span class="o">...</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="c1"># ⚠️ À MODIFIER : Le health check (sera réécrit à l'étape 6)</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/health"</span><span class="p">)</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health_check</span><span class="p">():</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"healthy"</span><span class="p">,</span> <span class="s2">"tasks_count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">tasks_db</span><span class="p">)}</span>
+</code></pre></div>
+<blockquote>
+<p>💡 Ces éléments sont maintenant dans <code>models.py</code> ou remplacés par SQLAlchemy.</p>
+</blockquote>
+<p><strong>Étape 3 : Créer les tables au démarrage</strong></p>
+<p>La fonction <code>lifespan</code> (juste avant <code>app = FastAPI(...)</code>) s'exécute une fois au démarrage du serveur (avant <code>yield</code>) et une fois à l'arrêt (après <code>yield</code>). Modifiez-la pour créer les tables au démarrage :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@asynccontextmanager</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">lifespan</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">):</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="sd">"""Runs once at startup (before yield) and once at shutdown (after yield)."""</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"🚀 TaskFlow backend starting up..."</span><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">init_db</span><span class="p">()</span>  <span class="c1"># ← Nouveau : crée les tables si elles n'existent pas</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"✅ Database initialized"</span><span class="p">)</span>  <span class="c1"># ← remplace "Using in-memory storage"</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="k">yield</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"🛑 TaskFlow backend shutting down..."</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Étape 3b : Ajouter le middleware CORS</strong></p>
+<p>Ajoutez ces imports en haut du fichier (avec les autres imports) :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.middleware.cors</span><span class="w"> </span><span class="kn">import</span> <span class="n">CORSMiddleware</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</code></pre></div>
+<p>Puis ajoutez ce code <strong>juste après</strong> <code>app = FastAPI(...)</code> :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Configuration CORS pour le frontend</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">cors_origins_str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"CORS_ORIGINS"</span><span class="p">,</span> <span class="s2">"http://localhost:5173,http://localhost:3000"</span><span class="p">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># strip() enlève les espaces, rstrip("/") enlève un éventuel "/" final</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">cors_origins</span> <span class="o">=</span> <span class="p">[</span><span class="n">origin</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span> <span class="k">for</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">cors_origins_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)]</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">CORSMiddleware</span><span class="p">,</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">allow_origins</span><span class="o">=</span><span class="n">cors_origins</span><span class="p">,</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="n">allow_credentials</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="n">allow_methods</span><span class="o">=</span><span class="p">[</span><span class="s2">"*"</span><span class="p">],</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="n">allow_headers</span><span class="o">=</span><span class="p">[</span><span class="s2">"*"</span><span class="p">],</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>⚠️ <strong>Important</strong> : Le middleware CORS est essentiel pour que le frontend puisse communiquer avec le backend en production. La variable <code>CORS_ORIGINS</code> sera configurée sur Render à l'exercice 7 (étape 3).</p>
+</blockquote>
+<p><strong>Étape 4 : Modifier la classe Task existante</strong></p>
+<p>Cherchez la classe <code>Task</code> dans <code>app.py</code> et remplacez-la :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># ❌ AVANT (ne fonctionne plus avec SQLAlchemy)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Task</span><span class="p">(</span><span class="n">TaskCreate</span><span class="p">):</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># ← int ne marche pas avec UUID</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># ✅ APRÈS (compatible SQLAlchemy)</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">Task</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="sd">"""Model for task response."""</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># ← Changé en str pour UUID</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="n">status</span><span class="p">:</span> <span class="n">TaskStatus</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="n">priority</span><span class="p">:</span> <span class="n">TaskPriority</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>    <span class="n">assignee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>    <span class="n">due_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>    <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>    <span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Permet la conversion depuis SQLAlchemy</span>
+</code></pre></div>
+<blockquote>
+<p>💡 <strong>Pourquoi ces changements ?</strong></p>
+<ul>
+<li><code>id: str</code> au lieu de <code>int</code> → les UUID sont des strings</li>
+<li><code>ConfigDict(from_attributes=True)</code> → permet à Pydantic de lire les objets SQLAlchemy</li>
+</ul>
+</blockquote>
+<p><strong>Étape 5 : Modifier les endpoints</strong></p>
+<p>Pour chaque endpoint, ajoutez <code>db: Session = Depends(get_db)</code> comme paramètre.</p>
+<p><strong>Exemple simple avec health check :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># ⚠️ AVANT (ne fonctionne plus)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/health"</span><span class="p">)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health_check</span><span class="p">():</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"healthy"</span><span class="p">,</span> <span class="s2">"tasks_count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">tasks_db</span><span class="p">)}</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># ✅ APRÈS (avec SQLAlchemy)</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/health"</span><span class="p">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health_check</span><span class="p">(</span><span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)):</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="sd">"""Health check with database status."""</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>        <span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">text</span><span class="p">(</span><span class="s2">"SELECT 1"</span><span class="p">))</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>        <span class="n">tasks_count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">TaskModel</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>        <span class="k">return</span> <span class="p">{</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>            <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"healthy"</span><span class="p">,</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>            <span class="s2">"database"</span><span class="p">:</span> <span class="s2">"connected"</span><span class="p">,</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>            <span class="s2">"tasks_count"</span><span class="p">:</span> <span class="n">tasks_count</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>        <span class="p">}</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>        <span class="k">return</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"unhealthy"</span><span class="p">,</span> <span class="s2">"database"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+</code></pre></div>
+<blockquote>
+<p>⚠️ <strong>Attention</strong> : <code>db: Session = Depends(get_db)</code> doit être dans les <strong>paramètres</strong> de la fonction, pas dans le corps !</p>
+</blockquote>
+<p><strong>Exemple complet avec GET /tasks :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/tasks"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">Task</span><span class="p">])</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_tasks</span><span class="p">(</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="n">status</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TaskStatus</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">priority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TaskPriority</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">assignee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)</span>  <span class="c1"># ← Toujours en dernier dans les paramètres</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="p">):</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="sd">"""Get all tasks with optional filtering."""</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="n">query</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">TaskModel</span><span class="p">)</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="k">if</span> <span class="n">status</span><span class="p">:</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TaskModel</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">status</span><span class="p">)</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>    <span class="k">if</span> <span class="n">priority</span><span class="p">:</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TaskModel</span><span class="o">.</span><span class="n">priority</span> <span class="o">==</span> <span class="n">priority</span><span class="p">)</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>    <span class="k">if</span> <span class="n">assignee</span><span class="p">:</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TaskModel</span><span class="o">.</span><span class="n">assignee</span> <span class="o">==</span> <span class="n">assignee</span><span class="p">)</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>    <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</code></pre></div>
+<blockquote>
+<p>💡 Bonus « recherche » du TP 1 : ajoutez le paramètre <code>search</code> et <code>query = query.filter(TaskModel.title.ilike(f"%{search}%"))</code>.</p>
+<p>⚠️ <strong>Ne confondez pas <code>Task</code> et <code>TaskModel</code> !</strong></p>
+<table>
+<thead>
+<tr>
+<th>Modèle</th>
+<th>Type</th>
+<th>Utilisation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Task</code></td>
+<td>Pydantic</td>
+<td><code>response_model=Task</code> (réponses API)</td>
+</tr>
+<tr>
+<td><code>TaskModel</code></td>
+<td>SQLAlchemy</td>
+<td><code>db.query(TaskModel)</code>, <code>TaskModel(...)</code> (opérations DB)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Règle simple</strong> : Pour tout ce qui touche à la base de données → <code>TaskModel</code></p>
+</blockquote>
+<p>Adaptez chaque endpoint selon ce tableau :</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Logique SQLAlchemy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET /tasks</td>
+<td><code>db.query(TaskModel).all()</code></td>
+</tr>
+<tr>
+<td>GET /tasks/{id}</td>
+<td><code>db.query(TaskModel).filter(TaskModel.id == task_id).first()</code></td>
+</tr>
+<tr>
+<td>POST /tasks</td>
+<td><code>TaskModel(id=str(uuid.uuid4()), ...)</code> → <code>db.add()</code> → <code>db.commit()</code> → <code>db.refresh()</code></td>
+</tr>
+<tr>
+<td>PUT /tasks/{id}</td>
+<td><code>setattr(task, field, value)</code> → <code>db.commit()</code> → <code>db.refresh(task)</code></td>
+</tr>
+<tr>
+<td>DELETE /tasks/{id}</td>
+<td><code>db.delete(task)</code> → <code>db.commit()</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>Pattern SQLAlchemy :</strong></p>
+<ol>
+<li><code>db.add(obj)</code> - Ajoute à la session</li>
+<li><code>db.commit()</code> - Sauvegarde en base</li>
+<li><code>db.refresh(obj)</code> - Recharge les valeurs générées (timestamps, etc.)</li>
+</ol>
+<p><strong>Indice POST /tasks</strong> : Créez un <code>TaskModel</code> (pas <code>Task</code>) avec <code>id=str(uuid.uuid4())</code> au lieu de <code>get_next_id()</code></p>
+</blockquote>
+<h3 id="points-cles-a-retenir">💡 Points clés à retenir<a class="headerlink" href="#points-cles-a-retenir" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Depends(get_db)</code></td>
+<td>FastAPI injecte automatiquement une session DB</td>
+</tr>
+<tr>
+<td><code>db.commit()</code></td>
+<td>Obligatoire pour sauvegarder les changements</td>
+</tr>
+<tr>
+<td><code>db.refresh()</code></td>
+<td>Recharge l'objet avec les valeurs de la DB (timestamps)</td>
+</tr>
+<tr>
+<td><code>ConfigDict(from_attributes=True)</code></td>
+<td>Permet à Pydantic de lire les attributs SQLAlchemy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="checkpoint">✅ Checkpoint<a class="headerlink" href="#checkpoint" title="Permanent link">&para;</a></h3>
+<p>Testez localement :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">cd</span><span class="w"> </span>backend
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>src.app:app<span class="w"> </span>--reload
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Dans un autre terminal</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>curl<span class="w"> </span>http://localhost:8000/health
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>curl<span class="w"> </span>http://localhost:8000/tasks
+</code></pre></div>
+<p>Vous devriez voir un fichier <code>taskflow.db</code> créé dans <code>backend/</code></p>
+<hr />
+<h2 id="exercice-5-adapter-les-tests">✍️ Exercice 5 : Adapter les Tests<a class="headerlink" href="#exercice-5-adapter-les-tests" title="Permanent link">&para;</a></h2>
+<h3 id="objectif_4">Objectif<a class="headerlink" href="#objectif_4" title="Permanent link">&para;</a></h3>
+<p>Modifier les tests pour utiliser une base de données SQLite temporaire.</p>
+<h3 id="contexte_1">Contexte<a class="headerlink" href="#contexte_1" title="Permanent link">&para;</a></h3>
+<p>Les tests utilisent actuellement <code>clear_tasks()</code> qui n'existe plus. Nous devons créer une base de données de test isolée et nettoyer les données entre chaque test.</p>
+<h3 id="instructions_4">Instructions<a class="headerlink" href="#instructions_4" title="Permanent link">&para;</a></h3>
+<p>Remplacez le contenu de <code>backend/tests/conftest.py</code> par :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.testclient</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestClient</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">sessionmaker</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.pool</span><span class="w"> </span><span class="kn">import</span> <span class="n">StaticPool</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">Base</span><span class="p">,</span> <span class="n">get_db</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskModel</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">TEST_DB_FILE</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">".db"</span><span class="p">)</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">TEST_DATABASE_URL</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"sqlite:///</span><span class="si">{</span><span class="n">TEST_DB_FILE</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">test_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>    <span class="n">TEST_DATABASE_URL</span><span class="p">,</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>    <span class="n">connect_args</span><span class="o">=</span><span class="p">{</span><span class="s2">"check_same_thread"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>    <span class="n">poolclass</span><span class="o">=</span><span class="n">StaticPool</span><span class="p">,</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="p">)</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="n">TestSessionLocal</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">autocommit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">autoflush</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bind</span><span class="o">=</span><span class="n">test_engine</span><span class="p">)</span>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"session"</span><span class="p">)</span>
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="k">def</span><span class="w"> </span><span class="nf">setup_test_database</span><span class="p">():</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="w">    </span><span class="sd">"""Crée les tables une seule fois pour tous les tests."""</span>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>    <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">test_engine</span><span class="p">)</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>    <span class="k">yield</span>
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>    <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">drop_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">test_engine</span><span class="p">)</span>
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a><span class="k">def</span><span class="w"> </span><span class="nf">clear_test_data</span><span class="p">(</span><span class="n">setup_test_database</span><span class="p">):</span>
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="w">    </span><span class="sd">"""Nettoie les données entre chaque test."""</span>
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>    <span class="n">db</span> <span class="o">=</span> <span class="n">TestSessionLocal</span><span class="p">()</span>
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>    <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">TaskModel</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>    <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a><span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="n">setup_test_database</span><span class="p">):</span>
+<a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a><span class="w">    </span><span class="sd">"""Client de test avec base de données isolée."""</span>
+<a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">override_get_db</span><span class="p">():</span>
+<a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>        <span class="n">db</span> <span class="o">=</span> <span class="n">TestSessionLocal</span><span class="p">()</span>
+<a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>        <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>            <span class="k">yield</span> <span class="n">db</span>
+<a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>        <span class="k">finally</span><span class="p">:</span>
+<a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>            <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a>
+<a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a>    <span class="n">app</span><span class="o">.</span><span class="n">dependency_overrides</span><span class="p">[</span><span class="n">get_db</span><span class="p">]</span> <span class="o">=</span> <span class="n">override_get_db</span>
+<a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a>    <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+<a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>        <span class="k">yield</span> <span class="n">c</span>
+<a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a>    <span class="n">app</span><span class="o">.</span><span class="n">dependency_overrides</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</code></pre></div>
+<blockquote>
+<p>💡 <strong><code>dependency_overrides</code></strong> permet de remplacer <code>get_db</code> par une version qui utilise la base de test au lieu de la vraie base.</p>
+</blockquote>
+<h3 id="checkpoint_1">✅ Checkpoint<a class="headerlink" href="#checkpoint_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">cd</span><span class="w"> </span>backend
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v
+</code></pre></div>
+<p>Tous les tests qui passaient avec le stockage en mémoire doivent toujours passer : la base de données a changé, pas le comportement de l'API.</p>
+<hr />
+<h2 id="exercice-6-creer-la-base-de-donnees-sur-supabase">✍️ Exercice 6 : Créer la Base de Données sur Supabase<a class="headerlink" href="#exercice-6-creer-la-base-de-donnees-sur-supabase" title="Permanent link">&para;</a></h2>
+<h3 id="objectif_5">Objectif<a class="headerlink" href="#objectif_5" title="Permanent link">&para;</a></h3>
+<p>Créer une base PostgreSQL gratuite sur Supabase, puis vérifier <strong>en local</strong> que votre backend arrive à s'y connecter. On ne déploie rien tant que ça ne marche pas en local.</p>
+<h3 id="etape-1-creer-un-compte-et-un-projet">Étape 1 : Créer un compte et un projet<a class="headerlink" href="#etape-1-creer-un-compte-et-un-projet" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Allez sur <a href="https://supabase.com">https://supabase.com</a> → <strong>"Start your project"</strong> → inscrivez-vous avec <strong>GitHub</strong></li>
+<li>Cliquez <strong>"New project"</strong> et configurez :</li>
+<li><strong>Name</strong> : <code>taskflow</code></li>
+<li><strong>Database Password</strong> : un mot de passe composé <strong>uniquement de lettres et de chiffres</strong> (⚠️ <strong>notez-le !</strong>)</li>
+<li><strong>Region</strong> : <code>West EU (Ireland)</code></li>
+<li>Cliquez <strong>"Create new project"</strong> et attendez 1-2 minutes</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>Pourquoi seulement des lettres et des chiffres ?</strong> Le mot de passe va être placé dans une URL. Les caractères comme <code>@ # / : ? %</code> ont un sens spécial dans une URL et cassent la connexion.</p>
+</blockquote>
+<p><img alt="Supabase Home" src="../img/supabase.png" /></p>
+<h3 id="etape-2-recuperer-la-database_url">Étape 2 : Récupérer la DATABASE_URL<a class="headerlink" href="#etape-2-recuperer-la-database_url" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Cliquez sur le bouton <strong>"Connect"</strong> en haut de la page</li>
+</ol>
+<p><img alt="Supabase Connect" src="../img/connect.png" /></p>
+<ol>
+<li>Dans l'onglet <strong>Connection String</strong> :</li>
+<li><strong>Type</strong> : <code>URI</code></li>
+<li><strong>Method</strong> : <code>Session pooler</code> (⚠️ pas "Direct connection")</li>
+<li>Copiez l'URL et remplacez <code>[YOUR-PASSWORD]</code> par votre mot de passe (sans les crochets)</li>
+</ol>
+<p>L'URL ressemble à :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>postgresql://postgres.abcdefghijkl:MonMotDePasse123@aws-0-eu-west-1.pooler.supabase.com:5432/postgres
+</code></pre></div>
+<blockquote>
+<p>💡 <strong>Pourquoi "Session pooler" ?</strong> Render ne parle qu'en IPv4, alors que la connexion directe de Supabase demande l'IPv6. Le pooler fait le pont.</p>
+</blockquote>
+<h3 id="etape-3-tester-la-connexion-en-local">Étape 3 : Tester la connexion en local<a class="headerlink" href="#etape-3-tester-la-connexion-en-local" title="Permanent link">&para;</a></h3>
+<p>Lancez votre backend en lui donnant cette URL (remplacez par la vôtre, <strong>entre guillemets</strong>) :</p>
+<p><em>macOS / Linux :</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>backend
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">"postgresql://postgres.xxx:MotDePasse@aws-0-eu-west-1.pooler.supabase.com:5432/postgres"</span><span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>src.app:app<span class="w"> </span>--reload
+</code></pre></div>
+<p><em>Windows (PowerShell) :</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nb">cd </span><span class="n">backend</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nv">$env:DATABASE_URL</span><span class="p">=</span><span class="s2">"postgresql://postgres.xxx:MotDePasse@aws-0-eu-west-1.pooler.supabase.com:5432/postgres"</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">uv</span> <span class="n">run</span> <span class="n">uvicorn</span> <span class="n">src</span><span class="p">.</span><span class="n">app</span><span class="p">:</span><span class="n">app</span> <span class="p">-</span><span class="n">-reload</span>
+</code></pre></div>
+<p>Ouvrez <a href="http://localhost:8000/health">http://localhost:8000/health</a>. Vous devez voir :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">{</span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"healthy"</span><span class="p">,</span><span class="w"> </span><span class="nt">"database"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connected"</span><span class="p">,</span><span class="w"> </span><span class="nt">"tasks_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">}</span>
+</code></pre></div>
+<p>Créez une tâche via <a href="http://localhost:8000/docs">http://localhost:8000/docs</a>, puis ouvrez <strong>Table Editor</strong> dans Supabase : la table <code>tasks</code> contient votre tâche. 🎉</p>
+<p>❌ <strong>Ça ne marche pas ?</strong> Voir le tableau <a href="#problemes-frequents">Problèmes fréquents</a> en fin de TP. Ne passez pas à la suite avant d'avoir <code>"database": "connected"</code>.</p>
+<p><strong>⚠️ Gardez cette URL</strong>, vous en aurez besoin à l'exercice 7. Ne la commitez jamais dans Git : elle contient votre mot de passe.</p>
+<hr />
+<h2 id="exercice-7-deployer-sur-render">✍️ Exercice 7 : Déployer sur Render<a class="headerlink" href="#exercice-7-deployer-sur-render" title="Permanent link">&para;</a></h2>
+<h3 id="objectif_6">Objectif<a class="headerlink" href="#objectif_6" title="Permanent link">&para;</a></h3>
+<p>Mettre le backend et le frontend en ligne. L'<strong>ordre</strong> est important, car chaque service a besoin de l'URL de l'autre :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>1. Backend   → on obtient l'URL du backend
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>2. Frontend  → on lui donne l'URL du backend (VITE_API_URL)
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>               → on obtient l'URL du frontend
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>3. Backend   → on lui donne l'URL du frontend (CORS_ORIGINS)
+</code></pre></div>
+<p>Recopiez ce tableau dans un fichier texte et complétez-le au fur et à mesure :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URL Supabase (<code>DATABASE_URL</code>)</td>
+<td><code>postgresql://...</code> (exercice 6)</td>
+</tr>
+<tr>
+<td>URL du backend</td>
+<td><code>https://taskflow-backend-....onrender.com</code></td>
+</tr>
+<tr>
+<td>URL du frontend</td>
+<td><code>https://taskflow-frontend-....onrender.com</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 Render ajoute souvent quelques caractères au nom (ex : <code>taskflow-backend-x7k2</code>) car le nom est déjà pris par quelqu'un d'autre. <strong>Recopiez toujours l'URL exacte affichée par Render</strong>, ne la devinez pas.</p>
+</blockquote>
+<h3 id="prerequis">Prérequis<a class="headerlink" href="#prerequis" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Vos tests passent en local (<code>uv run pytest</code>) et votre CI du TP 2 est verte sur <code>main</code></li>
+<li>Poussez votre travail (y compris <code>pyproject.toml</code> et <code>uv.lock</code>, modifiés par <code>uv add</code>) :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: migrate to PostgreSQL with SQLAlchemy"</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</code></pre></div>
+<ol>
+<li>Créez un compte sur <a href="https://render.com">https://render.com</a> avec <strong>GitHub</strong> et autorisez l'accès à votre repository</li>
+</ol>
+<h3 id="etape-1-deployer-le-backend">Étape 1 : Déployer le Backend<a class="headerlink" href="#etape-1-deployer-le-backend" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Sur le Dashboard Render : <strong>"New +"</strong> → <strong>"Web Service"</strong> → choisissez votre repository</li>
+<li>Configurez :</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Name</strong></td>
+<td><code>taskflow-backend</code></td>
+</tr>
+<tr>
+<td><strong>Region</strong></td>
+<td><code>Frankfurt (EU Central)</code></td>
+</tr>
+<tr>
+<td><strong>Branch</strong></td>
+<td><code>main</code></td>
+</tr>
+<tr>
+<td><strong>Root Directory</strong></td>
+<td><code>backend</code></td>
+</tr>
+<tr>
+<td><strong>Runtime</strong></td>
+<td><code>Python 3</code></td>
+</tr>
+<tr>
+<td><strong>Build Command</strong></td>
+<td><code>pip install uv &amp;&amp; uv sync</code></td>
+</tr>
+<tr>
+<td><strong>Start Command</strong></td>
+<td><code>uv run uvicorn src.app:app --host 0.0.0.0 --port $PORT</code></td>
+</tr>
+<tr>
+<td><strong>Instance Type</strong></td>
+<td><code>Free</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 Laissez <code>$PORT</code> tel quel : Render le remplace lui-même.</p>
+</blockquote>
+<ol>
+<li>Dans <strong>Environment Variables</strong>, ajoutez <strong>une seule</strong> variable pour l'instant :</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DATABASE_URL</code></td>
+<td>Votre URL Supabase (exercice 6)</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Cliquez <strong>"Create Web Service"</strong> et suivez les logs. Attendez le statut <strong>Live</strong> (3-5 min).</li>
+<li>Copiez l'<strong>URL du backend</strong> affichée en haut de la page (ex : <code>https://taskflow-backend-x7k2.onrender.com</code>) dans votre tableau.</li>
+<li>Vérifiez : ouvrez <code>&lt;URL du backend&gt;/health</code> dans le navigateur → <code>"database": "connected"</code>.</li>
+</ol>
+<h3 id="etape-2-deployer-le-frontend">Étape 2 : Déployer le Frontend<a class="headerlink" href="#etape-2-deployer-le-frontend" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>"New +"</strong> → <strong>"Static Site"</strong> → même repository</li>
+<li>Configurez :</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Name</strong></td>
+<td><code>taskflow-frontend</code></td>
+</tr>
+<tr>
+<td><strong>Branch</strong></td>
+<td><code>main</code></td>
+</tr>
+<tr>
+<td><strong>Root Directory</strong></td>
+<td><code>frontend</code></td>
+</tr>
+<tr>
+<td><strong>Build Command</strong></td>
+<td><code>npm ci &amp;&amp; npm run build</code></td>
+</tr>
+<tr>
+<td><strong>Publish Directory</strong></td>
+<td><code>dist</code></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Dans <strong>Environment Variables</strong>, ajoutez :</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VITE_API_URL</code></td>
+<td><strong>Votre</strong> URL du backend (étape 1)</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Cliquez <strong>"Create Static Site"</strong>, attendez <strong>Live</strong>, puis copiez l'<strong>URL du frontend</strong> dans votre tableau.</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong><code>VITE_API_URL</code> est lue au moment du build</strong>, puis écrite "en dur" dans les fichiers JavaScript. Si vous la modifiez après coup, il faut <strong>reconstruire</strong> le frontend : <strong>Manual Deploy</strong> → <strong>Deploy latest commit</strong>.</p>
+</blockquote>
+<h3 id="etape-3-autoriser-le-frontend-cors">Étape 3 : Autoriser le Frontend (CORS)<a class="headerlink" href="#etape-3-autoriser-le-frontend-cors" title="Permanent link">&para;</a></h3>
+<p>Par sécurité, le navigateur refuse qu'une page d'un site (le frontend) appelle un autre site (le backend), sauf si le backend l'autorise. C'est le rôle de <code>CORS_ORIGINS</code>.</p>
+<ol>
+<li>Dashboard → <strong>taskflow-backend</strong> → <strong>Environment</strong> → ajoutez :</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CORS_ORIGINS</code></td>
+<td><strong>Votre</strong> URL du frontend (étape 2)</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>"Save Changes"</strong> → le backend redémarre automatiquement.</li>
+</ol>
+<h3 id="etape-4-ouvrir-lapplication">Étape 4 : Ouvrir l'Application<a class="headerlink" href="#etape-4-ouvrir-lapplication" title="Permanent link">&para;</a></h3>
+<p>Ouvrez votre <strong>URL du frontend</strong>. Vous devez voir TaskFlow, connecté à votre backend en ligne. 🎉</p>
+<blockquote>
+<p>⏳ <strong>Le premier chargement peut prendre ~1 minute.</strong> Sur l'offre gratuite, Render met le backend en veille après 15 minutes sans visite. S'il affiche "Erreur de Connexion", attendez un peu et rechargez la page.</p>
+</blockquote>
+<hr />
+<h2 id="exercice-8-verifier-le-deploiement">✍️ Exercice 8 : Vérifier le Déploiement<a class="headerlink" href="#exercice-8-verifier-le-deploiement" title="Permanent link">&para;</a></h2>
+<h3 id="objectif_7">Objectif<a class="headerlink" href="#objectif_7" title="Permanent link">&para;</a></h3>
+<p>Vérifier que tout fonctionne en production et que les données sont bien persistantes.</p>
+<h3 id="instructions_5">Instructions<a class="headerlink" href="#instructions_5" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Testez l'API</strong> (remplacez <code>&lt;URL_BACKEND&gt;</code> par votre URL du backend) :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>curl<span class="w"> </span>&lt;URL_BACKEND&gt;/health
+</code></pre></div>
+<p>Résultat attendu :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">{</span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"healthy"</span><span class="p">,</span><span class="w"> </span><span class="nt">"database"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connected"</span><span class="p">,</span><span class="w"> </span><span class="nt">"tasks_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><strong>Testez le frontend</strong> : créez, modifiez et supprimez quelques tâches.</li>
+<li><strong>Vérifiez la persistance</strong> :</li>
+<li>Dans Supabase → <strong>Table Editor</strong> → <code>tasks</code> : vos tâches sont là</li>
+<li>Sur Render → <strong>taskflow-backend</strong> → <strong>Manual Deploy</strong> → <strong>Restart service</strong></li>
+<li>Rechargez le frontend : vos tâches sont <strong>toujours là</strong> (contrairement au TP 1-2 où elles disparaissaient au redémarrage)</li>
+</ol>
+<hr />
+<h2 id="exercice-9-deploiement-continu-cd">✍️ Exercice 9 : Déploiement Continu (CD)<a class="headerlink" href="#exercice-9-deploiement-continu-cd" title="Permanent link">&para;</a></h2>
+<h3 id="objectif_8">Objectif<a class="headerlink" href="#objectif_8" title="Permanent link">&para;</a></h3>
+<p>Faire en sorte que chaque push sur <code>main</code> soit <strong>testé par GitHub Actions (TP 2), puis déployé par Render</strong> — mais seulement si les tests passent.</p>
+<h3 id="instructions_6">Instructions<a class="headerlink" href="#instructions_6" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Sur Render → <strong>taskflow-backend</strong> → <strong>Settings</strong> → <strong>Auto-Deploy</strong> : choisissez <strong>"After CI Checks Pass"</strong>. Faites de même pour <strong>taskflow-frontend</strong>.</li>
+<li>Modifiez le message de bienvenue dans <code>backend/src/app.py</code> :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Welcome to TaskFlow API - déployé automatiquement !"</span><span class="p">,</span>
+</code></pre></div>
+<ol>
+<li>Adaptez le test <code>test_root_endpoint</code> si nécessaire, vérifiez en local (<code>uv run pytest</code>), puis poussez :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: update welcome message"</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</code></pre></div>
+<ol>
+<li>Observez :</li>
+<li>GitHub → <strong>Actions</strong> : vos workflows tournent</li>
+<li>Render → <strong>Events</strong> : le déploiement démarre <strong>après</strong> que les checks soient verts</li>
+<li>Vérifiez avec <code>curl &lt;URL_BACKEND&gt;/</code> : le nouveau message apparaît.</li>
+</ol>
+<blockquote>
+<p>💡 <strong>Testez le cas contraire :</strong> poussez un test qui échoue. La CI devient rouge et Render <strong>ne déploie pas</strong>. La production reste protégée.</p>
+</blockquote>
+<hr />
+<h2 id="pour-aller-plus-loin-infrastructure-as-code-avec-renderyaml">🎁 Pour Aller Plus Loin : Infrastructure as Code avec <code>render.yaml</code><a class="headerlink" href="#pour-aller-plus-loin-infrastructure-as-code-avec-renderyaml" title="Permanent link">&para;</a></h2>
+<p>Au lieu de cliquer dans le Dashboard, on peut décrire les services dans un fichier versionné dans Git. Voici l'équivalent de l'exercice 7 :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">taskflow-backend</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span><span class="nt">runtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frankfurt</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">    </span><span class="nt">plan</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">free</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">    </span><span class="nt">rootDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backend</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">    </span><span class="nt">buildCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install uv &amp;&amp; uv sync</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">    </span><span class="nt">startCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uv run uvicorn src.app:app --host 0.0.0.0 --port $PORT</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">    </span><span class="nt">healthCheckPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/health</span>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="w">    </span><span class="nt">envVars</span><span class="p">:</span>
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATABASE_URL</span>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="w">        </span><span class="nt">sync</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># Render vous demandera la valeur</span>
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CORS_ORIGINS</span>
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a><span class="w">        </span><span class="nt">sync</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a>
+<a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+<a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">taskflow-frontend</span>
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a><span class="w">    </span><span class="nt">runtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">static</span>
+<a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a><span class="w">    </span><span class="nt">rootDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a><span class="w">    </span><span class="nt">buildCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm ci &amp;&amp; npm run build</span>
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a><span class="w">    </span><span class="nt">staticPublishPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dist</span>
+<a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a><span class="w">    </span><span class="nt">envVars</span><span class="p">:</span>
+<a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VITE_API_URL</span>
+<a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a><span class="w">        </span><span class="nt">sync</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<p>Pour l'utiliser : placez-le à la racine du repository sous le nom <code>render.yaml</code>, poussez-le, puis <strong>"New +"</strong> → <strong>"Blueprint"</strong> sur Render.</p>
+<blockquote>
+<p>⚠️ Un Blueprint crée de <strong>nouveaux</strong> services. Si vous avez déjà fait l'exercice 7, supprimez d'abord les anciens services (ou changez les <code>name</code>), sinon vous aurez des doublons.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Dashboard (exercice 7)</th>
+<th><code>render.yaml</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Comprendre les étapes</strong></td>
+<td>✅ Chaque paramètre est visible</td>
+<td>⚠️ Tout est caché dans le fichier</td>
+</tr>
+<tr>
+<td><strong>Reproductible</strong></td>
+<td>❌ À refaire à la main</td>
+<td>✅ Versionné dans Git</td>
+</tr>
+<tr>
+<td><strong>En entreprise</strong></td>
+<td>Pour tester</td>
+<td>✅ Bonne pratique</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a id="problemes-frequents"></a></p>
+<h2 id="problemes-frequents">🐛 Problèmes Fréquents<a class="headerlink" href="#problemes-frequents" title="Permanent link">&para;</a></h2>
+<p><strong>Où chercher les erreurs ?</strong> Backend : Render → <strong>taskflow-backend</strong> → <strong>Logs</strong>. Frontend : ouvrez la console du navigateur (<strong>F12</strong> → onglet <strong>Console</strong>).</p>
+<table>
+<thead>
+<tr>
+<th>Symptôme</th>
+<th>Cause probable</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>password authentication failed</code> (logs backend ou en local)</td>
+<td>Mauvais mot de passe dans <code>DATABASE_URL</code>, ou crochets <code>[ ]</code> laissés autour</td>
+<td>Recopiez l'URL depuis Supabase et remplacez <code>[YOUR-PASSWORD]</code> par le mot de passe seul</td>
+</tr>
+<tr>
+<td><code>Network is unreachable</code> ou timeout vers <code>db.xxx.supabase.co</code></td>
+<td>URL "Direct connection" (IPv6)</td>
+<td>Reprenez l'URL en mode <strong>Session pooler</strong> (host <code>pooler.supabase.com</code>)</td>
+</tr>
+<tr>
+<td>Le mot de passe contient <code>@</code>, <code>#</code>, <code>/</code>…</td>
+<td>Caractères spéciaux dans l'URL</td>
+<td>Supabase → <strong>Project Settings</strong> → <strong>Database</strong> → <strong>Reset database password</strong> avec lettres et chiffres uniquement</td>
+</tr>
+<tr>
+<td><code>ModuleNotFoundError: No module named 'sqlalchemy'</code> sur Render</td>
+<td><code>pyproject.toml</code> / <code>uv.lock</code> pas poussés après <code>uv add</code></td>
+<td><code>git add backend/pyproject.toml backend/uv.lock</code>, commit, push</td>
+</tr>
+<tr>
+<td>Build backend : fichier introuvable / <code>src.app</code> introuvable</td>
+<td><strong>Root Directory</strong> vide</td>
+<td>Settings → Root Directory = <code>backend</code></td>
+</tr>
+<tr>
+<td>Frontend : "Erreur de Connexion" au premier chargement</td>
+<td>Backend en veille (offre gratuite)</td>
+<td>Attendez ~1 minute et rechargez</td>
+</tr>
+<tr>
+<td>Console : requêtes vers <code>/api/tasks</code> en <strong>404</strong></td>
+<td><code>VITE_API_URL</code> absente au moment du build</td>
+<td>Ajoutez-la, puis <strong>Manual Deploy</strong> → <strong>Deploy latest commit</strong> du frontend</td>
+</tr>
+<tr>
+<td>Console : <code>blocked by CORS policy</code></td>
+<td><code>CORS_ORIGINS</code> absente ou différente de l'URL du frontend (faute de frappe, <code>http</code> au lieu de <code>https</code>)</td>
+<td>Copiez l'URL exacte du frontend dans <code>CORS_ORIGINS</code></td>
+</tr>
+<tr>
+<td>Le frontend appelle le backend de quelqu'un d'autre</td>
+<td>URL d'un exemple ou d'un camarade copiée dans <code>VITE_API_URL</code></td>
+<td>Mettez <strong>votre</strong> URL du backend et reconstruisez le frontend</td>
+</tr>
+<tr>
+<td>Exercice 9 : Render ne déploie jamais</td>
+<td>Un workflow GitHub Actions est rouge</td>
+<td>Corrigez les tests : Render attend que <strong>tous</strong> les checks soient verts</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="recapitulatif">📋 Récapitulatif<a class="headerlink" href="#recapitulatif" title="Permanent link">&para;</a></h2>
+<p>Félicitations ! Vous avez maintenant :</p>
+<p>✅ <strong>Exercice 1</strong> : Installé SQLAlchemy et psycopg2
+✅ <strong>Exercice 2</strong> : Configuré la connexion à la base de données
+✅ <strong>Exercice 3</strong> : Créé le modèle ORM TaskModel
+✅ <strong>Exercice 4</strong> : Migré app.py vers PostgreSQL
+✅ <strong>Exercice 5</strong> : Adapté les tests avec une DB temporaire
+✅ <strong>Exercice 6</strong> : Créé la base Supabase et testé la connexion en local
+✅ <strong>Exercice 7</strong> : Déployé backend et frontend sur Render
+✅ <strong>Exercice 8</strong> : Vérifié le déploiement et la persistance des données
+✅ <strong>Exercice 9</strong> : Mis en place le déploiement continu (CI verte → déploiement)</p>
+<hr />
+<h2 id="ce-que-vous-avez-appris">📚 Ce que Vous Avez Appris<a class="headerlink" href="#ce-que-vous-avez-appris" title="Permanent link">&para;</a></h2>
+<p>✅ <strong>SQLAlchemy ORM</strong> - Modèles Python ↔ Tables SQL
+✅ <strong>PostgreSQL</strong> - Base de données relationnelle professionnelle
+✅ <strong>Déploiement Cloud</strong> - Backend et Frontend sur Render
+✅ <strong>Base de données managée</strong> - Supabase pour PostgreSQL
+✅ <strong>Variables d'environnement</strong> - Configuration production vs développement
+✅ <strong>CORS</strong> - Communication cross-origin frontend/backend
+✅ <strong>Déploiement continu</strong> - La CI protège la production</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

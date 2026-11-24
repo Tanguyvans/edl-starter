@@ -1,0 +1,1652 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Travaux pratiques sur les tests unitaires, CI/CD et déploiement">
+      
+      
+        <meta name="author" content="UMONS - Faculté des Sciences">
+      
+      
+      
+        <link rel="prev" href="../installation/">
+      
+      
+        <link rel="next" href="../TP-2/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>TP 1 - EDL - Expertises digitale et logicielle</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tp-1-tests-unitaires-backend-frontend" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href=".." title="EDL - Expertises digitale et logicielle" class="md-header__button md-logo" aria-label="EDL - Expertises digitale et logicielle" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EDL - Expertises digitale et logicielle
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              TP 1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Passer en mode sombre"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Passer en mode sombre" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Passer en mode clair"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Passer en mode clair" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/umons-ig/edl-starter" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    umons-ig/edl-starter
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../installation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Installation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  TP 1
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TP-2/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  TP 2
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../TP-3/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  TP 3
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="EDL - Expertises digitale et logicielle" class="md-nav__button md-logo" aria-label="EDL - Expertises digitale et logicielle" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EDL - Expertises digitale et logicielle
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/umons-ig/edl-starter" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    umons-ig/edl-starter
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TP 1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TP 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-installation-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 : Installation &amp; Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1 : Installation &amp; Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-11-forker-le-depot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1.1 : Forker le Dépôt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-12-installer-les-dependances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1.2 : Installer les Dépendances
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-explorer-lapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 : Explorer l'Application
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2 : Explorer l&#39;Application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-21-lancer-le-serveur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2.1 : Lancer le Serveur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-22-tester-dans-le-navigateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2.2 : Tester dans le Navigateur
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-23-tester-avec-swagger-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2.3 : Tester avec Swagger UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-24-explorer-le-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2.4 : Explorer le Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-comprendre-les-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 : Comprendre les Tests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3 : Comprendre les Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-31-explorer-les-fichiers-de-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3.1 : Explorer les Fichiers de Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-32-quest-ce-quune-fixture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3.2 : Qu'est-ce qu'une Fixture ?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-33-lancer-les-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3.3 : Lancer les Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-34-comprendre-un-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3.4 : Comprendre un Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-4-ecrire-les-tests-puis-le-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4 : Écrire les Tests, puis le Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 4 : Écrire les Tests, puis le Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-1-supprimer-une-tache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 1 : Supprimer une Tâche
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-2-modifier-une-tache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 2 : Modifier une Tâche
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-3-tester-le-code-existant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 3 : Tester le Code Existant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-python-facultatifs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎁 Bonus Python (facultatifs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-44-lancer-tous-les-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 4.4 : Lancer Tous les Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-5-couverture-de-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5 : Couverture de Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 5 : Couverture de Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-51-lire-la-couverture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 5.1 : Lire la Couverture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-52-explorer-le-rapport-html" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 5.2 : Explorer le Rapport HTML
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-6-tests-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6 : Tests Frontend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 6 : Tests Frontend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-61-ce-quon-va-tester" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6.1 : Ce qu'on va tester
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-62-installer-et-lancer-les-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6.2 : Installer et lancer les tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-63-lire-un-test-exemple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6.3 : Lire un test exemple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-4-tester-completionrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Exercice 4 : Tester completionRate()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-64-couverture-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6.4 : Couverture Frontend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-65-pour-aller-plus-loin-tester-les-appels-au-backend-lecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6.5 : Pour aller plus loin — tester les appels au backend (lecture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-66-lancer-lapplication-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6.6 : Lancer l'Application Complète
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercices-bonus-java-avec-junit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎁 Exercices Bonus : Java avec JUnit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎁 Exercices Bonus : Java avec JUnit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bonus-java-1-calculs-geometriques-composition-de-fonctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Bonus Java 1 : Calculs Géométriques (Composition de Fonctions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bonus-java-2-money" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✍️ Bonus Java 2 : Money
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprendre-junit-4-les-bases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Comprendre JUnit 4 - Les Bases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TP-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TP 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TP-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TP 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="tp-1-tests-unitaires-backend-frontend">🎓 TP 1 : Tests Unitaires Backend &amp; Frontend<a class="headerlink" href="#tp-1-tests-unitaires-backend-frontend" title="Permanent link">&para;</a></h1>
+<p><strong>Objectif :</strong> Apprendre les tests unitaires avec Python (pytest), puis voir que les mêmes principes s'appliquent en JavaScript (Vitest)</p>
+<hr />
+<h2 id="phase-1-installation-configuration">Phase 1 : Installation &amp; Configuration<a class="headerlink" href="#phase-1-installation-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="etape-11-forker-le-depot">Étape 1.1 : Forker le Dépôt<a class="headerlink" href="#etape-11-forker-le-depot" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Allez sur <code>https://github.com/umons-ig/edl-starter</code></li>
+<li>Cliquez sur <strong>"Fork"</strong></li>
+</ol>
+<p><img alt="Fork Button" src="../img/fork.png" /></p>
+<ol>
+<li>Clonez votre fork :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/VOTRE_NOM/edl-starter
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>edl-starter
+</code></pre></div>
+<h3 id="etape-12-installer-les-dependances">Étape 1.2 : Installer les Dépendances<a class="headerlink" href="#etape-12-installer-les-dependances" title="Permanent link">&para;</a></h3>
+<p>Les outils (uv, Node.js) ne sont pas encore installés ? Suivez d'abord la page <a href="../installation/">Installation</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>backend
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>uv<span class="w"> </span>sync
+</code></pre></div>
+<p><em>Sans uv (avec pip) :</em> <code>python -m venv .venv</code>, activez-le (<code>source .venv/bin/activate</code>, ou <code>.venv\Scripts\activate</code> sous Windows), puis <code>pip install -r requirements.txt</code>. Dans la suite, remplacez <code>uv run pytest</code> par <code>pytest</code>.</p>
+<hr />
+<h2 id="phase-2-explorer-lapplication">Phase 2 : Explorer l'Application<a class="headerlink" href="#phase-2-explorer-lapplication" title="Permanent link">&para;</a></h2>
+<h3 id="etape-21-lancer-le-serveur">Étape 2.1 : Lancer le Serveur<a class="headerlink" href="#etape-21-lancer-le-serveur" title="Permanent link">&para;</a></h3>
+<p>Dans le dossier <code>backend/</code> :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>src.app:app<span class="w"> </span>--reload<span class="w">   </span><span class="c1"># avec pip : uvicorn src.app:app --reload</span>
+</code></pre></div>
+<h3 id="etape-22-tester-dans-le-navigateur">Étape 2.2 : Tester dans le Navigateur<a class="headerlink" href="#etape-22-tester-dans-le-navigateur" title="Permanent link">&para;</a></h3>
+<p>Visitez :</p>
+<ul>
+<li><strong>API :</strong> <a href="http://localhost:8000">http://localhost:8000</a></li>
+<li><strong>Documentation interactive :</strong> <a href="http://localhost:8000/docs">http://localhost:8000/docs</a></li>
+<li><strong>Santé :</strong> <a href="http://localhost:8000/health">http://localhost:8000/health</a></li>
+</ul>
+<h3 id="etape-23-tester-avec-swagger-ui">Étape 2.3 : Tester avec Swagger UI<a class="headerlink" href="#etape-23-tester-avec-swagger-ui" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Allez sur <a href="http://localhost:8000/docs">http://localhost:8000/docs</a></li>
+<li>Cliquez sur <strong>POST /tasks</strong></li>
+<li>Cliquez sur <strong>"Try it out"</strong></li>
+<li>Entrez :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ma première tâche"</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apprendre FastAPI"</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>Cliquez sur <strong>"Execute"</strong> : code <code>201 Created</code>, et la réponse contient l'<code>id</code> de la tâche</li>
+<li>Relisez-la avec <strong>GET /tasks/{task_id}</strong> en mettant cet <code>id</code> (les id commencent à <strong>1</strong>, pas à 0)</li>
+</ol>
+<p>⚠️ Les tâches sont en mémoire : à chaque sauvegarde de <code>app.py</code>, <code>--reload</code> redémarre le serveur et <strong>efface toutes les tâches</strong>.</p>
+<h3 id="etape-24-explorer-le-code">Étape 2.4 : Explorer le Code<a class="headerlink" href="#etape-24-explorer-le-code" title="Permanent link">&para;</a></h3>
+<p>Ouvrez <code>backend/src/app.py</code> dans votre éditeur :</p>
+<ul>
+<li><strong><code>TaskStatus</code>, <code>TaskPriority</code> :</strong> les valeurs possibles du statut et de la priorité</li>
+<li><strong><code>TaskCreate</code>, <code>TaskUpdate</code>, <code>Task</code> :</strong> les modèles Pydantic (forme des données reçues et renvoyées)</li>
+<li><strong><code>tasks_db</code> :</strong> le stockage en mémoire (un simple dictionnaire <code>{id: tâche}</code>)</li>
+<li><strong><code>get_tasks()</code>, <code>get_task()</code>, <code>create_task()</code> :</strong> les endpoints déjà écrits</li>
+<li><strong><code>update_task()</code>, <code>delete_task()</code> :</strong> les deux endpoints que vous allez écrire</li>
+</ul>
+<p><strong>Important :</strong> Ce backend utilise un <strong>stockage en mémoire</strong> (un simple dictionnaire Python) pour les TP 1 &amp; 2. Vous utiliserez PostgreSQL dans le TP 3.</p>
+<hr />
+<h2 id="phase-3-comprendre-les-tests">Phase 3 : Comprendre les Tests<a class="headerlink" href="#phase-3-comprendre-les-tests" title="Permanent link">&para;</a></h2>
+<h3 id="etape-31-explorer-les-fichiers-de-test">Étape 3.1 : Explorer les Fichiers de Test<a class="headerlink" href="#etape-31-explorer-les-fichiers-de-test" title="Permanent link">&para;</a></h3>
+<p>Ouvrez ces fichiers :</p>
+<ul>
+<li><code>backend/tests/conftest.py</code> → Fixtures de test</li>
+<li><code>backend/tests/test_api.py</code> → Tests</li>
+</ul>
+<h3 id="etape-32-quest-ce-quune-fixture">Étape 3.2 : Qu'est-ce qu'une Fixture ?<a class="headerlink" href="#etape-32-quest-ce-quune-fixture" title="Permanent link">&para;</a></h3>
+<p>Dans <code>conftest.py</code>, regardez :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">clean_tasks</span><span class="p">():</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="sd">"""Nettoie les tâches avant et après chaque test"""</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">clear_tasks</span><span class="p">()</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="k">yield</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">clear_tasks</span><span class="p">()</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">():</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="sd">"""Fournit un client HTTP de test"""</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="k">with</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">app</span><span class="p">)</span> <span class="k">as</span> <span class="n">test_client</span><span class="p">:</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="k">yield</span> <span class="n">test_client</span>
+</code></pre></div>
+<p><strong>Pourquoi c'est utile ?</strong></p>
+<ul>
+<li><code>clean_tasks</code> : Nettoie automatiquement le stockage en mémoire avant chaque test</li>
+<li><code>client</code> : Vous n'avez pas à créer un client dans chaque test</li>
+<li>pytest les injecte automatiquement quand vous écrivez <code>def test_xxx(client):</code></li>
+</ul>
+<h3 id="etape-33-lancer-les-tests">Étape 3.3 : Lancer les Tests<a class="headerlink" href="#etape-33-lancer-les-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v
+</code></pre></div>
+<p>Au départ, beaucoup de tests sont rouges, <strong>c'est normal</strong> :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>tests/test_api.py::test_root_endpoint PASSED
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>...
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>tests/test_api.py::test_delete_task FAILED
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>...
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>tests/test_api.py::test_filter_by_status_and_priority SKIPPED
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>...
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>========== 9 failed, 5 passed, 2 skipped ==========
+</code></pre></div>
+<p>Les 5 tests verts sont les exemples. Les rouges sont votre travail de la phase 4.</p>
+<h3 id="etape-34-comprendre-un-test">Étape 3.4 : Comprendre un Test<a class="headerlink" href="#etape-34-comprendre-un-test" title="Permanent link">&para;</a></h3>
+<p>Regardez <code>test_create_task</code> dans <code>test_api.py</code> :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_create_task</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="c1"># ARRANGE : Préparer les données</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">new_task</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Acheter des courses"</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Lait, œufs, pain"</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="p">}</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="c1"># ACT : Faire la requête</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/tasks"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">new_task</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="c1"># ASSERT : Vérifier</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">201</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Acheter des courses"</span>
+</code></pre></div>
+<p><strong>Pattern Arrange-Act-Assert :</strong></p>
+<ol>
+<li><strong>Arrange</strong> → Préparer</li>
+<li><strong>Act</strong> → Agir</li>
+<li><strong>Assert</strong> → Vérifier</li>
+</ol>
+<hr />
+<h2 id="phase-4-ecrire-les-tests-puis-le-code">Phase 4 : Écrire les Tests, puis le Code<a class="headerlink" href="#phase-4-ecrire-les-tests-puis-le-code" title="Permanent link">&para;</a></h2>
+<p>Le fichier <code>backend/tests/test_api.py</code> contient trois groupes de tests :</p>
+<table>
+<thead>
+<tr>
+<th>Partie</th>
+<th>Contenu</th>
+<th>Votre travail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Partie 1</strong></td>
+<td>5 tests exemples</td>
+<td>Les lire</td>
+</tr>
+<tr>
+<td><strong>Partie 2</strong></td>
+<td>5 tests vides pour <code>delete_task()</code> et <code>update_task()</code></td>
+<td>Les écrire, puis écrire les fonctions dans <code>app.py</code> (exercices 1 et 2)</td>
+</tr>
+<tr>
+<td><strong>Partie 3</strong></td>
+<td>4 tests vides</td>
+<td>Les écrire (exercice 3)</td>
+</tr>
+</tbody>
+</table>
+<p>Chaque test vide contient une ligne <code>pytest.fail(...)</code> qui le fait échouer : supprimez-la, puis écrivez ARRANGE / ACT / ASSERT en vous inspirant des exemples. La docstring de chaque test dit ce qu'il doit vérifier.</p>
+<p>Pour les exercices 1 et 2, on suit la logique du <strong>TDD</strong> (<em>Test-Driven Development</em>) :</p>
+<ol>
+<li>🔴 <strong>Écrire le test</strong> : il échoue, car la fonction n'est pas encore écrite.</li>
+<li>🟢 <strong>Écrire le code</strong> de la fonction, jusqu'à ce que le test passe.</li>
+</ol>
+<h3 id="exercice-1-supprimer-une-tache">✍️ Exercice 1 : Supprimer une Tâche<a class="headerlink" href="#exercice-1-supprimer-une-tache" title="Permanent link">&para;</a></h3>
+<p><strong>Étape 1 : écrire les tests.</strong> Dans la partie 2 de <code>test_api.py</code>, écrivez <code>test_delete_task</code> et <code>test_delete_nonexistent_task</code>. Ils doivent vérifier :</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Réponse attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>La tâche existe</td>
+<td>Code <strong>204</strong>, puis un <code>GET</code> de cette tâche renvoie <strong>404</strong></td>
+</tr>
+<tr>
+<td>La tâche n'existe pas</td>
+<td>Code <strong>404</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-k<span class="w"> </span>delete<span class="w"> </span>-v
+</code></pre></div>
+<p>Les deux tests doivent être <strong>rouges</strong> : <code>delete_task()</code> renvoie encore une erreur 501.</p>
+<p><strong>Étape 2 : écrire <code>delete_task()</code></strong> dans <code>backend/src/app.py</code>, jusqu'à ce que les deux tests passent au vert.</p>
+<p><strong>Indice :</strong> <code>get_task()</code>, plus haut dans <code>app.py</code>, vérifie déjà si une tâche existe.</p>
+<hr />
+<h3 id="exercice-2-modifier-une-tache">✍️ Exercice 2 : Modifier une Tâche<a class="headerlink" href="#exercice-2-modifier-une-tache" title="Permanent link">&para;</a></h3>
+<p><strong>Étape 1 : écrire les tests.</strong> Dans la partie 2, écrivez <code>test_update_task_title</code>, <code>test_update_only_changes_sent_fields</code> et <code>test_update_nonexistent_task</code> :</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Réponse attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>La tâche n'existe pas</td>
+<td>Code <strong>404</strong></td>
+</tr>
+<tr>
+<td>On envoie un nouveau titre</td>
+<td>Code <strong>200</strong> et la tâche avec le nouveau titre</td>
+</tr>
+<tr>
+<td>On envoie seulement <code>{"status": "done"}</code></td>
+<td>Le statut change, les autres champs (titre, description, priorité) restent identiques</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-k<span class="w"> </span>update<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Étape 2 : écrire <code>update_task()</code></strong> dans <code>backend/src/app.py</code>. En plus de ce que vérifient vos tests, <code>created_at</code> ne doit pas changer et <code>updated_at</code> doit prendre la date actuelle.</p>
+<p><strong>Indices :</strong></p>
+<ul>
+<li><code>create_task()</code> montre comment construire une <code>Task</code>.</li>
+<li><code>updates.model_dump(exclude_unset=True)</code> renvoie un dictionnaire avec <strong>uniquement</strong> les champs envoyés par le client. Par exemple, si le client envoie <code>{"status": "done"}</code>, vous obtenez <code>{"status": "done"}</code> et pas les autres champs.</li>
+<li>Rappel Python : <code>d.get("title", valeur)</code> renvoie <code>d["title"]</code> s'il existe, sinon <code>valeur</code>.</li>
+</ul>
+<p>Vos trois tests doivent passer. <code>test_update_task_with_invalid_priority</code> reste rouge : il fait partie de l'exercice 3.</p>
+<hr />
+<h3 id="exercice-3-tester-le-code-existant">✍️ Exercice 3 : Tester le Code Existant<a class="headerlink" href="#exercice-3-tester-le-code-existant" title="Permanent link">&para;</a></h3>
+<p><strong>🎯 Objectif :</strong> écrire les 4 tests de la partie 3. Ici, le code existe déjà : vos tests vérifient qu'il se comporte correctement, notamment dans les cas d'erreur.</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Ce qu'il doit vérifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_create_task_with_empty_title</code></td>
+<td>Créer une tâche avec le titre <code>""</code> est refusé (<strong>422</strong>)</td>
+</tr>
+<tr>
+<td><code>test_get_nonexistent_task</code></td>
+<td>Demander une tâche qui n'existe pas renvoie <strong>404</strong></td>
+</tr>
+<tr>
+<td><code>test_update_task_with_invalid_priority</code></td>
+<td>Modifier une tâche avec <code>priority="urgent"</code> est refusé (<strong>422</strong>)</td>
+</tr>
+<tr>
+<td><code>test_filter_tasks_by_status</code></td>
+<td><code>GET /tasks?status=done</code> ne renvoie <strong>que</strong> les tâches terminées</td>
+</tr>
+</tbody>
+</table>
+<p>Les rappels de syntaxe (requêtes, codes HTTP) sont en bas de <code>test_api.py</code>.</p>
+<p>💡 <strong>Un test qui passe du premier coup est-il un bon test ?</strong> Pour le savoir, cassez-le exprès : remplacez par exemple <code>422</code> par <code>200</code> dans votre assertion. Le test doit devenir rouge. S'il reste vert, il ne vérifie rien ! Remettez ensuite la bonne valeur.</p>
+<hr />
+<h3 id="bonus-python-facultatifs">🎁 Bonus Python (facultatifs)<a class="headerlink" href="#bonus-python-facultatifs" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Tests désactivés :</strong> en bas de <code>test_api.py</code>, supprimez <code>@pytest.mark.skip(...)</code> et écrivez les deux tests.</li>
+<li><strong>TDD à partir de zéro :</strong> <code>GET /tasks?search=rapport</code> renvoie les tâches dont le titre contient « rapport », sans tenir compte des majuscules. Écrivez d'abord <code>test_search_tasks_by_title</code> (🔴), puis ajoutez le paramètre <code>search</code> à <code>get_tasks()</code> (🟢).</li>
+<li><strong>parametrize :</strong> écrivez <code>test_create_task_with_invalid_priority</code>, qui vérifie en <strong>un seul</strong> test que <code>"urgent"</code>, <code>""</code> et <code>"HIGH"</code> sont refusées (422). Syntaxe :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">"nombre"</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_nombre_positif</span><span class="p">(</span><span class="n">nombre</span><span class="p">):</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">assert</span> <span class="n">nombre</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</code></pre></div>
+<ol>
+<li><strong>Couverture à 100 % :</strong> après les exercices, <code>app.py</code> est couvert à environ 95 %. Lisez la colonne <strong>Missing</strong> (phase 5) et ajoutez les tests qui manquent pour atteindre 100 %. Indice : un titre fait seulement d'espaces (<code>"   "</code>) n'est pas refusé par Pydantic, mais par le code.</li>
+</ol>
+<hr />
+<h3 id="etape-44-lancer-tous-les-tests">Étape 4.4 : Lancer Tous les Tests<a class="headerlink" href="#etape-44-lancer-tous-les-tests" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Résultat attendu</strong> une fois les exercices 1 à 3 terminés :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>========== 14 passed, 2 skipped ==========
+</code></pre></div>
+<p>(Davantage si vous avez fait les bonus.) 🎉</p>
+<hr />
+<h2 id="phase-5-couverture-de-code">Phase 5 : Couverture de Code<a class="headerlink" href="#phase-5-couverture-de-code" title="Permanent link">&para;</a></h2>
+<h3 id="etape-51-lire-la-couverture">Étape 5.1 : Lire la Couverture<a class="headerlink" href="#etape-51-lire-la-couverture" title="Permanent link">&para;</a></h3>
+<p>La couverture s'affiche déjà à la fin de chaque <code>uv run pytest</code> (c'est configuré dans <code>pyproject.toml</code>) :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Name              Stmts   Miss  Cover   Missing
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>-----------------------------------------------
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>src/app.py           ...     ...   ..%   162, 175, ...
+</code></pre></div>
+<p>La colonne <strong>Missing</strong> liste les lignes de <code>app.py</code> qu'<strong>aucun</strong> test n'a exécutées.</p>
+<p><img alt="Backend Coverage Report" src="../img/backend-coverage.png" /></p>
+<h3 id="etape-52-explorer-le-rapport-html">Étape 5.2 : Explorer le Rapport HTML<a class="headerlink" href="#etape-52-explorer-le-rapport-html" title="Permanent link">&para;</a></h3>
+<p>Le rapport HTML est aussi généré à chaque lancement, dans <code>htmlcov/</code> :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>open<span class="w"> </span>htmlcov/index.html<span class="w">   </span><span class="c1"># macOS</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>start<span class="w"> </span>htmlcov/index.html<span class="w">  </span><span class="c1"># Windows</span>
+</code></pre></div>
+<p>Cliquez sur <code>src/app.py</code> : les lignes en rouge n'ont jamais été exécutées (c'est le bonus 4 : les couvrir toutes).</p>
+<blockquote>
+<p>💡 100 % de couverture ne veut pas dire 0 bug : ça veut dire que chaque ligne a été <strong>exécutée</strong>, pas qu'elle a été <strong>vérifiée</strong>. C'est pour ça qu'on teste aussi les cas d'erreur (404, 422).</p>
+</blockquote>
+<hr />
+<h2 id="phase-6-tests-frontend">Phase 6 : Tests Frontend<a class="headerlink" href="#phase-6-tests-frontend" title="Permanent link">&para;</a></h2>
+<p>Le frontend est écrit en <strong>TypeScript</strong> (du JavaScript avec des types). Vos tests, eux, sont en <strong>JavaScript</strong> simple, sans aucun type : ils ressemblent beaucoup à ceux que vous venez d'écrire en Python.</p>
+<h3 id="etape-61-ce-quon-va-tester">Étape 6.1 : Ce qu'on va tester<a class="headerlink" href="#etape-61-ce-quon-va-tester" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>frontend/src/
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>├── utils/
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>│   ├── tasks.ts          # Petites fonctions de calcul ← ON TESTE ÇA
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>│   └── tasks.test.js     # Leurs tests (exemples + exercice)
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>├── api/
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>│   ├── api.ts            # Appels au backend
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>│   └── api.test.js       # Tests déjà écrits (pour aller plus loin)
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>└── App.tsx               # Page principale
+</code></pre></div>
+<p>Ouvrez <code>frontend/src/utils/tasks.ts</code>. Il contient deux fonctions :</p>
+<table>
+<thead>
+<tr>
+<th>Fonction</th>
+<th>Ce qu'elle fait</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>countByStatus(tasks)</code></td>
+<td>Compte les tâches de chaque statut</td>
+<td>2 <code>todo</code> + 1 <code>done</code> → <code>{ todo: 2, in_progress: 0, done: 1 }</code></td>
+</tr>
+<tr>
+<td><code>completionRate(tasks)</code></td>
+<td>Pourcentage de tâches terminées</td>
+<td>1 <code>done</code> sur 4 → <code>25</code></td>
+</tr>
+</tbody>
+</table>
+<p>Ce sont des fonctions <strong>pures</strong> : elles reçoivent une liste et renvoient un résultat, sans appeler le backend. Elles servent à afficher le compteur en haut de l'application (« À faire : 2 · En cours : 0 · Terminées : 1 (33 %) »).</p>
+<h3 id="etape-62-installer-et-lancer-les-tests">Étape 6.2 : Installer et lancer les tests<a class="headerlink" href="#etape-62-installer-et-lancer-les-tests" title="Permanent link">&para;</a></h3>
+<p>Depuis la racine du dépôt (<code>cd ..</code> si vous êtes dans <code>backend/</code>) :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">cd</span><span class="w"> </span>frontend
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>npm<span class="w"> </span>install
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>npm<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
+<p><code>npm test</code> reste ouvert et relance les tests à chaque sauvegarde (quittez avec <code>q</code>). Au départ, vous devez voir :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a> ❯ src/utils/tasks.test.js (5 tests | 3 failed)
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>   ❯ completionRate (3)
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>     × calcule le pourcentage de tâches terminées
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>     × renvoie 100 quand toutes les tâches sont terminées
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>     × renvoie 0 pour une liste vide
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>...
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a> FAIL  src/utils/tasks.test.js &gt; completionRate &gt; calcule le pourcentage de tâches terminées
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>Error: Test à écrire (TP 1 - Exercice 4)
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>...
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>      Tests  3 failed | 7 passed (10)
+</code></pre></div>
+<p>Les 3 tests rouges sont ceux que vous allez écrire.</p>
+<h3 id="etape-63-lire-un-test-exemple">Étape 6.3 : Lire un test exemple<a class="headerlink" href="#etape-63-lire-un-test-exemple" title="Permanent link">&para;</a></h3>
+<p>Ouvrez <code>frontend/src/utils/tasks.test.js</code> :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nx">it</span><span class="p">(</span><span class="s1">'compte les tâches de chaque statut'</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="c1">// ARRANGE : préparer une liste de tâches</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">'todo'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">'todo'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">'done'</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">  </span><span class="p">];</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">  </span><span class="c1">// ACT : appeler la fonction à tester</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">counts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">countByStatus</span><span class="p">(</span><span class="nx">tasks</span><span class="p">);</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">  </span><span class="c1">// ASSERT : vérifier le résultat</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">  </span><span class="nx">expect</span><span class="p">(</span><span class="nx">counts</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">({</span><span class="w"> </span><span class="nx">todo</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">in_progress</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="p">});</span>
+</code></pre></div>
+<p>C'est le même pattern <strong>Arrange-Act-Assert</strong> qu'en Python. Seule la syntaxe change :</p>
+<table>
+<thead>
+<tr>
+<th>Python (pytest)</th>
+<th>JavaScript (Vitest)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from tasks import completionRate</code></td>
+<td><code>import { completionRate } from './tasks';</code></td>
+</tr>
+<tr>
+<td><code>class TestCompletionRate:</code></td>
+<td><code>describe('completionRate', () =&gt; { ... });</code></td>
+</tr>
+<tr>
+<td><code>def test_xxx(client):</code></td>
+<td><code>it('xxx', () =&gt; { ... });</code></td>
+</tr>
+<tr>
+<td><code>x = 3</code></td>
+<td><code>const x = 3;</code></td>
+</tr>
+<tr>
+<td><code>assert resultat == 50</code></td>
+<td><code>expect(resultat).toBe(50);</code></td>
+</tr>
+<tr>
+<td><code>assert resultat == {"todo": 2}</code></td>
+<td><code>expect(resultat).toEqual({ todo: 2 });</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>() =&gt; { ... }</code> est une fonction sans nom : l'équivalent d'un <code>def</code>.</li>
+<li><code>toBe</code> compare une valeur simple (nombre, texte, booléen).</li>
+<li><code>toEqual</code> compare le contenu d'un objet ou d'un tableau.</li>
+</ul>
+<hr />
+<h3 id="exercice-4-tester-completionrate">✍️ Exercice 4 : Tester <code>completionRate()</code><a class="headerlink" href="#exercice-4-tester-completionrate" title="Permanent link">&para;</a></h3>
+<p><strong>🎯 Objectif :</strong> Écrire les 3 tests de <code>completionRate()</code> dans <code>frontend/src/utils/tasks.test.js</code>.</p>
+<p>Chaque test contient déjà ses étapes en commentaire et une ligne <code>throw new Error(...)</code> qui le fait échouer. Pour chaque test :</p>
+<ol>
+<li>Supprimez la ligne <code>throw new Error(...)</code></li>
+<li>Écrivez ARRANGE / ACT / ASSERT en suivant les commentaires</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Données (ARRANGE)</th>
+<th>Résultat attendu (ASSERT)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>calcule le pourcentage de tâches terminées</td>
+<td>4 tâches dont 2 <code>'done'</code></td>
+<td><code>50</code></td>
+</tr>
+<tr>
+<td>renvoie 100 quand toutes les tâches sont terminées</td>
+<td>2 tâches <code>'done'</code></td>
+<td><code>100</code></td>
+</tr>
+<tr>
+<td>renvoie 0 pour une liste vide</td>
+<td><code>[]</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Indice :</strong> <code>completionRate</code> renvoie un nombre → utilisez <code>toBe</code>.</p>
+<p><strong>Vérifier :</strong> dans le terminal où tourne <code>npm test</code>, les 3 tests doivent passer au vert :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a> Test Files  2 passed (2)
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>      Tests  10 passed (10)
+</code></pre></div>
+<p>💡 Le 3e test vérifie un <strong>cas limite</strong> : sans le <code>if (tasks.length === 0)</code> dans <code>tasks.ts</code>, la fonction diviserait par zéro. Essayez de supprimer ce <code>if</code> : votre test doit échouer. Remettez-le ensuite.</p>
+<p><strong>🎁 Bonus (TDD) :</strong> <code>filterByStatus(tasks, 'done')</code> renvoie seulement les tâches terminées. Écrivez d'abord son test dans <code>tasks.test.js</code> (🔴), puis la fonction dans <code>tasks.ts</code>, sur le modèle de <code>completionRate</code> (🟢).</p>
+<hr />
+<h3 id="etape-64-couverture-frontend">Étape 6.4 : Couverture Frontend<a class="headerlink" href="#etape-64-couverture-frontend" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>npm<span class="w"> </span>run<span class="w"> </span>test:coverage
+</code></pre></div>
+<p><code>tasks.ts</code> doit être couvert à 100 %.</p>
+<h3 id="etape-65-pour-aller-plus-loin-tester-les-appels-au-backend-lecture">Étape 6.5 : Pour aller plus loin — tester les appels au backend (lecture)<a class="headerlink" href="#etape-65-pour-aller-plus-loin-tester-les-appels-au-backend-lecture" title="Permanent link">&para;</a></h3>
+<p><code>api.ts</code> appelle le backend avec <code>fetch()</code>. Pour le tester sans lancer de serveur, <code>api.test.js</code> remplace <code>fetch()</code> par une <strong>fausse fonction</strong> (un <em>mock</em>) qui renvoie une réponse choisie à l'avance :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">mockFetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vi</span><span class="p">.</span><span class="nx">fn</span><span class="p">().</span><span class="nx">mockResolvedValue</span><span class="p">({</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="nx">ok</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="nx">json</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">([{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">'Test Task'</span><span class="p">,</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">'todo'</span><span class="w"> </span><span class="p">}]),</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="p">});</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="nx">vi</span><span class="p">.</span><span class="nx">stubGlobal</span><span class="p">(</span><span class="s1">'fetch'</span><span class="p">,</span><span class="w"> </span><span class="nx">mockFetch</span><span class="p">);</span><span class="w">   </span><span class="c1">// fetch() est maintenant notre fausse fonction</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="kd">const</span><span class="w"> </span><span class="nx">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">api</span><span class="p">.</span><span class="nx">getTasks</span><span class="p">();</span><span class="w">  </span><span class="c1">// api.ts appelle le faux fetch()</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="nx">expect</span><span class="p">(</span><span class="nx">tasks</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+</code></pre></div>
+<p>On peut aussi vérifier <strong>comment</strong> le faux <code>fetch()</code> a été appelé (URL, méthode HTTP…). Les 5 tests du fichier sont déjà écrits : lisez-les, il n'y a rien à compléter. Ne cherchez pas à comprendre chaque ligne : retenez l'idée du mock.</p>
+<h3 id="etape-66-lancer-lapplication-complete">Étape 6.6 : Lancer l'Application Complète<a class="headerlink" href="#etape-66-lancer-lapplication-complete" title="Permanent link">&para;</a></h3>
+<p><strong>Terminal 1 - Backend :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nb">cd</span><span class="w"> </span>backend
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>src.app:app<span class="w"> </span>--reload
+</code></pre></div>
+<p><strong>Terminal 2 - Frontend :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nb">cd</span><span class="w"> </span>frontend
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>npm<span class="w"> </span>install<span class="w">  </span><span class="c1"># Si pas déjà fait</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>npm<span class="w"> </span>run<span class="w"> </span>dev
+</code></pre></div>
+<p><strong>Ouvrir dans le navigateur :</strong> <a href="http://localhost:3000">http://localhost:3000</a></p>
+<p>Vous devriez voir l'application TaskFlow fonctionner :</p>
+<p><img alt="TaskFlow Application" src="../img/working-app.png" /></p>
+<hr />
+<h2 id="exercices-bonus-java-avec-junit">🎁 Exercices Bonus : Java avec JUnit<a class="headerlink" href="#exercices-bonus-java-avec-junit" title="Permanent link">&para;</a></h2>
+<p><strong>Objectif :</strong> Voir que les principes de TDD s'appliquent à tous les langages !</p>
+<p>Les exercices Java sont dans le dossier <code>java-exercises/</code>.</p>
+<hr />
+<p>Java doit être installé : voir la page <a href="../installation/">Installation</a>.</p>
+<p>Chaque exercice se lance avec un Makefile :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>make<span class="w"> </span><span class="nb">test</span><span class="w">     </span><span class="c1"># Compiler + exécuter les tests + nettoyer</span>
+</code></pre></div>
+<p><strong>Windows</strong> (pas de <code>make</code>) : dans le dossier de l'exercice, remplacez <code>make test</code> par ces deux commandes (pour <code>money</code>, mettez <code>MoneyTest</code> à la place des 4 noms de tests) :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">javac</span> <span class="n">-cp</span> <span class="s2">".;..\lib\junit-4.13.2.jar;..\lib\hamcrest-core-1.3.jar"</span> <span class="p">*.</span><span class="n">java</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">java</span> <span class="n">-cp</span> <span class="s2">".;..\lib\junit-4.13.2.jar;..\lib\hamcrest-core-1.3.jar"</span> <span class="n">org</span><span class="p">.</span><span class="n">junit</span><span class="p">.</span><span class="n">runner</span><span class="p">.</span><span class="n">JUnitCore</span> <span class="n">AdditionTest</span> <span class="n">ProduitTest</span> <span class="n">SurfaceTest</span> <span class="n">PerimetreTest</span>
+</code></pre></div>
+<hr />
+<h3 id="bonus-java-1-calculs-geometriques-composition-de-fonctions">✍️ Bonus Java 1 : Calculs Géométriques (Composition de Fonctions)<a class="headerlink" href="#bonus-java-1-calculs-geometriques-composition-de-fonctions" title="Permanent link">&para;</a></h3>
+<p><strong>🎯 Objectif :</strong> écrire trois petites méthodes en <strong>réutilisant</strong> celles déjà écrites.</p>
+<p>Dossier : <code>java-exercises/calculs-geo/</code>. <code>Addition.add()</code> est déjà écrite (exemple). Les tests sont fournis.</p>
+<table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Méthode</th>
+<th>Ce qu'elle calcule</th>
+<th>Contrainte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Produit.java</code></td>
+<td><code>mult(a, b)</code></td>
+<td><code>a × b</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Surface.java</code></td>
+<td><code>surf(a, b)</code></td>
+<td>Surface d'un rectangle</td>
+<td>Utiliser <code>Produit.mult()</code></td>
+</tr>
+<tr>
+<td><code>Perimetre.java</code></td>
+<td><code>perim(a, b, c)</code></td>
+<td><code>(a + b) × c</code></td>
+<td>Utiliser <code>Addition.add()</code> et <code>Produit.mult()</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vérifier :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">cd</span><span class="w"> </span>java-exercises/calculs-geo
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>make<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
+<p>Au départ, 3 tests sur 4 échouent. Implémentez les méthodes dans l'ordre du tableau : à chaque fois, un test de plus doit passer. À la fin :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>OK (4 tests)
+</code></pre></div>
+<hr />
+<h3 id="bonus-java-2-money">✍️ Bonus Java 2 : Money<a class="headerlink" href="#bonus-java-2-money" title="Permanent link">&para;</a></h3>
+<p><strong>🎯 Objectif :</strong> écrire une méthode et deux tests.</p>
+<p>Dossier : <code>java-exercises/money/</code>.</p>
+<p><strong>Partie 1 — Écrire <code>Money.add()</code>.</strong> Règles :</p>
+<ul>
+<li><code>12 EUR + 14 EUR = 26 EUR</code> (nouvelle <code>Money</code>, même devise)</li>
+<li><code>12 EUR + 5 USD</code> → lève une <code>Exception</code></li>
+</ul>
+<p>Le test <code>testAddSameCurrency</code> est fourni : il doit passer.</p>
+<p><strong>Indice :</strong> pour comparer deux <code>String</code> en Java, utilisez <code>.equals()</code> et pas <code>==</code>.</p>
+<p><strong>Partie 2 — Écrire deux tests</strong> dans <code>MoneyTest.java</code> (supprimez <code>fail(...)</code>). La syntaxe JUnit est rappelée dans la section suivante.</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Ce qu'il doit vérifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>testCurrency</code></td>
+<td><code>currency()</code> renvoie la devise donnée au constructeur</td>
+</tr>
+<tr>
+<td><code>testAddDifferentCurrency</code></td>
+<td>Additionner 12 EUR et 5 USD lève une <code>Exception</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vérifier :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nb">cd</span><span class="w"> </span>java-exercises/money
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>make<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
+<p>Au départ, 3 tests sur 4 échouent. Résultat attendu à la fin : <code>OK (4 tests)</code>.</p>
+<hr />
+<h3 id="comprendre-junit-4-les-bases">📚 Comprendre JUnit 4 - Les Bases<a class="headerlink" href="#comprendre-junit-4-les-bases" title="Permanent link">&para;</a></h3>
+<p><strong>Structure d'un test JUnit :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.Test</span><span class="p">;</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="kn">import static</span><span class="w"> </span><span class="nn">org.junit.Assert.*</span><span class="p">;</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ExampleTest</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="w">    </span><span class="nd">@Test</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testMethodName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="w">        </span><span class="c1">// Arrange : Préparer les données</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a><span class="w">        </span><span class="c1">// Act : Exécuter la méthode à tester</span>
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyClass</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="w">        </span><span class="c1">// Assert : Vérifier le résultat</span>
+<a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a><span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Annotations JUnit :</strong></p>
+<ul>
+<li><code>@Test</code> : Indique qu'une méthode est un test</li>
+<li><code>@Test(expected = Exception.class)</code> : Le test passe si l'exception est levée</li>
+</ul>
+<p><strong>Méthodes d'assertion principales :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="n">assertEquals</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="n">actual</span><span class="p">);</span><span class="w">     </span><span class="c1">// Vérifie que deux valeurs sont égales</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="n">assertTrue</span><span class="p">(</span><span class="n">condition</span><span class="p">);</span><span class="w">              </span><span class="c1">// Vérifie qu'une condition est vraie</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="n">assertFalse</span><span class="p">(</span><span class="n">condition</span><span class="p">);</span><span class="w">             </span><span class="c1">// Vérifie qu'une condition est fausse</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="n">assertNull</span><span class="p">(</span><span class="n">object</span><span class="p">);</span><span class="w">                 </span><span class="c1">// Vérifie qu'un objet est null</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="n">assertNotNull</span><span class="p">(</span><span class="n">object</span><span class="p">);</span><span class="w">              </span><span class="c1">// Vérifie qu'un objet n'est pas null</span>
+</code></pre></div>
+<p><strong>Exemple de test d'exception :</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nd">@Test</span><span class="p">(</span><span class="n">expected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NumberFormatException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testParseInvalidNumber</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">    </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="s">"abc"</span><span class="p">);</span><span class="w">  </span><span class="c1">// Cette ligne doit lever une NumberFormatException</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="p">}</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
