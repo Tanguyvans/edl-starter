@@ -18,7 +18,12 @@ jobs:
   summary:
     name: All Tests Passed
     needs: [backend, frontend]
+    if: always()  # ✨ Tourne aussi quand backend ou frontend échoue
     runs-on: ubuntu-latest
     steps:
+      - name: ❌ Un job a échoué
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
+
       - name: 🎉 Success
         run: echo "🎉 Tous les tests sont passés !"
